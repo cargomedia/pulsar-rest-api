@@ -1,0 +1,31 @@
+{
+	"name": "pulsar-rest-api",
+	"description": "HTTP REST API for executing Pulsar tasks.",
+	"version": "0.0.1",
+	"author": "Cargomedia",
+	"license": "MIT",
+	"main": "pulsar-rest-api.js",
+	"bin": {
+		"pulsar-rest-api": "./bin/pulsar-rest-api.js"
+	},
+	"keywords": [
+		"pulsar", "rest", "api", "bridge"
+	],
+	"repository": {
+		"type": "git",
+		"url": "git@github.com:cargomedia/pulsar-rest-api.git"
+	},
+	"bugs": {
+		"url": "https://github.com/cargomedia/pulsar-rest-api/issues"
+	},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"dependencies": {
+		"underscore": "1.5.1",
+		"optimist": "0.6",
+		"log4js": "0.6.8",
+		"validator": "1.5.1"
+	}
+}
+

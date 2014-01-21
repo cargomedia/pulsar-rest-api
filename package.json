@@ -25,7 +25,8 @@
 		"underscore": "1.5.1",
 		"optimist": "0.6",
 		"log4js": "0.6.8",
-		"validator": "1.5.1"
+		"validator": "1.5.1",
+		"restify": ">=2.6.x"
 	}
 }
 

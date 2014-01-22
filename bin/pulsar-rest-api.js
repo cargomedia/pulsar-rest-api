@@ -5,10 +5,16 @@ var optimist = require('optimist').default('log-dir', null);
 var fs = require('fs');
 var argv = optimist.argv;
 var logDir = argv['log-dir'];
+
 var sslKey = argv['ssl-key'];
 var sslCert = argv['ssl-cert'];
 var sslPfx = argv['ssl-pfx'];
 var sslPassphrase = argv['ssl-passphrase'];
+
+var authClientId = argv['auth-client-id'];
+var authClientSecret = argv['auth-client-secret'];
+var authProvider = argv['auth-provider'];
+var authMethod = argv['auth-method'];
 
 
 if (logDir) {

@@ -13,8 +13,8 @@ var sslPassphrase = argv['ssl-passphrase'];
 
 var authClientId = argv['auth-client-id'];
 var authClientSecret = argv['auth-client-secret'];
-var authProvider = argv['auth-provider'];
-var authMethod = argv['auth-method'];
+var authProvider = argv['auth-provider'] || 'github';
+var authMethod = argv['auth-method'] || 'OAuth2';
 
 
 if (logDir) {
@@ -23,7 +23,7 @@ if (logDir) {
 
 if (!process.send) {
 	argv = optimist.default('port', '8001').argv;
-	pulsarServer = new pulsar.Server(argv['port'], null);
+	pulsarServer = new pulsar.Server(argv['port'], null, authClientId, authClientSecret, authProvider, authMethod);
 
 	process.on('SIGTERM', function() {
 		pulsarServer.cleanup();

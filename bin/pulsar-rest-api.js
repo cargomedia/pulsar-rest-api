@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 var pulsar = require('../pulsar-rest-api.js');
-var childProcess = require('child_process');
 var optimist = require('optimist').default('log-dir', null);
 var fs = require('fs');
 var argv = optimist.argv;

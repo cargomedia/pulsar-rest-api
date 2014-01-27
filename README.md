@@ -46,5 +46,3 @@ By default server listens on port `8001` in SSL mode with certificates for domai
 For testing please modify your `/etc/hosts` file by adding `127.0.0.1 api.pulsar.local`.
 
 Run in console `curl -k https://api.pulsar.local:8001/application/environment/task`.
-
-<div style="width: 640px; height: 480px; margin: 10px; position: relative;"><iframe frameborder="0" style="width:640px; height:480px" src="https://www.lucidchart.com/documents/embeddedchart/4a07-0bdc-52e67a68-95ff-0d170a0080fd"></iframe><a href="https://www.lucidchart.com/pages/examples/mind_mapping_software" style="margin: 0; padding: 0; border: none; display: inline-block; position: absolute; bottom: 5px; left: 5px;"><img alt="mind mapping software"title="Lucidchart online diagrams"style="width: 100px; height: 30px; margin: 0; padding: 0; border-image: none; border: none; display: block"src="https://www.lucidchart.com/img/diagrams-lucidchart.png"/></a></div>

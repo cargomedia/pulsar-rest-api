@@ -20,45 +20,43 @@ if (logDir) {
 	utils.logProcessInto(process, logDir + '/pulsar-rest-api.log');
 }
 
-if (!process.send) {
-	argv = optimist.default('port', '8001').argv;
+argv = optimist.default('port', '8001').argv;
 
-	var sslOptions = null;
-	if (sslKey && sslCert) {
-		sslOptions = {
-			key: fs.readFileSync(sslKey)
-		};
+var sslOptions = null;
+if (sslKey && sslCert) {
+	sslOptions = {
+		key: fs.readFileSync(sslKey)
+	};
 
-		var certFile = fs.readFileSync(sslCert).toString();
-		var certs = certFile.match(/(-+BEGIN CERTIFICATE-+[\s\S]+?-+END CERTIFICATE-+)/g);
-		if (certs && certs.length) {
-			sslOptions.cert = certs.shift();
-			if (certs.length) {
-				sslOptions.ca = certs;
-			}
-		} else {
-			sslOptions.cert = certFile;
+	var certFile = fs.readFileSync(sslCert).toString();
+	var certs = certFile.match(/(-+BEGIN CERTIFICATE-+[\s\S]+?-+END CERTIFICATE-+)/g);
+	if (certs && certs.length) {
+		sslOptions.cert = certs.shift();
+		if (certs.length) {
+			sslOptions.ca = certs;
 		}
+	} else {
+		sslOptions.cert = certFile;
 	}
-	if (sslPfx) {
-		sslOptions = {
-			pfx: fs.readFileSync(sslPfx)
-		};
-	}
-	if (sslOptions && sslPassphrase) {
-		sslOptions.passphrase = fs.readFileSync(sslPassphrase).toString().trim();
-	}
-
-	pulsarServer = new pulsar.Server(
-		argv['port'],
-		sslOptions,
-		authUsername,
-		authPassword,
-		authProvider,
-		authMethod);
-
-	process.on('SIGTERM', function() {
-		pulsarServer.cleanup();
-		process.exit();
-	});
 }
+if (sslPfx) {
+	sslOptions = {
+		pfx: fs.readFileSync(sslPfx)
+	};
+}
+if (sslOptions && sslPassphrase) {
+	sslOptions.passphrase = fs.readFileSync(sslPassphrase).toString().trim();
+}
+
+pulsarServer = new pulsar.Server(
+	argv['port'],
+	sslOptions,
+	authUsername,
+	authPassword,
+	authProvider,
+	authMethod
+);
+
+process.on('SIGTERM', function() {
+	process.exit();
+});

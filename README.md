@@ -15,9 +15,11 @@ npm install pulsar-rest-api [-g]
 ### Running
 You can run pulsar-rest-api using default arguments or specify them on your own.
 
-`--log-dir` Directory where log is stored. Script will try to create directory if needed. Defaults to `null` which means it will output to stdout.
+`--pulsar-repos` Specify list of pulsar configuration repositories.
 
 `--port` Specify port where server listen for requests (default set to `80801`).
+
+`--log-dir` Directory where log is stored. Script will try to create directory if needed. Defaults to `null` which means it will output to stdout.
 
 `--ssl-key` Specify ssl private key file. Combine with `ssl-cert` option.
 

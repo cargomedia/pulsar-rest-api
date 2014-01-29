@@ -19,7 +19,7 @@
 		"url": "https://github.com/cargomedia/pulsar-rest-api/issues"
 	},
 	"scripts": {
-		"test": "node test/*"
+		"test": "nodeunit test/pulsar.js && node test/api.js"
 	},
 	"dependencies": {
 		"underscore": "1.5.1",
@@ -29,7 +29,8 @@
 		"restify": ">=2.6.x",
 		"github": ">=0.1.8",
 		"oauth": ">=0.9.x",
-		"supertest": ">=0.9.x"
+		"supertest": ">=0.9.x",
+		"nodeunit": ">=0.8.4"
 	}
 }
 

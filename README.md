@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/kris-lab/pulsar-rest-api.png?branch=master)](https://travis-ci.org/kris-lab/pulsar-rest-api)
+
 pulsar-rest-api
 ===============
 

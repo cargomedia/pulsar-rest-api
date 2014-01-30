@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/kris-lab/pulsar-rest-api.png?branch=master)](https://travis-ci.org/kris-lab/pulsar-rest-api)
+[![Build Status](https://travis-ci.org/cargomedia/pulsar-rest-api.png?branch=master)](https://travis-ci.org/cargomedia/pulsar-rest-api)
 
 pulsar-rest-api
 ===============
@@ -70,7 +70,7 @@ Run in console `curl -k https://api.pulsar.local:8001/application/environment/ta
 ##### Response on success:
 HTTP response code `200`
 ```json
-{ 
+{
  "taskId": "new task ID"
 }
 ```

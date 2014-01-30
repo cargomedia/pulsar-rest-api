@@ -1,6 +1,6 @@
 {
 	"name": "pulsar-rest-api",
-	"description": "HTTP REST API for executing Pulsar tasks.",
+	"description": "REST API for executing Pulsar tasks.",
 	"version": "0.0.1",
 	"author": "Cargomedia",
 	"license": "MIT",

@@ -30,7 +30,8 @@
 		"github": ">=0.1.8",
 		"oauth": ">=0.9.x",
 		"supertest": ">=0.9.x",
-		"nodeunit": ">=0.8.4"
+		"nodeunit": ">=0.8.4",
+		"express": ">=3.4.8"
 	}
 }
 

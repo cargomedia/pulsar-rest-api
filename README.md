@@ -17,8 +17,6 @@ npm install pulsar-rest-api [-g]
 ### Running
 You can run pulsar-rest-api using default arguments or specify them on your own.
 
-`--pulsar-repos` Specify list of pulsar configuration repositories.
-
 `--port` Specify port where server listen for requests (default set to `80801`).
 
 `--log-dir` Directory where log is stored. Script will try to create directory if needed. Defaults to `null` which means it will output to stdout.
@@ -50,3 +48,79 @@ By default server listens on port `8001` in SSL mode with certificates for domai
 For testing please modify your `/etc/hosts` file by adding `127.0.0.1 api.pulsar.local`.
 
 Run in console `curl -k https://api.pulsar.local:8001/application/environment/task`.
+
+
+### API documentation
+
+[app] - application name (e.g. foobar)
+[env] - environment name (e.g. production)
+[taskId] - task ID
+
+#### Create Task
+
+`POST /[app]/[env]'
+ Parameters:
+   `action` Action name passed to pulsar
+
+ Returns:
+   Success:
+     HTTP response code 200
+     `{ taskId: [newly created taskId] }`
+
+#### Get task data
+
+Immediately returns all task data including output to date.
+
+  `GET /task/[taskId]`
+
+ Returns:
+   Success:
+     HTTP response code 200
+     ```
+    {
+       "id":47,
+       "status":"failed",
+       "app":"fuboo",
+       "env":"production",
+       "action":"shell",
+       "exitCode":null,
+       "output":"[output goes here]",
+       "pid":48691
+    }
+    ```
+
+#### Observe task data (for long pooling)
+
+This listens for any task state changes (e.g. new output) and when it happens returns full task data is returned. If state is 'running' the client
+should re-connect to this method in order to wait for new data. This methods timeouts each 30s after which it should be called again. (this may change in the near future).
+
+  `GET /task/[taskId]`
+
+ Returns:
+   Task changed before the timeout
+      HTTP response code 200
+      ```
+     {
+        "changed": true,
+ 	   "task": {
+ 	 	   "id":47,
+ 		   "status":"failed",
+ 		   "app":"fuboo",
+ 		   "env":"production",
+ 		   "action":"shell",
+ 		   "exitCode":null,
+ 		   "output":"[output goes here]",
+ 		   "pid":48691
+ 	   }
+     }
+     ```
+
+    Task not changed before the timeout
+       HTTP response code 200
+       ```
+      {
+         "changed": false
+      }
+      ```
+
+

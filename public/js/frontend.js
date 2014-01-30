@@ -34,7 +34,7 @@ function observeTask(task) {
 			updateTask(task);
 		}
 
-		if (task.status == 'running') {
+		if (task.status == 'RUNNING') {
 			observeTask(task);
 		}
 	}, 'json');

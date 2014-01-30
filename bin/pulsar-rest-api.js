@@ -48,13 +48,17 @@ if (sslOptions && sslPassphrase) {
 	sslOptions.passphrase = fs.readFileSync(sslPassphrase).toString().trim();
 }
 
+var authOptions = {
+    username: authUsername,
+    password: authPassword,
+    provider: authProvider,
+    method: authMethod
+}
+
 pulsarServer = new pulsar.Server(
 	argv['port'],
 	sslOptions,
-	authUsername,
-	authPassword,
-	authProvider,
-	authMethod
+    authOptions
 );
 
 process.on('SIGTERM', function() {

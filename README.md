@@ -17,6 +17,8 @@ npm install pulsar-rest-api [-g]
 ### Running
 You can run pulsar-rest-api using default arguments or specify them on your own.
 
+`--pulsar-repos` Specify list of pulsar configuration repositories.
+
 `--port` Specify port where server listen for requests (default set to `80801`).
 
 `--log-dir` Directory where log is stored. Script will try to create directory if needed. Defaults to `null` which means it will output to stdout.
@@ -52,75 +54,91 @@ Run in console `curl -k https://api.pulsar.local:8001/application/environment/ta
 
 ### API documentation
 
-[app] - application name (e.g. foobar)
-[env] - environment name (e.g. production)
-[taskId] - task ID
+`:app` - application name (e.g. foobar)
+
+`:env` - environment name (e.g. production)
+
+`:action` - pulsar action/task
+
+`:id` - task ID
 
 #### Create Task
 
-`POST /[app]/[env]'
- Parameters:
-   `action` Action name passed to pulsar
+##### Request:
+`POST /:app/:env` with parameter `action` name passed to pulsar
 
- Returns:
-   Success:
-     HTTP response code 200
-     `{ taskId: [newly created taskId] }`
+##### Response on success:
+HTTP response code `200`
+```json
+{ 
+ "taskId": "new task ID"
+}
+```
 
 #### Get task data
 
 Immediately returns all task data including output to date.
 
-  `GET /task/[taskId]`
+##### Request:
+`GET /task/:id`
 
- Returns:
-   Success:
-     HTTP response code 200
-     ```
-    {
-       "id":47,
-       "status":"failed",
-       "app":"fuboo",
-       "env":"production",
-       "action":"shell",
-       "exitCode":null,
-       "output":"[output goes here]",
-       "pid":48691
-    }
-    ```
+##### Response on success:
+HTTP response code `200`
+```json
+{
+  "id": 47,
+  "status": "failed",
+  "app": "fuboo",
+  "env": "production",
+  "action": "shell",
+  "exitCode": null,
+  "output": "[output goes here]",
+  "pid": 48691
+}
+```
 
-#### Observe task data (for long pooling)
+#### Observe task changes (for long pooling)
 
 This listens for any task state changes (e.g. new output) and when it happens returns full task data is returned. If state is 'running' the client
 should re-connect to this method in order to wait for new data. This methods timeouts each 30s after which it should be called again. (this may change in the near future).
 
-  `GET /task/[taskId]`
+##### Request:
+`GET /task/:id/state`
 
- Returns:
-   Task changed before the timeout
-      HTTP response code 200
-      ```
-     {
-        "changed": true,
- 	   "task": {
- 	 	   "id":47,
- 		   "status":"failed",
- 		   "app":"fuboo",
- 		   "env":"production",
- 		   "action":"shell",
- 		   "exitCode":null,
- 		   "output":"[output goes here]",
- 		   "pid":48691
- 	   }
-     }
-     ```
+##### Response on success:
+Task changed before server timeout.
+HTTP response code `200`
+```json
+{
+  "changed": true,
+  "task": {
+     "id":47,
+     "status":"failed",
+     "app":"fuboo",
+     "env":"production",
+     "action":"shell",
+     "exitCode":null,
+     "output":"[output goes here]",
+     "pid":48691
+  }
+}
+```
 
-    Task not changed before the timeout
-       HTTP response code 200
-       ```
-      {
-         "changed": false
-      }
-      ```
+##### Response on timeout:
+Task not changed before the timeout
+HTTP response code `200`
+```json
+{
+  "changed": false
+}
+```
 
+In that case you should immediately create next request.
 
+#### Kill task
+
+##### Request
+`GET /task/:id/kill`
+
+##### Response
+HTTP response code `200`

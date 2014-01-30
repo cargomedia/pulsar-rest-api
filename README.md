@@ -19,7 +19,9 @@ npm install pulsar-rest-api [-g]
 ### Running
 You can run pulsar-rest-api using default arguments or specify them on your own.
 
-`--pulsar-repos` Specify list of pulsar configuration repositories.
+`--config-repo` Specify pulsar configuration repository.
+
+`--conf-branch` Specify branch for pulsar configuration repository (default set to `master`).
 
 `--port` Specify port where server listen for requests (default set to `80801`).
 

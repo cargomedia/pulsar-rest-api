@@ -4,6 +4,8 @@ var optimist = require('optimist').default('log-dir', null);
 var fs = require('fs');
 var argv = optimist.argv;
 var logDir = argv['log-dir'];
+var configRepo = argv['config-repo'] || null;
+var configBranch = argv['config-branch'] || 'master';
 
 var sslKey = argv['ssl-key'] || './bin/ssl/*.pulsar.local.key';
 var sslCert = argv['ssl-cert'] || './bin/ssl/*.pulsar.local.pem';
@@ -55,12 +57,18 @@ var authOptions = {
     method: authMethod
 }
 
-pulsarServer = new pulsar.Server(
-	argv['port'],
-	sslOptions,
-    authOptions
-);
+var pulsarConfig = {
+    repo: configRepo,
+    branch: configBranch
+}
 
-process.on('SIGTERM', function() {
-	process.exit();
-});
+if(configRepo) {
+    pulsarServer = new pulsar.Server(
+        argv['port'],
+        sslOptions,
+        authOptions,
+        pulsarConfig
+    );
+} else {
+    throw new Error("Parameter --config-repo must be set!");
+}

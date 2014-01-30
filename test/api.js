@@ -15,4 +15,6 @@ request(api.getInstance())
 
 		assert.ok(typeof(res.body.taskId) !== undefined, "Task id created");
 		taskId = res.body.taskId;
+
+		process.exit();
 	});

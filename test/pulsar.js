@@ -1,5 +1,6 @@
 var Pulsar = require('../lib/pulsar');
 var PulsarDb = require('../lib/pulsar/db');
+var events = require('events');
 
 function createDummyTask(pulsar) {
 	return pulsar.createTask('foo', 'development', 'deploy');
@@ -35,4 +36,13 @@ exports.testGetTaskList = function(test){
 	test.done();
 };
 
+exports.testTaskEvents = function(test) {
+	var pulsarDbMock = new PulsarDb();
+	var pulsar = new Pulsar(pulsarDbMock)
+	var task = createDummyTask(pulsar);
 
+	task.on('taskChanged', function(data) { test.equal(data.task.id, task.id); });
+	task.onUpdate();
+	test.expect(1);
+	test.done();
+}

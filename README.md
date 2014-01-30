@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/cargomedia/pulsar-rest-api.png?branch=master)](https://travis-ci.org/cargomedia/pulsar-rest-api)  (unstable, in development)
+[![Build Status](https://travis-ci.org/cargomedia/pulsar-rest-api.png?branch=master)](https://travis-ci.org/cargomedia/pulsar-rest-api)
+
+(unstable, currently in development)
 
 pulsar-rest-api
 ===============

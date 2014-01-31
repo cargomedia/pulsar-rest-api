@@ -23,7 +23,7 @@ You can run pulsar-rest-api using default arguments or specify them on your own.
 
 `--config-branch` Specify branch for pulsar configuration repository (default set to `master`).
 
-`--port` Specify port where server listen for requests (default set to `80801`).
+`--port` Specify port where server listen for requests (default set to `8081`).
 
 `--log-dir` Directory where log is stored. Script will try to create directory if needed. Defaults to `null` which means it will output to stdout.
 
@@ -56,7 +56,7 @@ For testing please modify your `/etc/hosts` file by adding `127.0.0.1 api.pulsar
 Run in console `curl -k https://api.pulsar.local:8001/application/environment/task`.
 
 
-### API documentation
+## API documentation
 
 `:app` - application name (e.g. foobar)
 

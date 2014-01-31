@@ -27,7 +27,7 @@ function killTask(taskId) {
 }
 
 function observeTask(task) {
-	$.get('/task/' + task.id + '/state', function(result) {
+	$.get('/task/' + task.id + '/output', function(result) {
 		if (result.changed) {
 			task = result.task;
 			var taskListContainer = $('.taskList');
@@ -41,8 +41,8 @@ function observeTask(task) {
 }
 
 function refreshTaskList() {
-	$.get('/tasks', function(taskList) {
-		renderTasks(taskList);
+	$.get('/tasks', function(response) {
+		renderTasks(response.tasks);
 	}, 'json');
 }
 

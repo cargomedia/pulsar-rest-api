@@ -7,8 +7,6 @@ var app = app || {};
 
 		el: '#pulsarapp',
 
-		statsTemplate: _.template($('#tasks-template').html()),
-
 		events: {
 			'click #kill-task': 'killTask',
 			'click #toggle-all': 'toggleAllComplete'
@@ -26,6 +24,7 @@ var app = app || {};
 			this.listenTo(app.tasks, 'filter', this.filterAll);
 			this.listenTo(app.tasks, 'all', this.render);
 
+			app.tasks.getFromServer();
 			app.tasks.fetch({reset: true});
 		},
 
@@ -36,11 +35,6 @@ var app = app || {};
 			if (app.tasks.length) {
 				this.$main.show();
 				this.$footer.show();
-
-				this.$footer.html(this.statsTemplate({
-					completed: completed,
-					remaining: remaining
-				}));
 
 				this.$('#filters li a')
 					.removeClass('selected')

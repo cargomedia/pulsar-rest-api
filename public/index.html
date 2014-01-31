@@ -3,18 +3,12 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-
 		<title>Pulsar REST API client</title>
 		<meta name="description" content="The HTML5 Herald">
 		<meta name="author" content="SitePoint">
-
 		<link rel="stylesheet" href="assets/css/style.css?v=1.0">
-
-		<script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 	</head>
-
 	<body>
-
 		<section id="pulsarapp">
 			<header id="header">
 				<h1>Pulsar tasks</h1>
@@ -24,46 +18,28 @@
 			</section>
 			<footer id="footer"></footer>
 		</section>
-
-		<script type="text/template" id="tasks-template">
-
-		</script>
-
 		<script type="text/template" id="task-template">
-			<li>
-				<div class="task" id="task-id-<%= id %>">
-					<div>
-						Task ID: <span class="taskId"><%= id %></span>
-					</div>
-					<div>
-						Status: <span class="status"><%= status %></span>
-					</div>
-					<div>
-						<pre class="output"><%= output %></pre>
-					</div>
-					<div>
-						<button class="kill" onclick="killTask(<%= id %>)">kill task</button>
-					</div>
+			<div class="task" id="task-id-<%= id %>">
+				<div>
+					Task ID: <span class="taskId"><%= id %></span> <button class="kill">Kill Task</button>
 				</div>
-			</li>
+				<div>
+					Status: <span class="status"><%= status %></span>
+				</div>
+				<div>
+					Output: <span class="output"><%= output %></span>
+				</div>
+			</div>
 		</script>
-
-		<div id="taskList">
-
-		</div>
-
 		<script src="assets/js/jquery.js"></script>
 		<script src="assets/js/underscore.js"></script>
 		<script src="assets/js/backbone.js"></script>
 		<script src="assets/js/localStorage.js"></script>
-
 		<script src="app/models/task.js"></script>
 		<script src="app/collections/tasks.js"></script>
 		<script src="app/views/task-view.js"></script>
 		<script src="app/views/app-view.js"></script>
 		<script src="app/routers/router.js"></script>
 		<script src="app/app.js"></script>
-
-		<script src="app/frontend.js"></script>
 	</body>
 </html>

@@ -28,6 +28,15 @@ var app = app || {};
 
 		comparator: function (task) {
 			return task.get('order');
+		},
+
+		getFromServer: function() {
+			var self = this;
+			$.get('/tasks', function(response) {
+				_.each(response.tasks, function(task) {
+					self.add(task)
+				});
+			}, 'json');
 		}
 	});
 

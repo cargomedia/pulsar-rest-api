@@ -12,23 +12,47 @@
 	<body>
 		<section id="pulsarapp">
 			<header id="header">
-				<h1>Pulsar tasks</h1>
+                <nav class="navbar navbar-inverse" role="navigation">
+                    <div class="container-fluid">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="#">Pulsar dashboard</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
+                            <ul class="nav navbar-nav">
+                                <li class="active"><a href="#"><span class="badge" id="tasks-count">0</span> Tasks</a></li>
+                                <li><a href="#">History</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
 			</header>
 			<section id="main">
-				<ul id="tasks-list"></ul>
+                <h3>Running jobs...</h3>
+				<ul id="tasks-list" class="list-group"></ul>
 			</section>
 			<footer id="footer"></footer>
 		</section>
 		<script type="text/template" id="task-template">
 			<div class="task" id="task-id-<%= id %>">
-				<div>
-					Task ID: <span class="taskId"><%= id %></span> <button class="kill">Kill Task</button>
-				</div>
-				<div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default"><span class="taskId badge"><%= id %></span></button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                            Actions
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Kill task</a></li>
+                            <li><a href="#">Restart</a></li>
+                        </ul>
+                    </div>
+                </div>
+				<div class="well mt20">
 					Status: <span class="status"><%= status %></span>
 				</div>
-				<div>
-					Output: <span class="output"><%= output %></span>
+				<div class="well">
+					Output:<br><span class="output"><%= output %></span>
 				</div>
 			</div>
 		</script>

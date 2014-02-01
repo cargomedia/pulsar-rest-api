@@ -17,6 +17,7 @@ var app = app || {};
 			this.$footer = this.$('#footer');
 			this.$main = this.$('#main');
 			this.$list = $('#tasks-list');
+            this.$count = $('#tasks-count');
 
 			this.listenTo(app.tasks, 'add', this.addOne);
 			this.listenTo(app.tasks, 'reset', this.addAll);
@@ -33,6 +34,7 @@ var app = app || {};
 			var remaining = app.tasks.remaining().length;
 
 			if (app.tasks.length) {
+                this.$count.html(app.tasks.length);
 				this.$main.show();
 				this.$footer.show();
 

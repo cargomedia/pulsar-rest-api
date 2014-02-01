@@ -7,6 +7,8 @@ var app = app || {};
 
 		tagName:  'li',
 
+        className: 'list-group-item',
+
 		template: _.template($('#task-template').html()),
 
 		events: {

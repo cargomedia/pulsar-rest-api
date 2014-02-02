@@ -12,7 +12,7 @@ var app = app || {};
 		template: _.template($('#task-template').html()),
 
 		events: {
-			'click .kill': 'killTask'
+			'click .task-kill': 'killTask'
 		},
 
 		initialize: function () {

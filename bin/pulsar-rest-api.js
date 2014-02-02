@@ -63,7 +63,9 @@ var pulsarConfig = {
 }
 
 if(!configRepo) {
-    console.log('Pulsar is not correctly configured. Please set --config-repo parameter.')
+    console.log("Pulsar repository is not configured.\n" +
+        "Please set --config-repo parameter.\n" +
+        "Pulsar server will try to use PULSAR_CONF_REPO environment variable.");
 }
 
 pulsarServer = new pulsar.Server(

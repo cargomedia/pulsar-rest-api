@@ -52,7 +52,7 @@ var app = app || {};
 
 		addOne: function (task) {
 			var view = new app.TaskView({ model: task });
-			this.$list.append(view.render().el);
+			this.$list.prepend(view.render().el);
 		},
 
 		addAll: function () {

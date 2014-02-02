@@ -18,6 +18,7 @@ var app = app || {};
 			this.$main = this.$('#main');
 			this.$list = $('#tasks-list');
             this.$count = $('#tasks-count');
+            this.$listAlert = $('#task-list-alert');
 
 			this.listenTo(app.tasks, 'add', this.addOne);
 			this.listenTo(app.tasks, 'reset', this.addAll);
@@ -37,16 +38,18 @@ var app = app || {};
 
 			if (app.tasks.length) {
                 this.$count.html(app.tasks.length);
-				this.$main.show();
+				this.$list.show();
 				this.$footer.show();
+                this.$listAlert.hide();
 
 				this.$('#filters li a')
 					.removeClass('selected')
 					.filter('[href="#/' + (app.TodoFilter || '') + '"]')
 					.addClass('selected');
 			} else {
-				this.$main.hide();
+				this.$list.hide();
 				this.$footer.hide();
+                this.$listAlert.show();
 			}
 		},
 

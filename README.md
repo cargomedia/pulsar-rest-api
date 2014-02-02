@@ -58,6 +58,8 @@ Run in console `curl -k https://api.pulsar.local:8001/application/environment/ta
 
 ## API documentation
 
+(We are currently under development. Many of described features may change in the near future)
+
 `:app` - application name (e.g. foobar)
 
 `:env` - environment name (e.g. production)
@@ -160,7 +162,7 @@ HTTP response code `200`
 #### Observe task changes
 
 This listens for any task state changes (e.g. new output) and when it happens returns full task data is returned. If state is 'running' the client
-should re-connect to this method in order to wait for new data. This methods timeouts each 30s after which it should be called again. (this may change in the near future).
+should re-connect to this method in order to wait for new data. This methods timeouts each 30s after which it should be called again.
 
 ##### Request:
 `GET /task/:id/output`

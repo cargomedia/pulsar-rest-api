@@ -62,13 +62,13 @@ var pulsarConfig = {
     branch: configBranch
 }
 
-if(configRepo) {
-    pulsarServer = new pulsar.Server(
-        argv['port'],
-        sslOptions,
-        authOptions,
-        pulsarConfig
-    );
-} else {
-    throw new Error("Parameter --config-repo must be set!");
+if(!configRepo) {
+    console.log('Pulsar is not correctly configured. Please set --config-repo parameter.')
 }
+
+pulsarServer = new pulsar.Server(
+    argv['port'],
+    sslOptions,
+    authOptions,
+    pulsarConfig
+);

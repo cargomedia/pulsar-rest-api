@@ -41,7 +41,7 @@ exports.testTaskEvents = function(test) {
 	var pulsar = new Pulsar(pulsarDbMock)
 	var task = createDummyTask(pulsar);
 
-	task.on('taskChanged', function(data) { test.equal(data.task.id, task.id); });
+	task.on('change', function(data) { test.equal(data.task.id, task.id); });
 	task.onUpdate();
 	test.expect(1);
 	test.done();

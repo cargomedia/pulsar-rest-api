@@ -66,6 +66,62 @@ Run in console `curl -k https://api.pulsar.local:8001/application/environment/ta
 
 `:id` - task ID
 
+### Tasks
+
+#### Get tasks list
+
+##### Request:
+`GET /tasks`
+
+##### Response on success:
+HTTP response code `200`
+```json
+{
+  "url": "http://api.pulsar.local:8001/pulsar/index.html",
+  "tasks": {
+    "task-id-1" : "{Object}",
+    "task-id-n" : "{Object}"
+  }
+}
+```
+
+#### Observe new task creation
+
+This long pooling requests listens for new task create event. Response contains new task object ff task is created.
+
+##### Request:
+`GET /tasks/created`
+
+##### Response on success if created:
+HTTP response code `200`
+```json
+{
+  "changed": true,
+  "task": {
+     "id":47,
+     "status":"failed",
+     "app":"fuboo",
+     "env":"production",
+     "action":"shell",
+     "exitCode":null,
+     "output":"[output goes here]",
+     "pid":48691
+  }
+}
+```
+
+##### Response on timeout:
+No new task created before the timeout
+HTTP response code `200`
+```json
+{
+  "changed": false
+}
+```
+
+
+### Task
+
 #### Create Task
 
 ##### Request:
@@ -101,10 +157,45 @@ HTTP response code `200`
 }
 ```
 
-#### Observe task changes (for long pooling)
+#### Observe any task changes
 
 This listens for any task state changes (e.g. new output) and when it happens returns full task data is returned. If state is 'running' the client
 should re-connect to this method in order to wait for new data. This methods timeouts each 30s after which it should be called again. (this may change in the near future).
+
+##### Request:
+`GET /task/:id/output`
+
+##### Response on success:
+Task changed before server timeout.
+HTTP response code `200`
+```json
+{
+  "changed": true,
+  "task": {
+     "id":47,
+     "status":"failed",
+     "app":"fuboo",
+     "env":"production",
+     "action":"shell",
+     "exitCode":null,
+     "output":"[output goes here]",
+     "pid":48691
+  }
+}
+```
+
+##### Response on timeout:
+Task not changed before the timeout
+HTTP response code `200`
+```json
+{
+  "changed": false
+}
+```
+
+#### Wait for end of task execution
+
+This listens for task process exit. Any exit code for `pulsar` will generated successful response.
 
 ##### Request:
 `GET /task/:id/state`

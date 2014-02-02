@@ -11,6 +11,22 @@ button {
     padding: 20px;
 }
 
+.console {
+    border-radius: 4px;
+    font-family: Courier;
+    color: #CCCCCC;
+    background: #000000;
+    min-height: 20px;
+    padding: 19px;
+    margin-bottom: 20px;
+    font-size: 12px;
+    padding: 10px;
+}
+
 .mt10 { margin-top: 10px; }
 .mt20 { margin-top: 20px; }
 .mt30 { margin-top: 30px; }
+
+.mb10 { margin-bottom: 10px !important; }
+.mb20 { margin-bottom: 20px !important; }
+.mb30 { margin-bottom: 30px !important; }

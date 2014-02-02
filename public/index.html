@@ -14,7 +14,6 @@
 			<header id="header">
                 <nav class="navbar navbar-inverse" role="navigation">
                     <div class="container-fluid">
-                        <!-- Brand and toggle get grouped for better mobile display -->
                         <div class="navbar-header">
                             <a class="navbar-brand" href="#">Pulsar dashboard</a>
                         </div>
@@ -52,22 +51,25 @@
                     </div>
                 </div>
 				<div class="well mt20">
-					Status: <span class="status"><%= status %></span>
+					<span class="glyphicon glyphicon-cog"></span> <span class="status"><%= status %></span>
                     <% if (status == 'RUNNING') { %>
-                    <div class="progress progress-striped active mt20">
+                    <div class="progress progress-striped active mt20 mb10">
                         <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height:25px"></div>
                     <% } else if (status == 'FAILED') { %>
-                    <div class="progress active mt20">
+                    <div class="progress active mt20 mb10">
                         <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height:25px"></div>
                      <% } else { %>
-                     <div class="progress mt20">
+                     <div class="progress mt20 mb10">
                          <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height:25px"></div>
                      <% } %>
                     </div>
 				</div>
-				<div class="well">
-					Output:<br><span class="output"><%= output.replace(new RegExp('\r?\n', 'g'), '<br />') %></span>
+                <% if (command != '' || output != '') { %>
+                <div class="console">
+                    $ <%= command %>
+                    <%= output.replace(/ /g, '&nbsp;').replace(new RegExp('\r?\n', 'g'), '<br />') %>
 				</div>
+                <% } %>
 			</div>
 		</script>
 

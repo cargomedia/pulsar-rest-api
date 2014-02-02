@@ -27,6 +27,8 @@ var app = app || {};
 
 			app.tasks.getFromServer();
 			app.tasks.fetch({reset: true});
+
+            this.observeTasks();
 		},
 
 		render: function () {
@@ -77,7 +79,17 @@ var app = app || {};
 		clearCompleted: function () {
 			_.invoke(app.tasks.completed(), 'destroy');
 			return false;
-		}
+		},
+
+        observeTasks: function() {
+            var self = this;
+            $.get('/tasks/created', function(result) {
+                if (result.changed) {
+                    app.tasks.add(result.task);
+                }
+                self.observeTasks();
+            }, 'json');
+        }
 
 	});
 })(jQuery);

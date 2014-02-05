@@ -1,6 +1,6 @@
 var app = app || {};
 
-(function () {
+(function() {
 	'use strict';
 
 	app.Task = Backbone.Model.extend({
@@ -12,7 +12,7 @@ var app = app || {};
 			completed: false
 		},
 
-		toggle: function () {
+		toggle: function() {
 			this.save({
 				completed: !this.get('completed')
 			});

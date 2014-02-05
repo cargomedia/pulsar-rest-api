@@ -1,13 +1,13 @@
 var app = app || {};
 
-(function ($) {
+(function($) {
 	'use strict';
 
 	app.TaskView = Backbone.View.extend({
 
-		tagName:  'li',
+		tagName: 'li',
 
-        className: 'list-group-item',
+		className: 'list-group-item',
 
 		template: _.template($('#task-template').html()),
 
@@ -15,14 +15,14 @@ var app = app || {};
 			'click .task-kill': 'killTask'
 		},
 
-		initialize: function () {
+		initialize: function() {
 			this.listenTo(this.model, 'change', this.render);
 			this.listenTo(this.model, 'destroy', this.remove);
 
 			this.observeTask();
 		},
 
-		render: function () {
+		render: function() {
 			if (this.model.changed.id !== undefined) {
 				return;
 			}

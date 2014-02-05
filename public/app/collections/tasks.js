@@ -1,6 +1,6 @@
 var app = app || {};
 
-(function () {
+(function() {
 	'use strict';
 
 	var Tasks = Backbone.Collection.extend({
@@ -9,24 +9,24 @@ var app = app || {};
 
 		localStorage: new Backbone.LocalStorage('tasks-pulsar'),
 
-		completed: function () {
-			return this.filter(function (task) {
+		completed: function() {
+			return this.filter(function(task) {
 				return task.get('completed');
 			});
 		},
 
-		remaining: function () {
+		remaining: function() {
 			return this.without.apply(this, this.completed());
 		},
 
-		nextOrder: function () {
+		nextOrder: function() {
 			if (!this.length) {
 				return 1;
 			}
 			return this.last().get('order') + 1;
 		},
 
-		comparator: function (task) {
+		comparator: function(task) {
 			return task.get('order');
 		},
 

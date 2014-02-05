@@ -1,6 +1,6 @@
 var app = app || {};
 
-(function ($) {
+(function($) {
 	'use strict';
 
 	app.AppView = Backbone.View.extend({
@@ -12,13 +12,13 @@ var app = app || {};
 			'click #toggle-all': 'toggleAllComplete'
 		},
 
-		initialize: function () {
+		initialize: function() {
 			this.$input = this.$('#new-todo');
 			this.$footer = this.$('#footer');
 			this.$main = this.$('#main');
 			this.$list = $('#tasks-list');
-            this.$count = $('#tasks-count');
-            this.$listAlert = $('#task-list-alert');
+			this.$count = $('#tasks-count');
+			this.$listAlert = $('#task-list-alert');
 
 			this.listenTo(app.tasks, 'add', this.addOne);
 			this.listenTo(app.tasks, 'reset', this.addAll);
@@ -29,49 +29,46 @@ var app = app || {};
 			app.tasks.getFromServer();
 			app.tasks.fetch({reset: true});
 
-            this.observeTasks();
+			this.observeTasks();
 		},
 
-		render: function () {
+		render: function() {
 			var completed = app.tasks.completed().length;
 			var remaining = app.tasks.remaining().length;
 
 			if (app.tasks.length) {
-                this.$count.html(app.tasks.length);
+				this.$count.html(app.tasks.length);
 				this.$list.show();
 				this.$footer.show();
-                this.$listAlert.hide();
+				this.$listAlert.hide();
 
-				this.$('#filters li a')
-					.removeClass('selected')
-					.filter('[href="#/' + (app.TodoFilter || '') + '"]')
-					.addClass('selected');
+				this.$('#filters li a').removeClass('selected').filter('[href="#/' + (app.TodoFilter || '') + '"]').addClass('selected');
 			} else {
 				this.$list.hide();
 				this.$footer.hide();
-                this.$listAlert.show();
+				this.$listAlert.show();
 			}
 		},
 
-		addOne: function (task) {
+		addOne: function(task) {
 			var view = new app.TaskView({ model: task });
 			this.$list.prepend(view.render().el);
 		},
 
-		addAll: function () {
+		addAll: function() {
 			this.$list.html('');
 			app.tasks.each(this.addOne, this);
 		},
 
-		filterOne: function (task) {
+		filterOne: function(task) {
 			task.trigger('visible');
 		},
 
-		filterAll: function () {
+		filterAll: function() {
 			app.tasks.each(this.filterOne, this);
 		},
 
-		newAttributes: function () {
+		newAttributes: function() {
 			return {
 				title: this.$input.val().trim(),
 				order: app.tasks.nextOrder(),
@@ -79,20 +76,20 @@ var app = app || {};
 			};
 		},
 
-		clearCompleted: function () {
+		clearCompleted: function() {
 			_.invoke(app.tasks.completed(), 'destroy');
 			return false;
 		},
 
-        observeTasks: function() {
-            var self = this;
-            $.get('/tasks/created', function(result) {
-                if (result.changed) {
-                    app.tasks.add(result.task);
-                }
-                self.observeTasks();
-            }, 'json');
-        }
+		observeTasks: function() {
+			var self = this;
+			$.get('/tasks/created', function(result) {
+				if (result.changed) {
+					app.tasks.add(result.task);
+				}
+				self.observeTasks();
+			}, 'json');
+		}
 
 	});
 })(jQuery);

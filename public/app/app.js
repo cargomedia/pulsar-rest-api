@@ -1,6 +1,6 @@
 var app = app || {};
 
-$(function () {
+$(function() {
 	'use strict';
 
 	new app.AppView();

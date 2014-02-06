@@ -43,7 +43,7 @@ var app = app || {};
 				if (result.changed) {
 					self.model.set(result.task);
 				}
-				if (self.model.get('status') == 'RUNNING') {
+				if (self.model.get('status') == 'RUNNING' || self.model.get('status') == 'CREATED') {
 					self.observeTask();
 				}
 			}, 'json');

@@ -5,15 +5,21 @@ var app = app || {};
 
 	var PulsarRouter = Backbone.Router.extend({
 		routes: {
-			'*filter': 'setFilter'
+			'*filter': 'loadTaskList',
+            'task/:id': 'loadTask'
 		},
 
-		setFilter: function(param) {
-			app.PulsarFilter = param || '';
-			app.tasks.trigger('filter');
-		}
+        loadTaskList: function() {
+            // show all running tasks
+        },
+
+        loadTask: function(id) {
+            // show only task-id
+        }
+
 	});
 
 	app.PulsarRouter = new PulsarRouter();
 	Backbone.history.start();
+
 })();

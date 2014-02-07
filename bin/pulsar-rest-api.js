@@ -4,8 +4,8 @@ var optimist = require('optimist').default('log-dir', null);
 var fs = require('fs');
 var argv = optimist.argv;
 var logDir = argv['log-dir'];
-var configRepo = argv['config-repo'] || null;
-var configBranch = argv['config-branch'] || 'master';
+var configRepo = argv['config-repo'];
+var configBranch = argv['config-branch'];
 
 var sslKey = argv['ssl-key'] || './bin/ssl/*.pulsar.local.key';
 var sslCert = argv['ssl-cert'] || './bin/ssl/*.pulsar.local.pem';
@@ -60,12 +60,6 @@ var authOptions = {
 var pulsarConfig = {
     repo: configRepo,
     branch: configBranch
-}
-
-if(!configRepo) {
-    console.log("Pulsar repository is not configured.\n" +
-        "Please set --config-repo parameter.\n" +
-        "Pulsar server will try to use PULSAR_CONF_REPO environment variable.");
 }
 
 pulsarServer = new pulsar.Server(

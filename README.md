@@ -35,13 +35,15 @@ You can run pulsar-rest-api using default arguments or specify them on your own.
 
 `--ssl-passphrase` Specify file containing the ssl passphrase.
 
-`--auth-username` Specify username for authorisation provider.
+`--github-oauth-id` Specify github oauth `id`.
 
-`--auth-password` Specify password for authorisation provider.
+`--github-oauth-secret` Specify github oauth `secret`.
 
-`--auth-provider` Specify authorisation provider (default set to `github`).
+`--mongo-host` Specify mongoDB hostname (default set to `localhost`).
 
-`--auth-method` Specify authorisation method (default set to `user`).
+`--mongo-port` Specify mongoDB port (default set to `27017`).
+
+`--mongo-db` Specify mongoDB database name (default set to `pulsar`).
 
 ## Development
 

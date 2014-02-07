@@ -12,11 +12,12 @@ var sslCert = argv['ssl-cert'] || './bin/ssl/*.pulsar.local.pem';
 var sslPfx = argv['ssl-pfx'];
 var sslPassphrase = argv['ssl-passphrase'];
 
-var authUsername = argv['auth-username'] || null;
-var authPassword = argv['auth-password'] || null;
-var authProvider = argv['auth-provider'] || 'github';
-var authMethod = argv['auth-method'] || 'user';
+var authUsername = argv['github-oauth-id'];
+var authPassword = argv['guthub-oauth-secret'];
 
+var mongoHost = argv['mongo-host'];
+var mongoPort = argv['mongo-port'];
+var mongoDb = argv['mongo-db'];
 
 if (logDir) {
 	utils.logProcessInto(process, logDir + '/pulsar-rest-api.log');
@@ -52,9 +53,7 @@ if (sslOptions && sslPassphrase) {
 
 var authOptions = {
     username: authUsername,
-    password: authPassword,
-    provider: authProvider,
-    method: authMethod
+    password: authPassword
 }
 
 var pulsarConfig = {
@@ -62,9 +61,16 @@ var pulsarConfig = {
     branch: configBranch
 }
 
+var mongoConfig = {
+    host: mongoHost,
+    port: mongoPort,
+    db: mongoDb
+}
+
 pulsarServer = new pulsar.Server(
     argv['port'],
     sslOptions,
     authOptions,
-    pulsarConfig
+    pulsarConfig,
+    mongoConfig
 );

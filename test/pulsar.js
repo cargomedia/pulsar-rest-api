@@ -1,44 +1,77 @@
 var Pulsar = require('../lib/pulsar');
-var PulsarDb = require('../lib/pulsar/db');
 var events = require('events');
+var _ = require('underscore');
 
-function createDummyTask(pulsar) {
-	return pulsar.createTask('foo', 'development', 'deploy');
+var PulsarDbMock = function () {
+
+    this.taskList = [];
+
+    this.getUniqueTaskID = function () {
+        return (++this.taskList.length).toString();
+    }
+
+    this.saveTask = function (task) {
+        this.taskList[task.id] = {id: task.id, data: task.getData()};
+    }
+
+    this.updateTask = function (task) {
+        this.taskList[task.id] = {id: task.id, data: task.getData()};
+    }
+
+    this.getTask = function (taskId, callback) {
+        if (typeof this.taskList[taskId] != 'undefined') {
+            callback(null, this.taskList[taskId]);
+            return;
+        }
+        callback(Error("Task id: " + taskId + " doesn't exist."), null);
+    }
+
+    this.getTaskList = function () {
+        var list = _.map(_.values(this.taskList), function(row) {
+            return row.data;
+        });
+        return list;
+    }
 }
 
-exports.testCreateTask = function(test) {
-	var pulsarDbMock = new PulsarDb();
-	var pulsar = new Pulsar(pulsarDbMock);
-	var task = createDummyTask(pulsar);
+function createDummyTask(pulsar) {
+    return pulsar.createTask('foo', 'development', 'deploy');
+}
 
-	test.ok(task.id !== null, "Check if task id is created");
-	test.done();
+exports.testCreateTask = function (test) {
+    var pulsarDb = new PulsarDbMock();
+    var pulsar = new Pulsar(pulsarDb);
+    var task = createDummyTask(pulsar);
+
+    test.ok(task.id !== null, "Check if task id is created");
+    test.done();
 };
 
-exports.testGetTask = function(test){
-	var pulsarDbMock = new PulsarDb();
-	var pulsar = new Pulsar(pulsarDbMock)
-	var task = createDummyTask(pulsar);
+exports.testGetTask = function (test) {
+    var pulsarDb = new PulsarDbMock();
+    var pulsar = new Pulsar(pulsarDb)
+    var task = createDummyTask(pulsar);
 
-	test.equal(task, pulsar.getTask(task.id));
-	test.done();
+    pulsar.getTask(task.id, function (err, result) {
+        test.same(task.getData(), result.getData());
+        test.done();
+    });
 };
 
 exports.testGetTaskList = function(test){
-	var pulsarDbMock = new PulsarDb();
-	var pulsar = new Pulsar(pulsarDbMock)
+	var pulsarDb = new PulsarDbMock();
+	var pulsar = new Pulsar(pulsarDb)
 	var task = createDummyTask(pulsar);
 
-	var expectedList = {};
-	expectedList[task.id] = task;
+	var expectedList = [task.getData()];
 
 	test.same(expectedList, pulsar.getTaskList());
 	test.done();
 };
 
 exports.testTaskEvents = function(test) {
-	var pulsarDbMock = new PulsarDb();
-	var pulsar = new Pulsar(pulsarDbMock)
+	var pulsarDb = new PulsarDbMock();
+	var pulsar = new Pulsar(pulsarDb)
 	var task = createDummyTask(pulsar);
 
 	task.on('change', function(data) { test.equal(data.task.id, task.id); });

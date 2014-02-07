@@ -1,24 +1,37 @@
 var app = app || {};
 
-(function() {
-	'use strict';
+(function () {
+    'use strict';
 
-	var PulsarRouter = Backbone.Router.extend({
-		routes: {
+    var taskList = new app.TaskList();
+    taskList.getFromServer();
+
+    var PulsarRouter = Backbone.Router.extend({
+        routes: {
             'task/:id': 'loadTask',
             '*index': 'loadTaskList'
-		},
+        },
 
-		loadTaskList: function(param) {
-			app.PulsarFilter = param || '';
-			app.tasks.trigger('filter');
-		},
+        loadTaskList: function () {
+            var view = new app.TaskListView({el: $('#main'), collection: taskList});
+            view.render();
+        },
 
-        loadTask: function(param) {
-            app.PulsarFilter = param || '';
-            app.tasks.trigger('filter');
+        loadTask: function (id) {
+            if (taskList.contains(id)) {
+                task = taskList.find(id);
+                var view = new app.TaskView({el: $('#main'), model: task});
+                view.render();
+            }
+            var task = new app.Task({id: id});
+            task.fetch({
+                success: function () {
+                    var view = new app.TaskView({el: $('#main'), model: task});
+                    view.render();
+                }
+            });
         }
-	});
+    });
 
     $(document).on('click', 'a[href^="/"]', function (event) {
         var historyRoot = Backbone.history.options.root;
@@ -30,6 +43,6 @@ var app = app || {};
         }
     });
 
-	app.PulsarRouter = new PulsarRouter();
-	Backbone.history.start({pushState: true, root: '/web'});
+    app.PulsarRouter = new PulsarRouter();
+    Backbone.history.start({pushState: true, root: '/web'});
 })();

@@ -3,7 +3,7 @@ var app = app || {};
 (function() {
 	'use strict';
 
-	var Tasks = Backbone.Collection.extend({
+    app.TaskList = Backbone.Collection.extend({
 
 		model: app.Task,
 
@@ -40,5 +40,4 @@ var app = app || {};
 		}
 	});
 
-	app.tasks = new Tasks();
 })();

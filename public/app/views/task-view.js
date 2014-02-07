@@ -23,6 +23,8 @@ var app = app || {};
 		},
 
 		render: function() {
+            this.$el.html(this.model.get('output'));
+            return;
 			if (this.model.changed.id !== undefined) {
 				return;
 			}

@@ -7,37 +7,30 @@ var app = app || {};
 
 		model: app.Task,
 
-		localStorage: new Backbone.LocalStorage('tasks-pulsar'),
+        url: '/tasks'
 
-		completed: function() {
-			return this.filter(function(task) {
-				return task.get('completed');
-			});
-		},
+//		completed: function() {
+//			return this.filter(function(task) {
+//				return task.get('completed');
+//			});
+//		},
+//
+//		running: function() {
+//			return this.without.apply(this, this.status('RUNNING'));
+//		},
+//
+//        status: function(model, status) {
+//            if (model.status == status) {
+//                return true;
+//            }
+//        },
 
-		remaining: function() {
-			return this.without.apply(this, this.completed());
-		},
-
-		nextOrder: function() {
-			if (!this.length) {
-				return 1;
-			}
-			return this.last().get('order') + 1;
-		},
-
-		comparator: function(task) {
-			return task.get('order');
-		},
-
-		getFromServer: function() {
-			var self = this;
-			$.get('/tasks', function(response) {
-				_.each(response.tasks, function(task) {
-					self.add(task)
-				});
-			}, 'json');
-		}
+//		getFromServer: function() {
+//			var self = this;
+//			$.get('/tasks', function(response) {
+//                self.set(response.tasks);
+//			}, 'json');
+//		}
 	});
 
 })();

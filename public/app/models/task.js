@@ -11,14 +11,7 @@ var app = app || {};
 			completed: false
 		},
 
-        urlRoot : '/task',
-
-		toggle: function() {
-			this.save({
-				completed: !this.get('completed')
-			});
-		}
-
+        urlRoot : '/task'
 
 	});
 })();

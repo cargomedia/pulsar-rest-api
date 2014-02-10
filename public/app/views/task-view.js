@@ -17,14 +17,13 @@ var app = app || {};
 
 		initialize: function() {
 			this.listenTo(this.model, 'change', this.render);
-			this.listenTo(this.model, 'destroy', this.remove);
-
 			this.observeTask();
 		},
 
 		render: function() {
             this.$el.html(this.model.get('output'));
-            return;
+            return this;
+
 			if (this.model.changed.id !== undefined) {
 				return;
 			}

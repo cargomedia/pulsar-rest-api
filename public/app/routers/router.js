@@ -4,7 +4,6 @@ var app = app || {};
     'use strict';
 
     var taskList = new app.TaskList();
-    taskList.getFromServer();
 
     var PulsarRouter = Backbone.Router.extend({
         routes: {
@@ -13,23 +12,24 @@ var app = app || {};
         },
 
         loadTaskList: function () {
-            var view = new app.TaskListView({el: $('#main'), collection: taskList});
+            var view = new app.TaskListView({el: $('#task-list'), collection: taskList});
             view.render();
+            taskList.fetch();
         },
 
         loadTask: function (id) {
-            if (taskList.contains(id)) {
-                task = taskList.find(id);
-                var view = new app.TaskView({el: $('#main'), model: task});
-                view.render();
-            }
-            var task = new app.Task({id: id});
-            task.fetch({
-                success: function () {
-                    var view = new app.TaskView({el: $('#main'), model: task});
-                    view.render();
-                }
-            });
+//            if (taskList.contains(id)) {
+//                task = taskList.find(id);
+//                var view = new app.TaskView({el: $('#task-list'), model: task});
+//                view.render();
+//            }
+//            var task = new app.Task({id: id});
+//            task.fetch({
+//                success: function () {
+//                    var view = new app.TaskView({el: $('#task-list'), model: task});
+//                    view.render();
+//                }
+//            });
         }
     });
 

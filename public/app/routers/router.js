@@ -22,8 +22,7 @@ var app = app || {};
 		},
 
 		loadTask: function(id) {
-			var task = new app.Task({id: id});
-			taskList.add(task);
+			var task = taskList.get(id) || taskList.add({id: id});
 			task.fetch({
 				success: function() {
 					var view = new app.TaskView({el: $('#content'), model: task});

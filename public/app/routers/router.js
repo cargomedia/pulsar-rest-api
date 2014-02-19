@@ -3,8 +3,6 @@ var app = app || {};
 (function () {
     'use strict';
 
-    var taskList = new app.TaskList();
-
     var PulsarRouter = Backbone.Router.extend({
         routes: {
             'task/:id': 'loadTask',
@@ -12,6 +10,7 @@ var app = app || {};
         },
 
         loadTaskList: function () {
+			var taskList = new app.TaskList();
             var view = new app.TaskListView({el: $('#task-list'), collection: taskList});
             view.render();
             taskList.fetch();

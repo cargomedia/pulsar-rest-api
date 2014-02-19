@@ -7,10 +7,7 @@ var app = app || {};
 		initialize: function() {
             this.$count = $('#task-count');
 
-            this.listenTo(this.collection, 'add', this.addOne);
-            this.listenTo(this.collection, 'all', this.render);
-
-            this.observeTasks();
+            this.listenTo(this.collection, 'add', this.render);
 		},
 
 		render: function() {
@@ -21,28 +18,13 @@ var app = app || {};
                 this.$el.hide();
             }
 
-			this.addAll();
-		},
-
-        addOne: function(task) {
-            var view = new app.TaskView({ model: task });
-            this.$el.prepend(view.render().el);
-        },
-
-        addAll: function() {
-            this.$el.html('');
-            this.collection.each(this.addOne, this);
-        },
-
-        observeTasks: function() {
-            var self = this;
-            $.get('/tasks/created', function(result) {
-                if (result.changed) {
-                    this.collection.add(result.task);
-                }
-                self.observeTasks();
-            }, 'json');
-        }
+			this.$el.html('');
+			this.collection.each(function(task) {
+				var view = new app.TaskView({ model: task });
+				view.render();
+				this.$el.prepend(view.el);
+			}, this);
+		}
 
 	});
 

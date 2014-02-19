@@ -1,38 +1,41 @@
 {
-    "name": "pulsar-rest-api",
-    "description": "REST API for executing Pulsar tasks.",
-    "version": "0.0.2",
-    "author": "Cargomedia",
-    "license": "MIT",
-    "main": "pulsar-rest-api.js",
-    "bin": {
-        "pulsar-rest-api": "./bin/pulsar-rest-api.js"
-    },
-    "keywords": [
-        "pulsar", "rest", "api", "bridge"
-    ],
-    "repository": {
-        "type": "git",
-        "url": "git@github.com:cargomedia/pulsar-rest-api.git"
-    },
-    "bugs": {
-        "url": "https://github.com/cargomedia/pulsar-rest-api/issues"
-    },
-    "scripts": {
-        "test": "nodeunit test/db.js && nodeunit test/pulsar.js && node test/api.js"
-    },
-    "dependencies": {
-        "underscore": "1.5.1",
-        "optimist": "0.6",
-        "log4js": "0.6.8",
-        "validator": "1.5.1",
-        "restify": ">=2.6.x",
-        "github": ">=0.1.8",
-        "oauth": ">=0.9.x",
-        "supertest": ">=0.9.x",
-        "nodeunit": ">=0.8.4",
-        "redis": ">=0.10.0",
-        "mongodb": ">=1.3.23"
-    }
+  "name": "pulsar-rest-api",
+  "description": "REST API for executing Pulsar tasks.",
+  "version": "0.0.2",
+  "author": "Cargomedia",
+  "license": "MIT",
+  "main": "pulsar-rest-api.js",
+  "bin": {
+    "pulsar-rest-api": "./bin/pulsar-rest-api.js"
+  },
+  "keywords": [
+    "pulsar",
+    "rest",
+    "api",
+    "bridge"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:cargomedia/pulsar-rest-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cargomedia/pulsar-rest-api/issues"
+  },
+  "scripts": {
+    "test": "nodeunit test/db.js && nodeunit test/pulsar.js && node test/api.js"
+  },
+  "dependencies": {
+    "underscore": "1.5.1",
+    "optimist": "0.6",
+    "log4js": "0.6.8",
+    "validator": "1.5.1",
+    "restify": ">=2.6.x",
+    "github": ">=0.1.8",
+    "oauth": ">=0.9.x",
+    "supertest": ">=0.9.x",
+    "nodeunit": ">=0.8.4",
+    "redis": ">=0.10.0",
+    "mongodb": ">=1.3.23",
+    "sockjs": "~0.3.8"
+  }
 }
-

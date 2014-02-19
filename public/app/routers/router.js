@@ -3,6 +3,8 @@ var app = app || {};
 (function() {
 	'use strict';
 
+	var taskList = new app.TaskList();
+
 	var PulsarRouter = Backbone.Router.extend({
 		routes: {
 			'task/:id': 'loadTask',
@@ -10,7 +12,6 @@ var app = app || {};
 		},
 
 		loadTaskList: function() {
-			var taskList = new app.TaskList();
 			taskList.fetch({
 				success: function() {
 					var view = new app.TaskListView({el: $('#content'), collection: taskList});
@@ -22,6 +23,7 @@ var app = app || {};
 
 		loadTask: function(id) {
 			var task = new app.Task({id: id});
+			taskList.add(task);
 			task.fetch({
 				success: function() {
 					var view = new app.TaskView({el: $('#content'), model: task});
@@ -49,4 +51,19 @@ var app = app || {};
 
 	app.PulsarRouter = new PulsarRouter();
 	Backbone.history.start({pushState: true, root: '/web'});
+
+	var sock = new SockJS('/websocket');
+	sock.onmessage = function(e) {
+		var message = JSON.parse(e.data)
+		switch(message.event){
+			case 'task.create':
+				var task = new app.Task(message.task);
+				taskList.add(task);
+				break;
+			case 'task.change':
+				var task = taskList.get(message.task.id);
+				task.set(message.task);
+				break;
+		}
+	};
 })();

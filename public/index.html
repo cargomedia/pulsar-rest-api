@@ -4,8 +4,6 @@
 	<head>
 		<meta charset="utf-8">
 		<title>Pulsar REST API client</title>
-		<meta name="description" content="The HTML5 Herald">
-		<meta name="author" content="SitePoint">
 		<link rel="stylesheet" href="/web/assets/css/style.css?v=1.0">
         <link rel="stylesheet" href="/web/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
 	</head>
@@ -15,30 +13,25 @@
                 <nav class="navbar navbar-inverse" role="navigation">
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <a class="navbar-brand" href="#">Pulsar dashboard</a>
+                            <a class="navbar-brand" href="/web/">Pulsar dashboard</a>
                         </div>
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="/web/"><span class="badge" id="tasks-count">0</span> Tasks</a></li>
-                                <li><a href="/web/history/">History</a></li>
-                                <li><a href="/web/system/">System status</a></li>
+                                <li class="nav-page nav-page-taskList"><a href="/web/"><span class="badge" id="task-count">0</span> Tasks</a></li>
+                                <li class="nav-page nav-page-task"><a>Task</a></li>
                             </ul>
                         </div>
                     </div>
                 </nav>
 			</header>
-			<section id="main">
-				<ul id="tasks-list" class="list-group"></ul>
-                <div class="alert alert-info" id="task-list-alert">
-                    <strong>Tasks queue is empty...</strong>
-                </div>
+			<section id="content">
 			</section>
 			<footer id="footer"></footer>
 		</section>
 		<script type="text/template" id="task-template">
 			<div class="task" id="task-id-<%= id %>">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default"><span class="taskId badge"><%= id %></span></button>
+                    <a href="/web/task/<%= id %>" class="btn btn-default"><span class="taskId badge"><%= id %></span></a>
                     <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             Actions
@@ -78,12 +71,12 @@
         <script src="/web/assets/bower_components/backbone/backbone.js"></script>
         <script src="/web/assets/bower_components/backbone.localStorage/backbone.localStorage.js"></script>
         <script src="/web/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="https://d1fxtkz8shb9d2.cloudfront.net/sockjs-0.3.js"></script>
 
 		<script src="/web/app/models/task.js"></script>
 		<script src="/web/app/collections/tasks.js"></script>
 		<script src="/web/app/views/task-view.js"></script>
-		<script src="/web/app/views/app-view.js"></script>
+		<script src="/web/app/views/taskList.js"></script>
 		<script src="/web/app/routers/router.js"></script>
-		<script src="/web/app/app.js"></script>
 	</body>
 </html>

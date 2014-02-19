@@ -13,26 +13,25 @@
                 <nav class="navbar navbar-inverse" role="navigation">
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <a class="navbar-brand" href="#">Pulsar dashboard</a>
+                            <a class="navbar-brand" href="/web/">Pulsar dashboard</a>
                         </div>
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
                             <ul class="nav navbar-nav">
-                                <li class="active"><a href="/web/"><span class="badge" id="task-count">0</span> Tasks</a></li>
-                                <li><a href="/web/task/52f4db501420b00000c3b6d3">Task</a></li>
-                                <li><a href="#">System status</a></li>
+                                <li class="nav-page nav-page-taskList"><a href="/web/"><span class="badge" id="task-count">0</span> Tasks</a></li>
+                                <li class="nav-page nav-page-task"><a>Task</a></li>
                             </ul>
                         </div>
                     </div>
                 </nav>
 			</header>
-			<section id="task-list">
+			<section id="content">
 			</section>
 			<footer id="footer"></footer>
 		</section>
 		<script type="text/template" id="task-template">
 			<div class="task" id="task-id-<%= id %>">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-default"><span class="taskId badge"><%= id %></span></button>
+                    <a href="/web/task/<%= id %>" class="btn btn-default"><span class="taskId badge"><%= id %></span></a>
                     <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             Actions

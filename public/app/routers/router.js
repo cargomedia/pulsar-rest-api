@@ -1,47 +1,52 @@
 var app = app || {};
 
-(function () {
-    'use strict';
+(function() {
+	'use strict';
 
-    var PulsarRouter = Backbone.Router.extend({
-        routes: {
-            'task/:id': 'loadTask',
-            '*index': 'loadTaskList'
-        },
+	var PulsarRouter = Backbone.Router.extend({
+		routes: {
+			'task/:id': 'loadTask',
+			'*index': 'loadTaskList'
+		},
 
-        loadTaskList: function () {
+		loadTaskList: function() {
 			var taskList = new app.TaskList();
-            var view = new app.TaskListView({el: $('#task-list'), collection: taskList});
-            view.render();
-            taskList.fetch();
-        },
+			taskList.fetch({
+				success: function() {
+					var view = new app.TaskListView({el: $('#content'), collection: taskList});
+					view.render();
+				}
+			});
+			this.updateNav('taskList');
+		},
 
-        loadTask: function (id) {
-//            if (taskList.contains(id)) {
-//                task = taskList.find(id);
-//                var view = new app.TaskView({el: $('#task-list'), model: task});
-//                view.render();
-//            }
-//            var task = new app.Task({id: id});
-//            task.fetch({
-//                success: function () {
-//                    var view = new app.TaskView({el: $('#task-list'), model: task});
-//                    view.render();
-//                }
-//            });
-        }
-    });
+		loadTask: function(id) {
+			var task = new app.Task({id: id});
+			task.fetch({
+				success: function() {
+					var view = new app.TaskView({el: $('#content'), model: task});
+					view.render();
+				}
+			});
+			this.updateNav('task');
+		},
 
-    $(document).on('click', 'a[href^="/"]', function (event) {
-        var historyRoot = Backbone.history.options.root;
-        var root = location.protocol + "//" + location.host + historyRoot;
+		updateNav: function(page) {
+			$('.nav-page').removeClass('active');
+			$('.nav-page-' + page).addClass('active');
+		}
+	});
 
-        if (this.href && this.href.slice(0, root.length) === root) {
-            event.preventDefault();
-            Backbone.history.navigate(this.href.substr(root.length), true);
-        }
-    });
+	$(document).on('click', 'a[href]', function(event) {
+		var historyRoot = Backbone.history.options.root;
+		var root = location.protocol + "//" + location.host + historyRoot;
 
-    app.PulsarRouter = new PulsarRouter();
-    Backbone.history.start({pushState: true, root: '/web'});
+		if (this.href && this.href.slice(0, root.length) === root) {
+			event.preventDefault();
+			Backbone.history.navigate(this.href.substr(root.length), true);
+		}
+	});
+
+	app.PulsarRouter = new PulsarRouter();
+	Backbone.history.start({pushState: true, root: '/web'});
 })();

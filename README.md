@@ -60,8 +60,6 @@ Run in console `curl -k https://api.pulsar.local:8001/application/environment/ta
 
 ## API documentation
 
-(We are currently under development. Many of described features may change in the near future)
-
 `:app` - application name (e.g. foobar)
 
 `:env` - environment name (e.g. production)
@@ -85,31 +83,6 @@ HTTP response code `200`
   "tasks": {
     "task-id-1" : "{Object}",
     "task-id-n" : "{Object}"
-  }
-}
-```
-
-#### Observe new task creation
-
-This long pooling requests listens for new task create event. Response contains new task object ff task is created.
-
-##### Request:
-`GET /tasks/created`
-
-##### Response on success if created:
-HTTP response code `200`
-```json
-{
-  "changed": true,
-  "task": {
-     "id":47,
-     "status":"failed",
-     "app":"fuboo",
-     "env":"production",
-     "action":"shell",
-     "exitCode":null,
-     "output":"[output goes here]",
-     "pid":48691
   }
 }
 ```

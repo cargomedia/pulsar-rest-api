@@ -134,42 +134,6 @@ HTTP response code `200`
 }
 ```
 
-#### Observe task changes
-
-This listens for any task state changes (e.g. new output) and when it happens returns full task data is returned. If state is 'running' the client
-should re-connect to this method in order to wait for new data. This methods timeouts each 30s after which it should be called again.
-
-##### Request:
-`GET /task/:id/output`
-
-##### Response on success:
-Task changed before server timeout.
-HTTP response code `200`
-```json
-{
-  "changed": true,
-  "task": {
-     "id":47,
-     "status":"failed",
-     "app":"fuboo",
-     "env":"production",
-     "action":"shell",
-     "exitCode":null,
-     "output":"[output goes here]",
-     "pid":48691
-  }
-}
-```
-
-##### Response on timeout:
-Task not changed before the timeout
-HTTP response code `200`
-```json
-{
-  "changed": false
-}
-```
-
 #### Observe end of task execution
 
 This listens for task process exit. Any exit code for `pulsar` will generated successful response.

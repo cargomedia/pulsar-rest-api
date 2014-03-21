@@ -98,13 +98,39 @@ HTTP response code `200`
 ### Create Task
 
 #### Request:
-`POST /:app/:env` with parameter `action` name passed to pulsar
+```
+POST /:app/:env?task=:task
+```
+
+Optionally use the blocking behaviour:
+```
+POST /:app/:env?action=:action&wait=true
+```
 
 #### Response on success:
 HTTP response code `200`
 ```json
 {
- "taskId": "new task ID"
+  "id": "123",
+  "url": "https://api.pulsar.local:8001/web/task/532c3240f8214f0000177376"
+}
+```
+
+In case of a blocking execution the task's data will be returned:
+```json
+{
+  "id": 123,
+  "url": "https://api.pulsar.local:8001/web/task/532c3240f8214f0000177376",
+  "data": {
+    "id": 123,
+    "status": "failed",
+    "app": "fuboo",
+    "env": "production",
+    "action": "shell",
+    "exitCode": null,
+    "output": "Here comes the output",
+    "pid": 48691
+  }
 }
 ```
 
@@ -119,13 +145,13 @@ Immediately returns all task data including output to date.
 HTTP response code `200`
 ```json
 {
-  "id": 47,
+  "id": 123,
   "status": "failed",
   "app": "fuboo",
   "env": "production",
   "action": "shell",
   "exitCode": null,
-  "output": "[output goes here]",
+  "output": "Here comes the output",
   "pid": 48691
 }
 ```

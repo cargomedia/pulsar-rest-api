@@ -1,17 +1,17 @@
 var app = app || {};
 
-(function() {
-	'use strict';
+(function () {
+  'use strict';
 
-	app.Task = Backbone.Model.extend({
+  app.Task = Backbone.Model.extend({
 
-		defaults: {
-			status: null,
-			output: null,
-			completed: false
-		},
+    defaults: {
+      status: null,
+      output: null,
+      completed: false
+    },
 
-        urlRoot : '/task'
+    urlRoot: '/task'
 
-	});
+  });
 })();

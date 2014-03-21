@@ -20,57 +20,57 @@ var mongoPort = argv['mongo-port'];
 var mongoDb = argv['mongo-db'];
 
 if (logDir) {
-	utils.logProcessInto(process, logDir + '/pulsar-rest-api.log');
+  utils.logProcessInto(process, logDir + '/pulsar-rest-api.log');
 }
 
 argv = optimist.default('port', '8001').argv;
 
 var sslOptions = null;
 if (sslKey && sslCert) {
-	sslOptions = {
-		key: fs.readFileSync(sslKey)
-	};
+  sslOptions = {
+    key: fs.readFileSync(sslKey)
+  };
 
-	var certFile = fs.readFileSync(sslCert).toString();
-	var certs = certFile.match(/(-+BEGIN CERTIFICATE-+[\s\S]+?-+END CERTIFICATE-+)/g);
-	if (certs && certs.length) {
-		sslOptions.cert = certs.shift();
-		if (certs.length) {
-			sslOptions.ca = certs;
-		}
-	} else {
-		sslOptions.cert = certFile;
-	}
+  var certFile = fs.readFileSync(sslCert).toString();
+  var certs = certFile.match(/(-+BEGIN CERTIFICATE-+[\s\S]+?-+END CERTIFICATE-+)/g);
+  if (certs && certs.length) {
+    sslOptions.cert = certs.shift();
+    if (certs.length) {
+      sslOptions.ca = certs;
+    }
+  } else {
+    sslOptions.cert = certFile;
+  }
 }
 if (sslPfx) {
-	sslOptions = {
-		pfx: fs.readFileSync(sslPfx)
-	};
+  sslOptions = {
+    pfx: fs.readFileSync(sslPfx)
+  };
 }
 if (sslOptions && sslPassphrase) {
-	sslOptions.passphrase = fs.readFileSync(sslPassphrase).toString().trim();
+  sslOptions.passphrase = fs.readFileSync(sslPassphrase).toString().trim();
 }
 
 var authOptions = {
-    username: authUsername,
-    password: authPassword
+  username: authUsername,
+  password: authPassword
 }
 
 var pulsarConfig = {
-    repo: configRepo,
-    branch: configBranch
+  repo: configRepo,
+  branch: configBranch
 }
 
 var mongoConfig = {
-    host: mongoHost,
-    port: mongoPort,
-    db: mongoDb
+  host: mongoHost,
+  port: mongoPort,
+  db: mongoDb
 }
 
 pulsarServer = new pulsar.Server(
-    argv['port'],
-    sslOptions,
-    authOptions,
-    pulsarConfig,
-    mongoConfig
+  argv['port'],
+  sslOptions,
+  authOptions,
+  pulsarConfig,
+  mongoConfig
 );

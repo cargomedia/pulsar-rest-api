@@ -68,14 +68,12 @@ Run in console `curl -k https://api.pulsar.local:8001/application/environment/ta
 
 `:id` - task ID
 
-### Tasks
+### Get tasks list
 
-#### Get tasks list
-
-##### Request:
+#### Request:
 `GET /tasks`
 
-##### Response on success:
+#### Response on success:
 HTTP response code `200`
 ```json
 {
@@ -87,7 +85,7 @@ HTTP response code `200`
 }
 ```
 
-##### Response on timeout:
+#### Response on timeout:
 No new task created before the timeout
 HTTP response code `200`
 ```json
@@ -97,14 +95,12 @@ HTTP response code `200`
 ```
 
 
-### Task
+### Create Task
 
-#### Create Task
-
-##### Request:
+#### Request:
 `POST /:app/:env` with parameter `action` name passed to pulsar
 
-##### Response on success:
+#### Response on success:
 HTTP response code `200`
 ```json
 {
@@ -112,14 +108,14 @@ HTTP response code `200`
 }
 ```
 
-#### Get task data
+### Get task data
 
 Immediately returns all task data including output to date.
 
-##### Request:
+#### Request:
 `GET /task/:id`
 
-##### Response on success:
+#### Response on success:
 HTTP response code `200`
 ```json
 {
@@ -134,10 +130,10 @@ HTTP response code `200`
 }
 ```
 
-#### Kill task
+### Kill task
 
-##### Request
+#### Request
 `GET /task/:id/kill`
 
-##### Response
+#### Response
 HTTP response code `200`

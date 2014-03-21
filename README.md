@@ -134,43 +134,6 @@ HTTP response code `200`
 }
 ```
 
-#### Observe end of task execution
-
-This listens for task process exit. Any exit code for `pulsar` will generated successful response.
-
-##### Request:
-`GET /task/:id/state`
-
-##### Response on success:
-Task changed before server timeout.
-HTTP response code `200`
-```json
-{
-  "changed": true,
-  "task": {
-     "id":47,
-     "status":"failed",
-     "app":"fuboo",
-     "env":"production",
-     "action":"shell",
-     "exitCode":null,
-     "output":"[output goes here]",
-     "pid":48691
-  }
-}
-```
-
-##### Response on timeout:
-Task not changed before the timeout
-HTTP response code `200`
-```json
-{
-  "changed": false
-}
-```
-
-In that case you should immediately create next request.
-
 #### Kill task
 
 ##### Request

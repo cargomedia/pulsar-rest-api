@@ -1,6 +1,6 @@
 var request = require('supertest')
-	Server = require('../lib/server'),
-	assert = require('assert');
+Server = require('../lib/server'),
+  assert = require('assert');
 
 var taskId;
 

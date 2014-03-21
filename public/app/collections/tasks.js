@@ -1,13 +1,13 @@
 var app = app || {};
 
-(function() {
-	'use strict';
+(function () {
+  'use strict';
 
-    app.TaskList = Backbone.Collection.extend({
+  app.TaskList = Backbone.Collection.extend({
 
-		model: app.Task,
+    model: app.Task,
 
-        url: '/tasks'
+    url: '/tasks'
 
 //		completed: function() {
 //			return this.filter(function(task) {
@@ -31,6 +31,6 @@ var app = app || {};
 //                self.set(response.tasks);
 //			}, 'json');
 //		}
-	});
+  });
 
 })();

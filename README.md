@@ -60,8 +60,6 @@ Run in console `curl -k https://api.pulsar.local:8001/application/environment/ta
 
 ## API documentation
 
-(We are currently under development. Many of described features may change in the near future)
-
 `:app` - application name (e.g. foobar)
 
 `:env` - environment name (e.g. production)
@@ -70,14 +68,12 @@ Run in console `curl -k https://api.pulsar.local:8001/application/environment/ta
 
 `:id` - task ID
 
-### Tasks
+### Get tasks list
 
-#### Get tasks list
-
-##### Request:
+#### Request:
 `GET /tasks`
 
-##### Response on success:
+#### Response on success:
 HTTP response code `200`
 ```json
 {
@@ -89,32 +85,7 @@ HTTP response code `200`
 }
 ```
 
-#### Observe new task creation
-
-This long pooling requests listens for new task create event. Response contains new task object ff task is created.
-
-##### Request:
-`GET /tasks/created`
-
-##### Response on success if created:
-HTTP response code `200`
-```json
-{
-  "changed": true,
-  "task": {
-     "id":47,
-     "status":"failed",
-     "app":"fuboo",
-     "env":"production",
-     "action":"shell",
-     "exitCode":null,
-     "output":"[output goes here]",
-     "pid":48691
-  }
-}
-```
-
-##### Response on timeout:
+#### Response on timeout:
 No new task created before the timeout
 HTTP response code `200`
 ```json
@@ -124,120 +95,71 @@ HTTP response code `200`
 ```
 
 
-### Task
+### Create Task
 
-#### Create Task
+#### Request:
+```
+POST /:app/:env?task=:task
+```
 
-##### Request:
-`POST /:app/:env` with parameter `action` name passed to pulsar
+Optionally use the blocking behaviour:
+```
+POST /:app/:env?action=:action&wait=true
+```
 
-##### Response on success:
+#### Response on success:
 HTTP response code `200`
 ```json
 {
- "taskId": "new task ID"
+  "id": "123",
+  "url": "https://api.pulsar.local:8001/web/task/532c3240f8214f0000177376"
 }
 ```
 
-#### Get task data
+In case of a blocking execution the task's data will be returned:
+```json
+{
+  "id": 123,
+  "url": "https://api.pulsar.local:8001/web/task/532c3240f8214f0000177376",
+  "data": {
+    "id": 123,
+    "status": "failed",
+    "app": "fuboo",
+    "env": "production",
+    "action": "shell",
+    "exitCode": null,
+    "output": "Here comes the output",
+    "pid": 48691
+  }
+}
+```
+
+### Get task data
 
 Immediately returns all task data including output to date.
 
-##### Request:
+#### Request:
 `GET /task/:id`
 
-##### Response on success:
+#### Response on success:
 HTTP response code `200`
 ```json
 {
-  "id": 47,
+  "id": 123,
   "status": "failed",
   "app": "fuboo",
   "env": "production",
   "action": "shell",
   "exitCode": null,
-  "output": "[output goes here]",
+  "output": "Here comes the output",
   "pid": 48691
 }
 ```
 
-#### Observe task changes
+### Kill task
 
-This listens for any task state changes (e.g. new output) and when it happens returns full task data is returned. If state is 'running' the client
-should re-connect to this method in order to wait for new data. This methods timeouts each 30s after which it should be called again.
-
-##### Request:
-`GET /task/:id/output`
-
-##### Response on success:
-Task changed before server timeout.
-HTTP response code `200`
-```json
-{
-  "changed": true,
-  "task": {
-     "id":47,
-     "status":"failed",
-     "app":"fuboo",
-     "env":"production",
-     "action":"shell",
-     "exitCode":null,
-     "output":"[output goes here]",
-     "pid":48691
-  }
-}
-```
-
-##### Response on timeout:
-Task not changed before the timeout
-HTTP response code `200`
-```json
-{
-  "changed": false
-}
-```
-
-#### Observe end of task execution
-
-This listens for task process exit. Any exit code for `pulsar` will generated successful response.
-
-##### Request:
-`GET /task/:id/state`
-
-##### Response on success:
-Task changed before server timeout.
-HTTP response code `200`
-```json
-{
-  "changed": true,
-  "task": {
-     "id":47,
-     "status":"failed",
-     "app":"fuboo",
-     "env":"production",
-     "action":"shell",
-     "exitCode":null,
-     "output":"[output goes here]",
-     "pid":48691
-  }
-}
-```
-
-##### Response on timeout:
-Task not changed before the timeout
-HTTP response code `200`
-```json
-{
-  "changed": false
-}
-```
-
-In that case you should immediately create next request.
-
-#### Kill task
-
-##### Request
+#### Request
 `GET /task/:id/kill`
 
-##### Response
+#### Response
 HTTP response code `200`

@@ -49,7 +49,7 @@ exports.setUp = function(callback) {
 };
 
 exports.testCreateTask = function(test) {
-  test.ok(this.task.id !== null && this.task.status.status === PulsarStatus.STATUS_CREATED, "Check if task is created");
+  test.ok(this.task.id !== null && this.task.status.is(PulsarStatus.CREATED), "Check if task is created");
   test.done();
 };
 
@@ -83,7 +83,7 @@ exports.testTaskKill = function(test) {
   task.kill();
 
   setTimeout(function() {
-      if (task.status.status !== PulsarStatus.STATUS_KILLED) {
+      if (!task.status.is(PulsarStatus.KILLED)) {
         test.ok(false, 'The task kill does not work')
       }
       test.done();

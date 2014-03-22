@@ -1,4 +1,6 @@
 var Pulsar = require('../lib/pulsar');
+var PulsarTask = require('../lib/pulsar/task');
+var PulsarStatus = require('../lib/pulsar/status');
 var events = require('events');
 var _ = require('underscore');
 
@@ -81,3 +83,22 @@ exports.testTaskEvents = function (test) {
   test.expect(1);
   test.done();
 }
+
+exports.testTaskKill = function (test) {
+  var pulsarDb = new PulsarDbMock();
+  var pulsar = new Pulsar(pulsarDb);
+  var task = createDummyTask(pulsar);
+
+  task.execute();
+  task.kill();
+
+  setTimeout(
+    function() {
+      if(task.status.status !== PulsarStatus.STATUS_KILLED){
+        test.ok(false, 'The task kill does not work')
+      }
+      test.done();
+    }, PulsarTask._FATALITY_INTERVAL * PulsarTask._FATALITY_COUNTER + 1
+  );
+
+};

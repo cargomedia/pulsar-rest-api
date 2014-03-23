@@ -77,16 +77,50 @@ exports.testTaskEvents = function(test) {
   test.done();
 };
 
-exports.testTaskKill = function(test) {
-  var task = this.task;
-  task.execute();
-  task.kill();
+exports.testTaskKillSigTerm = function (test) {
+  var pulsarDb = new PulsarDbMock();
+  var pulsar = new Pulsar(pulsarDb,  {'repo': 'test/data/pulsar-conf-dummy/'});
+  var task = pulsar.createTask('example', 'production', 'dummy:my_sleep');
 
-  setTimeout(function() {
-      if (!task.status.is(PulsarStatus.KILLED)) {
-        test.ok(false, 'The task kill does not work')
-      }
-      test.done();
-    }, PulsarTask._FATALITY_INTERVAL * PulsarTask._FATALITY_COUNTER + 1
-  );
+  task.execute();
+
+  task.once('change', function() {
+    if (task.getOutput()) {
+      task.kill();
+
+      setTimeout(function() {
+        if(task.status.status !== PulsarStatus.STATUS_KILLED){
+          test.ok(false, 'The task kill (SIGTERM) does not work')
+        }
+        test.done();
+      }, 50);
+    }
+  });
+};
+
+exports.testTaskKillSigKill = function (test) {
+  var pulsarDb = new PulsarDbMock();
+  var pulsar = new Pulsar(pulsarDb, {'repo': 'test/data/pulsar-conf-dummy/'});
+  var task = pulsar.createTask('example', 'production', 'dummy:my_sleep_unkillable');
+
+  task.execute();
+
+  task.once('change', function() {
+    if (task.getOutput()) {
+      task.kill();
+
+      setTimeout(function() {
+        if(task.status.status !== PulsarStatus.STATUS_RUNNING){
+          test.ok(false, 'Task should still be running')
+        }
+      }, 50);
+
+      setTimeout(function() {
+        if(task.status.status !== PulsarStatus.STATUS_KILLED){
+          test.ok(false, 'The task kill (SIGKILL) does not work')
+        }
+        test.done();
+      }, PulsarTask._KILL_TIMEOUT + 50);
+    }
+  });
 };

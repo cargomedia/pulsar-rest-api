@@ -98,7 +98,7 @@ exports.testTaskKill = function (test) {
         test.ok(false, 'The task kill does not work')
       }
       test.done();
-    }, PulsarTask._FATALITY_INTERVAL * PulsarTask._FATALITY_COUNTER + 1
+    }, PulsarTask._KILL_TIMEOUT + 1
   );
 
 };

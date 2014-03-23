@@ -1,6 +1,6 @@
 var app = app || {};
 
-(function ($) {
+(function($) {
   'use strict';
 
   app.TaskView = Backbone.View.extend({
@@ -15,15 +15,15 @@ var app = app || {};
       'click .task-kill': 'killTask'
     },
 
-    initialize: function () {
+    initialize: function() {
       this.listenTo(this.model, 'change', this.render);
     },
 
-    render: function () {
+    render: function() {
       this.$el.html(this.template(this.model.toJSON()));
     },
 
-    killTask: function () {
+    killTask: function() {
       $.post('/task/' + this.model.id + '/kill');
     }
   });

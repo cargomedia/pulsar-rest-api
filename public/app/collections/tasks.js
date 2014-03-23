@@ -1,6 +1,6 @@
 var app = app || {};
 
-(function () {
+(function() {
   'use strict';
 
   app.TaskList = Backbone.Collection.extend({
@@ -9,28 +9,28 @@ var app = app || {};
 
     url: '/tasks'
 
-//		completed: function() {
-//			return this.filter(function(task) {
-//				return task.get('completed');
-//			});
-//		},
-//
-//		running: function() {
-//			return this.without.apply(this, this.status('RUNNING'));
-//		},
-//
-//        status: function(model, status) {
-//            if (model.status == status) {
-//                return true;
-//            }
-//        },
+    //		completed: function() {
+    //			return this.filter(function(task) {
+    //				return task.get('completed');
+    //			});
+    //		},
+    //
+    //		running: function() {
+    //			return this.without.apply(this, this.status('RUNNING'));
+    //		},
+    //
+    //        status: function(model, status) {
+    //            if (model.status == status) {
+    //                return true;
+    //            }
+    //        },
 
-//		getFromServer: function() {
-//			var self = this;
-//			$.get('/tasks', function(response) {
-//                self.set(response.tasks);
-//			}, 'json');
-//		}
+    //		getFromServer: function() {
+    //			var self = this;
+    //			$.get('/tasks', function(response) {
+    //                self.set(response.tasks);
+    //			}, 'json');
+    //		}
   });
 
 })();

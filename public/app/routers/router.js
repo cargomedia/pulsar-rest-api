@@ -1,6 +1,6 @@
 var app = app || {};
 
-(function () {
+(function() {
   'use strict';
 
   var taskList = new app.TaskList();
@@ -11,9 +11,9 @@ var app = app || {};
       '*index': 'loadTaskList'
     },
 
-    loadTaskList: function () {
+    loadTaskList: function() {
       taskList.fetch({
-        success: function () {
+        success: function() {
           var view = new app.TaskListView({el: $('#content'), collection: taskList});
           view.render();
         }
@@ -21,10 +21,10 @@ var app = app || {};
       this.updateNav('taskList');
     },
 
-    loadTask: function (id) {
+    loadTask: function(id) {
       var task = taskList.get(id) || taskList.add({id: id});
       task.fetch({
-        success: function () {
+        success: function() {
           var view = new app.TaskView({el: $('#content'), model: task});
           view.render();
         }
@@ -32,13 +32,13 @@ var app = app || {};
       this.updateNav('task');
     },
 
-    updateNav: function (page) {
+    updateNav: function(page) {
       $('.nav-page').removeClass('active');
       $('.nav-page-' + page).addClass('active');
     }
   });
 
-  $(document).on('click', 'a[href]', function (event) {
+  $(document).on('click', 'a[href]', function(event) {
     var historyRoot = Backbone.history.options.root;
     var root = location.protocol + "//" + location.host + historyRoot;
 
@@ -52,15 +52,16 @@ var app = app || {};
   Backbone.history.start({pushState: true, root: '/web'});
 
   var sock = new SockJS('/websocket');
-  sock.onmessage = function (e) {
-    var message = JSON.parse(e.data)
+  sock.onmessage = function(e) {
+    var message = JSON.parse(e.data);
+    var task;
     switch (message.event) {
       case 'task.create':
-        var task = new app.Task(message.task);
+        task = new app.Task(message.task);
         taskList.add(task);
         break;
       case 'task.change':
-        var task = taskList.get(message.task.id);
+        task = taskList.get(message.task.id);
         task.set(message.task);
         break;
     }

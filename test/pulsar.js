@@ -36,14 +36,10 @@ var PulsarDbMock = function() {
   };
 };
 
-function createDummyTask(pulsar) {
-  return pulsar.createTask('foo', 'development', 'deploy');
-}
-
 exports.setUp = function(callback) {
-  var pulsarDb = new PulsarDbMock();
-  this.pulsar = new Pulsar(pulsarDb);
-  this.task = createDummyTask(this.pulsar);
+  this.pulsarDb = new PulsarDbMock();
+  this.pulsar = new Pulsar(this.pulsarDb,  {'repo': 'test/data/pulsar-conf-dummy/'});
+  this.task = this.pulsar.createTask('example', 'production', 'dummy:my_sleep');
 
   callback()
 };
@@ -78,18 +74,15 @@ exports.testTaskEvents = function(test) {
 };
 
 exports.testTaskKillSigTerm = function (test) {
-  var pulsarDb = new PulsarDbMock();
-  var pulsar = new Pulsar(pulsarDb,  {'repo': 'test/data/pulsar-conf-dummy/'});
-  var task = pulsar.createTask('example', 'production', 'dummy:my_sleep');
-
+  var task = this.task;
   task.execute();
 
   task.once('change', function() {
-    if (task.getOutput()) {
+    if (task.output) {
       task.kill();
 
       setTimeout(function() {
-        if(task.status.status !== PulsarStatus.STATUS_KILLED){
+        if(!task.status.is(PulsarStatus.KILLED)){
           test.ok(false, 'The task kill (SIGTERM) does not work')
         }
         test.done();
@@ -99,24 +92,21 @@ exports.testTaskKillSigTerm = function (test) {
 };
 
 exports.testTaskKillSigKill = function (test) {
-  var pulsarDb = new PulsarDbMock();
-  var pulsar = new Pulsar(pulsarDb, {'repo': 'test/data/pulsar-conf-dummy/'});
-  var task = pulsar.createTask('example', 'production', 'dummy:my_sleep_unkillable');
-
+  var task = this.pulsar.createTask('example', 'production', 'dummy:my_sleep_unkillable');
   task.execute();
 
   task.once('change', function() {
-    if (task.getOutput()) {
+    if (task.output) {
       task.kill();
 
       setTimeout(function() {
-        if(task.status.status !== PulsarStatus.STATUS_RUNNING){
+        if(!task.status.is(PulsarStatus.RUNNING)){
           test.ok(false, 'Task should still be running')
         }
       }, 50);
 
       setTimeout(function() {
-        if(task.status.status !== PulsarStatus.STATUS_KILLED){
+        if(!task.status.is(PulsarStatus.KILLED)){
           test.ok(false, 'The task kill (SIGKILL) does not work')
         }
         test.done();

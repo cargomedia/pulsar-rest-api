@@ -54,23 +54,17 @@ if (sslOptions && sslPassphrase) {
 var authOptions = {
   username: authUsername,
   password: authPassword
-}
+};
 
 var pulsarConfig = {
   repo: configRepo,
   branch: configBranch
-}
+};
 
 var mongoConfig = {
   host: mongoHost,
   port: mongoPort,
   db: mongoDb
-}
+};
 
-pulsarServer = new pulsar.Server(
-  argv['port'],
-  sslOptions,
-  authOptions,
-  pulsarConfig,
-  mongoConfig
-);
+pulsarServer = new pulsar.Server(argv['port'], sslOptions, authOptions, pulsarConfig, mongoConfig);

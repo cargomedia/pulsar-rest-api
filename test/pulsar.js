@@ -13,11 +13,11 @@ var PulsarDbMock = function() {
   };
 
   this.saveTask = function(task) {
-    this.taskList[task.id] = {id: task.id, data: task.getData()};
+    this.taskList[task.id] = {id: task.id, data: task.getData(), args: task.getArgs()};
   };
 
   this.updateTask = function(task) {
-    this.taskList[task.id] = {id: task.id, data: task.getData()};
+    this.taskList[task.id] = {id: task.id, data: task.getData(), args: task.getArgs()};
   };
 
   this.getTask = function(taskId, callback) {
@@ -39,7 +39,7 @@ var PulsarDbMock = function() {
 exports.setUp = function(callback) {
   this.pulsarDb = new PulsarDbMock();
   this.pulsar = new Pulsar(this.pulsarDb,  {'repo': 'test/data/pulsar-conf-dummy/'});
-  this.task = this.pulsar.createTask('example', 'production', 'dummy:my_sleep');
+  this.task = this.pulsar.createTask({app: 'example', env: 'production', action: 'dummy:my_sleep'});
 
   callback()
 };
@@ -92,7 +92,7 @@ exports.testTaskKillSigTerm = function (test) {
 };
 
 exports.testTaskKillSigKill = function (test) {
-  var task = this.pulsar.createTask('example', 'production', 'dummy:my_sleep_unkillable');
+  var task = this.pulsar.createTask({app: 'example', env: 'production', action: 'dummy:my_sleep_unkillable'});
   task.execute();
 
   task.once('change', function() {

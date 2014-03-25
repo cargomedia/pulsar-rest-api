@@ -73,6 +73,15 @@ exports.testTaskEvents = function(test) {
   test.done();
 };
 
+exports.testAvailableTasks = function(test) {
+  this.pulsar.getAvailableTasks({app: 'example', env: 'production'}, function(data) {
+    if (data.indexOf('cap shell') === -1) {
+      test.ok(false, 'There is no deploy task in available tasks');
+    }
+    test.done();
+  });
+};
+
 exports.testTaskKillSigTerm = function (test) {
   var task = this.task;
   task.execute();

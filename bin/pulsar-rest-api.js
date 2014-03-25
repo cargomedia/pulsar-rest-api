@@ -9,6 +9,6 @@ pulsarServer = new pulsar.Server(config.asHash());
 function setLog(config){
   var log = config.log;
   if (log && log.dir && log.name) {
-    utils.logProcessInto(process, log.dir + '/' + log.name);
+    //TODO #20 utils.logProcessInto(process, log.dir + '/' + log.name);
   }
 }

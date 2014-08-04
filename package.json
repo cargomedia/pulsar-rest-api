@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "pulsar-rest-api.js",
   "bin": {
-    "pulsar-rest-api": "./bin/pulsar-rest-api.js"
+    "pulsar-rest-api": "./bin/pulsar-rest-api"
   },
   "keywords": [
     "pulsar",

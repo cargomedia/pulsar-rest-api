@@ -5,7 +5,7 @@ default:
     name: 'pulsar-rest-api.log'
   auth:
     github-oauth-id:
-    guthub-oauth-secret:
+    github-oauth-secret:
   mongodb:
     host: 'localhost'
     port: 27018

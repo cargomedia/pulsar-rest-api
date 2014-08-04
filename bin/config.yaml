@@ -6,10 +6,10 @@ default:
   auth:
     github-oauth-id:
     guthub-oauth-secret:
-  database:
-    host: ''
-    port: ''
-    db: ''
+  mongodb:
+    host: 'localhost'
+    port: 27018
+    db: 'pulsar'
   pulsar:
     repo: ''
     branch: ''

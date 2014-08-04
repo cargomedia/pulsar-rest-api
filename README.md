@@ -17,39 +17,34 @@ npm install pulsar-rest-api [-g]
 ```
 
 ### Running
-You can run pulsar-rest-api using default arguments or specify them on your own.
+The instance of pulsar-rest-api can be run with different parameters. All of the parameters can be specified in the config. To run the instance with
+your own config you need to specify the filepath to it with the flag `-c`. For example `pulsar-rest-api -c '~/my_pulsar_config.yaml'`.
 
-`--config-repo` Specify pulsar configuration repository.
+The default config is [`config.yaml`](bin/config.yaml) and it can be found in `bin` directory of the pulsar-rest-api installation.
 
-`--config-branch` Specify branch for pulsar configuration repository (default set to `master`).
-
-`--port` Specify port where server listen for requests (default set to `8081`).
-
-`--log-dir` Directory where log is stored. Script will try to create directory if needed. Defaults to `null` which means it will output to stdout.
-
-`--ssl-key` Specify ssl private key file. Combine with `ssl-cert` option.
-
-`--ssl-cert` Specify ssl public certificate file. Combine with `ssl-key` option. Append CA-chain within this file.
-
-`--ssl-pfx` Specify ssl pfx file (key + cert). Overrides `ssl-key` and `ssl-cert` options.
-
-`--ssl-passphrase` Specify file containing the ssl passphrase.
-
-`--github-oauth-id` Specify github oauth `id`.
-
-`--github-oauth-secret` Specify github oauth `secret`.
-
-`--mongo-host` Specify mongoDB hostname (default set to `localhost`).
-
-`--mongo-port` Specify mongoDB port (default set to `27017`).
-
-`--mongo-db` Specify mongoDB database name (default set to `pulsar`).
-
-## Development
-
-### Run
-
-By default server listens on port `8001` in SSL mode with certificates for domain `*.pulsar.local`. SSL certs are stored in `bin/ssl/*`.
+The format of the config is:
+````
+default:
+  port: # Port where server listen for requests.
+  log: #
+    dir: # Directory where the log file goes. Script will try to create it if needed.
+    name: # Name of the log file. If it can't be created or it is Null value then output goes to stdout.
+  auth:
+    github-oauth-id: # Github oauth `id`.
+    github-oauth-secret: # Github oauth `secret`.
+  mongodb:# mongoDB connection parameters
+    host: # hostname
+    port: # port
+    db: # database name
+  pulsar:
+    repo: # Pulsar configuration repository.
+    branch: # Branch for pulsar configuration repository.
+  ssl:
+    key: # Ssl private key file. Combine with `ssl-cert` option.
+    cert: # Ssl public certificate file. Combine with `ssl-key` option. Append CA-chain within this file.
+    pfx: #Ssl pfx file (key + cert). Overrides `ssl-key` and `ssl-cert` options.
+    passphrase: # File containing the ssl passphrase.
+````
 
 ### Test
 

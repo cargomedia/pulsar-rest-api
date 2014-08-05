@@ -6,7 +6,7 @@
   "license": "MIT",
   "main": "pulsar-rest-api.js",
   "bin": {
-    "pulsar-rest-api": "./bin/pulsar-rest-api.js"
+    "pulsar-rest-api": "./bin/pulsar-rest-api"
   },
   "keywords": [
     "pulsar",
@@ -26,7 +26,7 @@
   },
   "dependencies": {
     "underscore": "1.5.1",
-    "optimist": "0.6",
+    "minimist": "~0.2",
     "log4js": "0.6.8",
     "validator": "1.5.1",
     "restify": "2.6.1",
@@ -38,6 +38,6 @@
     "mongodb": "1.3.23",
     "sockjs": "0.3.8",
     "ps-tree": "0.0.3",
-    "node-yaml-config": "0.0.2"
+    "js-yaml": "~3.1.0"
   }
 }

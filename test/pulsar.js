@@ -74,9 +74,9 @@ exports.testTaskEvents = function(test) {
 };
 
 exports.testAvailableTasks = function(test) {
-  this.pulsar.getAvailableTasks({app: 'example', env: 'production'}, function(data) {
+  this.pulsar.getAvailableTasks('example', 'production', function(data) {
     if (data.indexOf('cap shell') === -1) {
-      test.ok(false, 'There is no deploy task in available tasks');
+      test.ok(false, 'There is no shell task in available tasks');
     }
     test.done();
   });
@@ -89,14 +89,13 @@ exports.testTaskKillSigTerm = function (test) {
   task.once('change', function() {
     if (task.output) {
       task.kill();
-
-      setTimeout(function() {
-        if(!task.status.is(PulsarStatus.KILLED)){
-          test.ok(false, 'The task kill (SIGTERM) does not work')
-        }
-        test.done();
-      }, 50);
     }
+  });
+  task.on('close', function() {
+    if(!task.status.is(PulsarStatus.KILLED)){
+      test.ok(false, 'The task kill (SIGTERM) does not work')
+    }
+    test.done();
   });
 };
 

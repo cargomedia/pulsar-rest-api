@@ -1,20 +1,19 @@
-default:
-  port: 8001
-  log:
-    dir: '.'
-    name: 'pulsar-rest-api.log'
-  auth:
-    github-oauth-id:
-    github-oauth-secret:
-  mongodb:
-    host: 'localhost'
-    port: 27017
-    db: 'pulsar'
-  pulsar:
-    repo: ''
-    branch: ''
-  ssl:
-    key: './bin/ssl/*.pulsar.local.key'
-    cert: './bin/ssl/*.pulsar.local.pem'
-    pfx:
-    passphrase:
+port: 8001
+log:
+  dir: '.'
+  name: 'pulsar-rest-api.log'
+auth:
+  github-oauth-id:
+  github-oauth-secret:
+mongodb:
+  host: 'localhost'
+  port: 27017
+  db: 'pulsar'
+pulsar:
+  repo: ''
+  branch: ''
+ssl:
+  key: './bin/ssl/*.pulsar.local.key'
+  cert: './bin/ssl/*.pulsar.local.pem'
+  pfx:
+  passphrase:

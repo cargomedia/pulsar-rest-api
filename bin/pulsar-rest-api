@@ -5,12 +5,7 @@ var argv = require('minimist')(process.argv.slice(2));
 
 var configPath = argv.c || __dirname + '/config.yaml';
 var config = new Config(configPath);
-setLog(config.asHash());
-pulsarServer = new pulsar.Server(config.asHash());
-
-function setLog(config){
-  var log = config.log;
-  if (log && log.dir && log.name) {
-    //TODO #20 utils.logProcessInto(process, log.dir + '/' + log.name);
-  }
+if (config.log && config.log.path) {
+  utils.logProcessInto(process, config.log.path);
 }
+pulsarServer = new pulsar.Server(config.asHash());

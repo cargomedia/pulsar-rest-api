@@ -23,28 +23,27 @@ your own config you need to specify the filepath to it with the flag `-c`. For e
 The default config is [`config.yaml`](bin/config.yaml) and it can be found in `bin` directory of the pulsar-rest-api installation.
 
 The format of the config is:
-````
-default:
-  port: # Port where server listen for requests.
-  log: #
-    dir: # Directory where the log file goes. Script will try to create it if needed.
-    name: # Name of the log file. If it can't be created or it is Null value then output goes to stdout.
-  auth:
-    github-oauth-id: # Github oauth `id`.
-    github-oauth-secret: # Github oauth `secret`.
-  mongodb:# mongoDB connection parameters
-    host: # hostname
-    port: # port
-    db: # database name
-  pulsar:
-    repo: # Pulsar configuration repository.
-    branch: # Branch for pulsar configuration repository.
-  ssl:
-    key: # Ssl private key file. Combine with `ssl-cert` option.
-    cert: # Ssl public certificate file. Combine with `ssl-key` option. Append CA-chain within this file.
-    pfx: #Ssl pfx file (key + cert). Overrides `ssl-key` and `ssl-cert` options.
-    passphrase: # File containing the ssl passphrase.
-````
+```yaml
+port: # Port where server listen for requests.
+log: #
+  dir: # Directory where the log file goes. Script will try to create it if needed.
+  name: # Name of the log file. If it can't be created or it is Null value then output goes to stdout.
+auth:
+  github-oauth-id: # Github oauth `id`.
+  github-oauth-secret: # Github oauth `secret`.
+mongodb:# mongoDB connection parameters
+  host: # hostname
+  port: # port
+  db: # database name
+pulsar:
+  repo: # Pulsar configuration repository.
+  branch: # Branch for pulsar configuration repository.
+ssl:
+  key: # Ssl private key file. Combine with `ssl-cert` option.
+  cert: # Ssl public certificate file. Combine with `ssl-key` option. Append CA-chain within this file.
+  pfx: #Ssl pfx file (key + cert). Overrides `ssl-key` and `ssl-cert` options.
+  passphrase: # File containing the ssl passphrase.
+```
 
 ### Test
 

@@ -3,5 +3,4 @@ node_js:
     - "0.8"
 before_script:
   - bundle install
-  - npm install bower
-  - node_modules/bower/bin/bower install
+

@@ -74,8 +74,8 @@ exports.testTaskEvents = function(test) {
 };
 
 exports.testAvailableTasks = function(test) {
-  this.pulsar.getAvailableTasks('example', 'production', function(data) {
-    if (data.indexOf('cap shell') === -1) {
+  this.pulsar.getAvailableTasks('example', 'production', function(tasks) {
+    if (!tasks['cap shell']) {
       test.ok(false, 'There is no shell task in available tasks');
     }
     test.done();

@@ -38,7 +38,7 @@ var PulsarDbMock = function() {
 
 exports.setUp = function(callback) {
   this.pulsarDb = new PulsarDbMock();
-  this.pulsar = new Pulsar(this.pulsarDb,  {'repo': 'test/data/pulsar-conf-dummy/'});
+  this.pulsar = new Pulsar(this.pulsarDb, {'repo': 'test/data/pulsar-conf-dummy/'});
   this.task = this.pulsar.createTask({app: 'example', env: 'production', action: 'dummy:my_sleep'});
 
   callback()
@@ -82,24 +82,30 @@ exports.testAvailableTasks = function(test) {
   });
 };
 
-exports.testTaskKillSigTerm = function (test) {
+exports.testTaskKillSigTerm = function(test) {
+  var timeout;
   var task = this.task;
   task.execute();
-
   task.once('change', function() {
     if (task.output) {
+      timeout = setTimeout(function() {
+        test.ok(false, 'Task wasn\'t killed. Test killed by timeout.');
+        task.removeAllListeners();
+        test.done();
+      }, 2000);
       task.kill();
     }
   });
   task.on('close', function() {
-    if(!task.status.is(PulsarStatus.KILLED)){
+    if (!task.status.is(PulsarStatus.KILLED)) {
       test.ok(false, 'The task kill (SIGTERM) does not work')
     }
+    clearTimeout(timeout);
     test.done();
   });
 };
 
-exports.testTaskKillSigKill = function (test) {
+exports.testTaskKillSigKill = function(test) {
   var task = this.pulsar.createTask({app: 'example', env: 'production', action: 'dummy:my_sleep_unkillable'});
   task.execute();
 
@@ -108,13 +114,13 @@ exports.testTaskKillSigKill = function (test) {
       task.kill();
 
       setTimeout(function() {
-        if(!task.status.is(PulsarStatus.RUNNING)){
+        if (!task.status.is(PulsarStatus.RUNNING)) {
           test.ok(false, 'Task should still be running')
         }
       }, 50);
 
       setTimeout(function() {
-        if(!task.status.is(PulsarStatus.KILLED)){
+        if (!task.status.is(PulsarStatus.KILLED)) {
           test.ok(false, 'The task kill (SIGKILL) does not work')
         }
         test.done();

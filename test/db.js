@@ -26,7 +26,7 @@ var PulsarDbMock = function () {
 };
 
 function createDummyTask(id) {
-  return new PulsarTask({id: id, app: 'foo', env: 'development', action: 'deploy'});
+  return new PulsarTask({app: 'foo', env: 'development', action: 'deploy'}, {id: id});
 }
 
 exports.testSaveTask = function (test) {

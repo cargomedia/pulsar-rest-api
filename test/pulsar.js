@@ -23,7 +23,8 @@ var PulsarDbMock = function() {
 
   this.getTask = function(taskId, callback) {
     if (typeof this.taskList[taskId] != 'undefined') {
-      callback(null, this.taskList[taskId]);
+      var task = this.taskList[taskId];
+      callback(null, new PulsarTask(task.args, task.data));
       return;
     }
     callback(Error("Task id: " + taskId + " doesn't exist."), null);
@@ -76,8 +77,8 @@ describe('tests of pulsar API', function() {
     });
 
     var pulsar = new Pulsar(this.pulsarDb, {'repo': 'test/data/pulsar-conf-dummy/'});
-    pulsar.getTask(task.id, function(err, result) {
-      assert.deepEqual(result.getData(), task.getData());
+    pulsar.getTask(task.id, function(err, task) {
+      assert.deepEqual(task.getData(), task.getData());
       done();
     });
   });

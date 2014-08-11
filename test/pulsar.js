@@ -68,6 +68,20 @@ describe('tests of pulsar API', function() {
     });
   });
 
+  it('saved task must be available after server restart', function(done) {
+    var task = this.pulsar.createTask({
+      app: taskArgs.app.example,
+      env: taskArgs.env.production,
+      action: taskArgs.action.dummySleepy
+    });
+
+    var pulsar = new Pulsar(this.pulsarDb, {'repo': 'test/data/pulsar-conf-dummy/'});
+    pulsar.getTask(task.id, function(err, result) {
+      assert.deepEqual(result.getData(), task.getData());
+      done();
+    });
+  });
+
   it('check if created task in the list of current tasks of pulsar', function() {
     var task = this.pulsar.createTask({
       app: taskArgs.app.example,

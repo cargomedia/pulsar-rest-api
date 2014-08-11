@@ -68,7 +68,7 @@ describe('tests of pulsar API', function() {
     });
   });
 
-  it('check if task can be got after it is created', function(done) {
+  it('saved task must be available after server restart', function(done) {
     var task = this.pulsar.createTask({
       app: taskArgs.app.example,
       env: taskArgs.env.production,

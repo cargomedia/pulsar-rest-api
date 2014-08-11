@@ -40,9 +40,6 @@ describe('Test constructor arguments of PulsarExec', function() {
     assert.throw(function() {
       new PulsarExec({app: STUB_APP, env: STUB_ENV, pulsarOptions: ['-c some-repo', '-b some-branch', 'no-dash']})
     }, Error);
-    assert.throw(function() {
-      new PulsarExec({app: STUB_APP, env: STUB_ENV, capistranoOptions: ['some-param', '-b "quote mismatch']})
-    }, Error);
   });
 
   it('create arguments that will run spawn correctly', function() {

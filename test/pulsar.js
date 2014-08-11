@@ -3,6 +3,7 @@ var PulsarTask = require('../lib/pulsar/task');
 var PulsarStatus = require('../lib/pulsar/status');
 var _ = require('underscore');
 var assert = require('chai').assert;
+var taskArgs = require('./task-args');
 
 var PulsarDbMock = function() {
 
@@ -36,29 +37,31 @@ var PulsarDbMock = function() {
   };
 };
 
-var DEFAULT_TASK_ARGS = {app: 'example', env: 'production', action: 'dummy:my_sleep'};
+describe('tests of pulsar API', function() {
 
-function defaultBeforeEach() {
-  this.pulsarDb = new PulsarDbMock();
-  this.pulsar = new Pulsar(this.pulsarDb, {'repo': 'test/data/pulsar-conf-dummy/'});
-}
-
-describe('tests that don\'t execute pulsar command', function() {
-
-  this.timeout(300);
+  this.timeout(2000);
 
   beforeEach(function() {
-    defaultBeforeEach.call(this);
+    this.pulsarDb = new PulsarDbMock();
+    this.pulsar = new Pulsar(this.pulsarDb, {'repo': 'test/data/pulsar-conf-dummy/'});
   });
 
 
   it('check if task is created', function() {
-    var task = this.pulsar.createTask(DEFAULT_TASK_ARGS);
+    var task = this.pulsar.createTask({
+      app: taskArgs.app.example,
+      env: taskArgs.env.production,
+      action: taskArgs.action.dummySleepy
+    });
     assert(task.status.is(PulsarStatus.CREATED));
   });
 
   it('check if task can be got after it is created', function(done) {
-    var task = this.pulsar.createTask(DEFAULT_TASK_ARGS);
+    var task = this.pulsar.createTask({
+      app: taskArgs.app.example,
+      env: taskArgs.env.production,
+      action: taskArgs.action.dummySleepy
+    });
     this.pulsar.getTask(task.id, function(err, result) {
       assert.deepEqual(result.getData(), task.getData());
       done();
@@ -66,13 +69,21 @@ describe('tests that don\'t execute pulsar command', function() {
   });
 
   it('check if created task in the list of current tasks of pulsar', function() {
-    var task = this.pulsar.createTask(DEFAULT_TASK_ARGS);
+    var task = this.pulsar.createTask({
+      app: taskArgs.app.example,
+      env: taskArgs.env.production,
+      action: taskArgs.action.dummySleepy
+    });
     var expectedList = [task.getData()];
     assert.deepEqual(expectedList, this.pulsar.getTaskList());
   });
 
   it('check if created task emits change event correctly', function(done) {
-    var task = this.pulsar.createTask(DEFAULT_TASK_ARGS);
+    var task = this.pulsar.createTask({
+      app: taskArgs.app.example,
+      env: taskArgs.env.production,
+      action: taskArgs.action.dummySleepy
+    });
     task.on('change', function(data) {
       assert(data.task.id === task.id);
       done();
@@ -80,26 +91,19 @@ describe('tests that don\'t execute pulsar command', function() {
     task.onUpdate();
   });
 
-});
-
-describe('tests that execute pulsar command', function() {
-
-  this.timeout(2000);
-
-  beforeEach(function() {
-    defaultBeforeEach.call(this);
-  });
-
   it('check if created task returns available cap tasks', function(done) {
-    var task = this.pulsar.createTask(DEFAULT_TASK_ARGS);
-    this.pulsar.getAvailableTasks(DEFAULT_TASK_ARGS.app, DEFAULT_TASK_ARGS.env, function(tasks) {
+    this.pulsar.getAvailableTasks(taskArgs.app.example, taskArgs.env.production, function(tasks) {
       assert(tasks['shell'], 'Shell task must be always present in available tasks');
       done();
     });
   });
 
   it('check if created task can be killed with SIG TERM signal', function(done) {
-    var task = this.pulsar.createTask(DEFAULT_TASK_ARGS);
+    var task = this.pulsar.createTask({
+      app: taskArgs.app.example,
+      env: taskArgs.env.production,
+      action: taskArgs.action.dummySleepy
+    });
     task.execute();
     task.once('change', function() {
       if (task.output) {
@@ -115,7 +119,11 @@ describe('tests that execute pulsar command', function() {
   it('check if created task can be killed with SIG KILL signal', function(done) {
     //only for the sake of the test
     PulsarTask._KILL_TIMEOUT = 200;
-    var task = this.pulsar.createTask({app: DEFAULT_TASK_ARGS.app, env: DEFAULT_TASK_ARGS.env, action: 'dummy:my_sleep_unkillable'});
+    var task = this.pulsar.createTask({
+      app: taskArgs.app.example,
+      env: taskArgs.env.production,
+      action: taskArgs.action.dummyUnKillable
+    });
     task.execute();
     task.once('change', function() {
       if (task.output) {

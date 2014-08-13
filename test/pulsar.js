@@ -100,7 +100,8 @@ describe('tests of pulsar API', function() {
   });
 
   it('check if created task returns available cap tasks', function(done) {
-    this.pulsar.getAvailableTasks(taskArgs.app.example, taskArgs.env.production, function(tasks) {
+    this.pulsar.getAvailableTasks(taskArgs.app.example, taskArgs.env.production, function(err, tasks) {
+      assert(!err);
       assert(tasks['shell'], 'Shell task must be always present in available tasks');
       done();
     });

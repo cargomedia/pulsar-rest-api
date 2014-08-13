@@ -138,16 +138,17 @@ describe('tests of pulsar API', function() {
       task.execute();
       task.once('change', function() {
         if (task.output) {
+          setTimeout(function() {
+            assert(task.status.is(PulsarStatus.RUNNING), 'Task should still be running');
+          }, PulsarTask._KILL_TIMEOUT - 1);
+
+          setTimeout(function() {
+            assert(task.status.is(PulsarStatus.KILLED), 'The task kill (SIGKILL) does not work');
+            done();
+          }, PulsarTask._KILL_TIMEOUT + 50);
+
           task.kill();
         }
-        setTimeout(function() {
-          assert(task.status.is(PulsarStatus.RUNNING), 'Task should still be running');
-        }, PulsarTask._KILL_TIMEOUT - 1);
-
-        setTimeout(function() {
-          assert(task.status.is(PulsarStatus.KILLED), 'The task kill (SIGKILL) does not work');
-          done();
-        }, PulsarTask._KILL_TIMEOUT + 50);
       });
     });
   });

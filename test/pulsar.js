@@ -18,6 +18,7 @@ describe('tests of pulsar API', function() {
     new PulsarDb(testConfig.mongodb, function(err, db) {
       if (err) {
         done(err);
+        return;
       }
       self.pulsarDb = db;
       //remove all items from collection that might remain from previous tests.

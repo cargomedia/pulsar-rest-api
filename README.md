@@ -55,7 +55,7 @@ When mongodb is running type in console `npm test`.
 To see how the server is working you need to run its instance and open `https://localhost:8001/web` to see its web interface.
 Do not forget that you may have another port in your config and hence you will need to adjust the port of page url.
 
-To create task type in console `curl -X POST -k https://localhost:8001/application/environment?task=task`. You can see the result in the web
+To create task type in console `curl -X POST -k https://localhost:8001/application/environment?task=<task>`. You can see the result in the web
 interface. Do not forget that you will need these `application`, `environment` and `task` to be present in your pulsar configuration.
 
 There are also the ssl keys that let you browse web interface without notifications of untrusted connection. If you want to do this then:

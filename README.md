@@ -47,10 +47,23 @@ ssl:
 
 ### Test
 
-For testing please modify your `/etc/hosts` file by adding `127.0.0.1 api.pulsar.local`.
+#### Auto tests
+To run these tests you need the running instance of mongodb. The required configuration of mongodb can be found in `test/config.yaml`, section `mongodb`.
+When mongodb is running type in console `npm test`.
 
-Run in console `curl -k https://api.pulsar.local:8001/application/environment/task`.
+#### Manual tests
+To see how the server is working you need to run its instance and open `https://localhost:8001/web` to see its web interface.
+Do not forget that you may have another port in your config and hence you will need to adjust the port of page url.
 
+To create task type in console `curl -X POST -k https://localhost:8001/application/environment?task=<task>`. You can see the result in the web
+interface. Do not forget that you will need these `application`, `environment` and `task` to be present in your pulsar configuration.
+
+There are also the ssl keys that let you browse web interface without notifications of untrusted connection. If you want to do this then:
+
+ * modify your `/etc/hosts` file by adding `127.0.0.1 api.pulsar.local`.
+ * install ssl keys onto your OS.
+
+After that you can use `https://api.pulsar.local:8001/` instead of `https://localhost:8001/` without notifications of improper ssl.
 
 ## API documentation
 

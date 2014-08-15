@@ -30,73 +30,73 @@ describe('tests of pulsar API', function() {
   });
 
   it('check if task is created', function(done) {
-    this.pulsar.createTask({
-      app: taskArgs.app.example,
-      env: taskArgs.env.production,
-      action: taskArgs.action.dummySleepy
-    }, function(err, task) {
-      assert(!err && task.status.is(PulsarStatus.CREATED));
-      done();
-    });
+    this.pulsar.createTask(
+      taskArgs.app.example,
+      taskArgs.env.production,
+      taskArgs.action.dummySleepy,
+      function(err, task) {
+        assert(!err && task.status.is(PulsarStatus.CREATED));
+        done();
+      });
   });
 
   it('check if task can be got after it is created', function(done) {
-    this.pulsar.createTask({
-      app: taskArgs.app.example,
-      env: taskArgs.env.production,
-      action: taskArgs.action.dummySleepy
-    }, function(err, task) {
-      assert(!err);
-      this.pulsar.getTask(task.id, function(err, result) {
-        assert.deepEqual(result.getData(), task.getData());
-        done();
-      });
-    }.bind(this));
+    this.pulsar.createTask(
+      taskArgs.app.example,
+      taskArgs.env.production,
+      taskArgs.action.dummySleepy,
+      function(err, task) {
+        assert(!err);
+        this.pulsar.getTask(task.id, function(err, result) {
+          assert.deepEqual(result.getData(), task.getData());
+          done();
+        });
+      }.bind(this));
   });
 
   it('saved task must be available after server restart', function(done) {
-    this.pulsar.createTask({
-      app: taskArgs.app.example,
-      env: taskArgs.env.production,
-      action: taskArgs.action.dummySleepy
-    }, function(err, task) {
-      assert(!err);
-      var pulsar = new Pulsar(this.pulsarDb, testConfig.pulsar);
-      pulsar.getTask(task.id, function(err, task) {
-        assert.deepEqual(task.getData(), task.getData());
-        done();
-      });
-    }.bind(this));
+    this.pulsar.createTask(
+      taskArgs.app.example,
+      taskArgs.env.production,
+      taskArgs.action.dummySleepy,
+      function(err, task) {
+        assert(!err);
+        var pulsar = new Pulsar(this.pulsarDb, testConfig.pulsar);
+        pulsar.getTask(task.id, function(err, task) {
+          assert.deepEqual(task.getData(), task.getData());
+          done();
+        });
+      }.bind(this));
   });
 
   it('check if created task in the list of current tasks of pulsar', function() {
-    this.pulsar.createTask({
-      app: taskArgs.app.example,
-      env: taskArgs.env.production,
-      action: taskArgs.action.dummySleepy
-    }, function(err, task) {
-      assert(!err);
-      this.pulsar.getTaskList(function(err, taskList) {
-        assert(taskList.length === 1);
-        assert.deepEqual(task.getData(), taskList[0].getData());
-        assert.deepEqual(task.getArgs(), taskList[0].getArgs());
-      });
-    }.bind(this));
+    this.pulsar.createTask(
+      taskArgs.app.example,
+      taskArgs.env.production,
+      taskArgs.action.dummySleepy,
+      function(err, task) {
+        assert(!err);
+        this.pulsar.getTaskList(function(err, taskList) {
+          assert(taskList.length === 1);
+          assert.deepEqual(task.getData(), taskList[0].getData());
+          assert.deepEqual(task.getArgs(), taskList[0].getArgs());
+        });
+      }.bind(this));
   });
 
   it('check if created task emits change event correctly', function(done) {
-    this.pulsar.createTask({
-      app: taskArgs.app.example,
-      env: taskArgs.env.production,
-      action: taskArgs.action.dummySleepy
-    }, function(err, task) {
-      assert(!err);
-      task.on('change', function(data) {
-        assert(data.task.id === task.id);
-        done();
+    this.pulsar.createTask(
+      taskArgs.app.example,
+      taskArgs.env.production,
+      taskArgs.action.dummySleepy,
+      function(err, task) {
+        assert(!err);
+        task.on('change', function(data) {
+          assert(data.task.id === task.id);
+          done();
+        });
+        task.onUpdate();
       });
-      task.onUpdate();
-    });
   });
 
   it('check if created task returns available cap tasks', function(done) {
@@ -108,50 +108,50 @@ describe('tests of pulsar API', function() {
   });
 
   it('check if created task can be killed with SIG TERM signal', function(done) {
-    this.pulsar.createTask({
-      app: taskArgs.app.example,
-      env: taskArgs.env.production,
-      action: taskArgs.action.dummySleepy
-    }, function(err, task) {
-      assert(!err);
-      task.execute();
-      task.once('change', function() {
-        if (task.output) {
-          task.kill();
-        }
+    this.pulsar.createTask(
+      taskArgs.app.example,
+      taskArgs.env.production,
+      taskArgs.action.dummySleepy,
+      function(err, task) {
+        assert(!err);
+        task.execute();
+        task.once('change', function() {
+          if (task.output) {
+            task.kill();
+          }
+        });
+        task.on('close', function() {
+          assert(task.status.is(PulsarStatus.KILLED), 'The task kill (SIGTERM) does not work');
+          done();
+        });
       });
-      task.on('close', function() {
-        assert(task.status.is(PulsarStatus.KILLED), 'The task kill (SIGTERM) does not work');
-        done();
-      });
-    });
   });
 
   it('check if created task can be killed with SIG KILL signal', function(done) {
     //only for the sake of the test
     PulsarTask._KILL_TIMEOUT = 200;
-    this.pulsar.createTask({
-      app: taskArgs.app.example,
-      env: taskArgs.env.production,
-      action: taskArgs.action.dummyUnKillable
-    }, function(err, task) {
-      assert(!err);
-      task.execute();
-      task.once('change', function() {
-        if (task.output) {
-          setTimeout(function() {
-            assert(task.status.is(PulsarStatus.RUNNING), 'Task should still be running');
-          }, PulsarTask._KILL_TIMEOUT - 1);
+    this.pulsar.createTask(
+      taskArgs.app.example,
+      taskArgs.env.production,
+      taskArgs.action.dummyUnKillable,
+      function(err, task) {
+        assert(!err);
+        task.execute();
+        task.once('change', function() {
+          if (task.output) {
+            setTimeout(function() {
+              assert(task.status.is(PulsarStatus.RUNNING), 'Task should still be running');
+            }, PulsarTask._KILL_TIMEOUT - 1);
 
-          setTimeout(function() {
-            assert(task.status.is(PulsarStatus.KILLED), 'The task kill (SIGKILL) does not work');
-            done();
-          }, PulsarTask._KILL_TIMEOUT + 50);
+            setTimeout(function() {
+              assert(task.status.is(PulsarStatus.KILLED), 'The task kill (SIGKILL) does not work');
+              done();
+            }, PulsarTask._KILL_TIMEOUT + 50);
 
-          task.kill();
-        }
+            task.kill();
+          }
+        });
       });
-    });
   });
 
 });

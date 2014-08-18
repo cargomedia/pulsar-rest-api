@@ -1,0 +1,24 @@
+{
+  "replaceConsole": true,
+  "appenders": [
+    {
+      "type": "logLevelFilter",
+      "level": "ERROR",
+      "appender": {
+        "type": "console"
+      }
+    },
+    {
+      "type": "logLevelFilter",
+      "level": "DEBUG",
+      "appender": {
+        "type": "dateFile",
+        "pattern": "-yyyy-MM-dd",
+        "filename": "pulsar-rest-api.log",
+        "layout": {
+          "type": "messagePassThrough"
+        }
+      }
+    }
+  ]
+}

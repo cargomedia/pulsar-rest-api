@@ -39,6 +39,9 @@ describe('tests of pulsar API', function() {
 
     var self = this;
     assert.throw(function() {
+      self.pulsar.createTask(app, env, action, [], callback);
+    }, ValidationError);
+    assert.throw(function() {
       self.pulsar.createTask(app, env, action, {key: []}, callback);
     }, ValidationError);
     assert.throw(function() {

@@ -7,37 +7,37 @@ describe('Test constructor arguments of PulsarExec', function() {
   it('throw error if arguments are wrong', function() {
     assert.throw(function() {
       new PulsarExec()
-    }, Error);
+    }, ValidationError);
     assert.throw(function() {
       new PulsarExec({})
-    }, Error);
+    }, ValidationError);
     assert.throw(function() {
       new PulsarExec({app: ''})
-    }, Error);
+    }, ValidationError);
     assert.throw(function() {
       new PulsarExec({app: ' '})
-    }, Error);
+    }, ValidationError);
     assert.throw(function() {
       new PulsarExec({env: ''})
-    }, Error);
+    }, ValidationError);
     assert.throw(function() {
       new PulsarExec({env: ' '})
-    }, Error);
+    }, ValidationError);
     assert.throw(function() {
       new PulsarExec({app: taskArgs.app.example})
-    }, Error);
+    }, ValidationError);
     assert.throw(function() {
       new PulsarExec({env: taskArgs.env.production})
-    }, Error);
+    }, ValidationError);
     assert.throw(function() {
       new PulsarExec({app: ' ', env: ' '})
-    }, Error);
+    }, ValidationError);
     assert.throw(function() {
       new PulsarExec({app: taskArgs.app.example, env: taskArgs.env.production, pulsarOptions: ['no-dash']})
-    }, Error);
+    }, ValidationError);
     assert.throw(function() {
       new PulsarExec({app: taskArgs.app.example, env: taskArgs.env.production, pulsarOptions: ['-c some-repo', '-b some-branch', 'no-dash']})
-    }, Error);
+    }, ValidationError);
   });
 
   it('create arguments that will run spawn correctly', function() {

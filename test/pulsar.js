@@ -29,6 +29,33 @@ describe('tests of pulsar API', function() {
     });
   });
 
+  it('check if taskVariables are validated', function() {
+    var app = taskArgs.app.example;
+    var env = taskArgs.env.production;
+    var action = taskArgs.action.dummySleepy;
+
+    function callback(err, task) {
+    }
+
+    var self = this;
+    assert.throw(function() {
+      self.pulsar.createTask(app, env, action, {key: []}, callback);
+    }, ValidationError);
+    assert.throw(function() {
+      self.pulsar.createTask(app, env, action, {key: {}}, callback);
+    }, ValidationError);
+    assert.throw(function() {
+      self.pulsar.createTask(app, env, action, {'key df': ''}, callback);
+    }, ValidationError);
+    assert.throw(function() {
+      self.pulsar.createTask(app, env, action, {'ke"ydf': ''}, callback);
+    }, ValidationError);
+    assert.throw(function() {
+      self.pulsar.createTask(app, env, action, {'keydf\'': ''}, callback);
+    }, ValidationError);
+
+  });
+
   it('check if task is created', function(done) {
     this.pulsar.createTask(
       taskArgs.app.example,

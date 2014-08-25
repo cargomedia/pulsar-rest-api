@@ -2,8 +2,11 @@ port: 8001
 log:
   path: './pulsar-rest-api.log'
 auth:
-  github-oauth-id:
-  github-oauth-secret:
+  githubOauthId:
+  githubOauthSecret:
+  githubOrg:
+  baseUrl:
+  callbackUrl:
 mongodb:
   host: 'localhost'
   port: 27017

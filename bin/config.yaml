@@ -1,6 +1,4 @@
 port: 8001
-log:
-  path: './pulsar-rest-api.log'
 auth:
   githubOauthId:
   githubOauthSecret:

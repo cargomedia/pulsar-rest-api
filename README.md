@@ -25,9 +25,6 @@ The default config is [`config.yaml`](bin/config.yaml) and it can be found in `b
 The format of the config is:
 ```yaml
 port: # Port where server listen for requests.
-log: #
-  dir: # Directory where the log file goes. Script will try to create it if needed.
-  name: # Name of the log file. If it can't be created or it is Null value then output goes to stdout.
 auth:
   github-oauth-id: # Github oauth `id`.
   github-oauth-secret: # Github oauth `secret`.

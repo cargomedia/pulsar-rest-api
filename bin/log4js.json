@@ -1,11 +1,13 @@
 {
-  "replaceConsole": true,
   "appenders": [
     {
       "type": "logLevelFilter",
       "level": "INFO",
       "appender": {
-        "type": "console"
+        "type": "console",
+        "layout": {
+          "type": "colored"
+        }
       }
     },
     {
@@ -16,7 +18,8 @@
         "pattern": "-yyyy-MM-dd",
         "filename": "pulsar-rest-api.log",
         "layout": {
-          "type": "messagePassThrough"
+          "type": "pattern",
+          "pattern": "%r %p - %m"
         }
       }
     }

@@ -1,6 +1,5 @@
 var Pulsar = require('../lib/pulsar');
 var PulsarTask = require('../lib/pulsar/task');
-var PulsarStatus = require('../lib/pulsar/status');
 var PulsarDb = require('../lib/pulsar/db');
 var assert = require('chai').assert;
 var taskArgs = require('./task-args');
@@ -65,7 +64,7 @@ describe('tests of pulsar API', function() {
       taskArgs.env.production,
       taskArgs.action.dummySleepy,
       function(err, task) {
-        assert(!err && task.status.is(PulsarStatus.CREATED));
+        assert(!err && task.status == PulsarTask.STATUS.CREATED);
         done();
       });
   });
@@ -151,7 +150,7 @@ describe('tests of pulsar API', function() {
           }
         });
         task.on('close', function() {
-          assert(task.status.is(PulsarStatus.KILLED), 'The task kill (SIGTERM) does not work');
+          assert(task.status == PulsarTask.STATUS.KILLED, 'The task kill (SIGTERM) does not work');
           done();
         });
       });
@@ -170,11 +169,11 @@ describe('tests of pulsar API', function() {
         task.once('change', function() {
           if (task.output) {
             setTimeout(function() {
-              assert(task.status.is(PulsarStatus.RUNNING), 'Task should still be running');
+              assert(task.status == PulsarTask.STATUS.RUNNING, 'Task should still be running');
             }, PulsarTask._KILL_TIMEOUT - 1);
 
             setTimeout(function() {
-              assert(task.status.is(PulsarStatus.KILLED), 'The task kill (SIGKILL) does not work');
+              assert(task.status == PulsarTask.STATUS.KILLED, 'The task kill (SIGKILL) does not work');
               done();
             }, PulsarTask._KILL_TIMEOUT + 50);
 

@@ -52,6 +52,13 @@ var app = app || {};
   Backbone.history.start({pushState: true, root: '/web'});
 
   var sock = new SockJS('/websocket');
+
+  sock.onopen = function() {
+    sock.send(JSON.stringify({
+      token: $.cookie('who-is-me')
+    }));
+  };
+
   sock.onmessage = function(e) {
     var message = JSON.parse(e.data);
     var task;

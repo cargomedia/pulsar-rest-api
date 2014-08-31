@@ -17,30 +17,46 @@ npm install pulsar-rest-api [-g]
 ```
 
 ### Running
-The instance of pulsar-rest-api can be run with different parameters. All of the parameters can be specified in the config. To run the instance with
+####In short
+ * Prepare valid config.
+ * Verify that mongodb is up and running.
+ * Run the instance with command `pulsar-rest-api -c 'your_config.yaml'`
+
+####In detail
+#####Prepare valid config
+The instance of pulsar-rest-api can be run with different options. All of the options can be specified in the config. To run the instance with
 your own config you need to specify the filepath to it with the flag `-c`. For example `pulsar-rest-api -c '~/my_pulsar_config.yaml'`.
 
 The default config is [`config.yaml`](bin/config.yaml) and it can be found in `bin` directory of the pulsar-rest-api installation.
 
-The format of the config is:
+Please read carefully through the format of the config below. The options that are marked as required must be present in your config otherwise the
+instance won't start. There are no options that have default value. All values should be clearly defined.
 ```yaml
-port: # Port where server listen for requests.
-auth:
-  github-oauth-id: # Github oauth `id`.
-  github-oauth-secret: # Github oauth `secret`.
+port: # required. Port where server listens for requests.
+auth: # authentication block of config.
+  githubOauthId: # required. Github OAuth Application ID. To get it go to https://github.com/settings/applications/new
+  githubOauthSecret: # required. Github OAuth Application Secret. To get it go to https://github.com/settings/applications/new
+  githubOrg: # required. Github organization. User needs to be member of that organization to get access to the interface of pulsar-rest-api.
+  baseUrl: # required. URL where the pulsar-rest-api instance would have its web interface.
+  callbackUrl: # required. OAuth callback Url. Must be relative to the baseUrl.
 mongodb:# mongoDB connection parameters
-  host: # hostname
-  port: # port
-  db: # database name
+  host: # required. hostname
+  port: # required. port
+  db: # required. database name. Now there is only one collection 'tasks' will be used.
 pulsar:
-  repo: # Pulsar configuration repository.
-  branch: # Branch for pulsar configuration repository.
+  repo: # optional. Pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
+  branch: # optional. Branch for pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
 ssl:
-  key: # Ssl private key file. Combine with `ssl-cert` option.
-  cert: # Ssl public certificate file. Combine with `ssl-key` option. Append CA-chain within this file.
-  pfx: #Ssl pfx file (key + cert). Overrides `ssl-key` and `ssl-cert` options.
-  passphrase: # File containing the ssl passphrase.
+  key: # required if `pfx` isn't presented. Ssl private key file. Combine with `cert` option.
+  cert: # required if `pfx` isn't presented. Ssl public certificate file. Combine with `key` option. Append CA-chain within this file.
+  pfx: # required if `key` or `cert` options aren't presented. Ssl pfx file (key + cert). Overrides `ssl-key` and `ssl-cert` options.
+  passphrase: # optional. File containing the ssl passphrase.
 ```
+#####Verify that mongodb is up and running
+The mongodb instance that you defined in your config should be up and running before you start the pulsar.
+
+#####Run
+`pulsar-rest-api -c 'your_config.yaml'`. After that web interface should be browsable through url defined in `auth.baseUrl`.
 
 ### Test
 

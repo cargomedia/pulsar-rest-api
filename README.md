@@ -167,3 +167,15 @@ HTTP response code `200`
 
 #### Response
 HTTP response code `200`
+
+### WebSocket API
+Besides rest and web interface the instance of pulsar-rest-api also offers web socket interface. Interface is available on `{config.baseUrl}/websocket`.
+Currently the interface doesn't expect any incoming messages and only transmits events about tasks' lifecycle.
+
+####
+Task was created
+`{message: {event: 'task.create', task: {Object}}}`
+
+####
+Task was changed
+`{message: {event: 'task.change', task: {Object}}}`

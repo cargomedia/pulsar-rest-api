@@ -179,3 +179,29 @@ Task was created
 ####
 Task was changed
 `{message: {event: 'task.change', task: {Object}}}`
+
+##Authentication
+If API started with config that contained `auth` and `ssl` options then you will need to authenticate against this instance.
+
+###WebFlow.
+If you interact with API through the web interface then you will need to pass standard [Github Web Application Flow](https://developer.github.com/v3/oauth/#web-application-flow)
+Besides that you need to give permission to API also you need to be a member of Github organization that was defined in `auth.githubOrg` of config. If
+everything is ok then you will be able to interact with web interface of API.
+
+###Basic
+If you use API through curl or something similar then you need to provide your Github basic token with every request. If you don't have one
+then you can get it here https://github.com/settings/tokens/new. After that you can use API like this:
+`curl -u {put your Github token here without curly braces}:x-oauth-basic -k -X POST -d '{"action":"dummy:my_sleep"}' https://api.pulsar.local:8001/example/production`
+
+###Websocket
+WebSocket authentication goes in pair with Web authentication. When socket client gets connected it needs to send authentication token as its first message.
+```js
+  sock.onopen = function() {
+    sock.send(JSON.stringify({
+      token: 'tokeeeeen!'
+    }));
+  };
+```
+If token was wrong, connection would be closed, otherwise it would start to transmit messages.
+This token can only be received through web interface of API. When WebFlow authentication successfully finishes it sets this token in cookies under name `who-is-me`.
+I'm not sure that this is the 100% right mechanism. Please correct me if I was wrong.

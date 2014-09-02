@@ -181,12 +181,12 @@ Task was changed
 `{message: {event: 'task.change', task: {Object}}}`
 
 ## Authentication
-If API started with config that contained `auth` and `ssl` options then you will need to authenticate against this instance.
+To enable authentication of API you need to provide config options `auth` and `ssl`. All users of API should remember that besides that you need
+to authenticate yourself with Github, you also need to be a member of Github organization that was defined in `auth.githubOrg` of config.
 
 ### Web client
-If you interact with API through the web interface then you will need to pass standard [Github Web Application Flow](https://developer.github.com/v3/oauth/#web-application-flow)
-Besides that you need to give permission to API also you need to be a member of Github organization that was defined in `auth.githubOrg` of config. If
-everything is ok then you will be able to interact with web interface of API.
+If you interact with API through the web interface then you will need to follow standard [Github Web Application Flow](https://developer.github.com/v3/oauth/#web-application-flow) procedure.
+If everything is ok then you will be able to interact with web interface of API.
 
 ### Rest API
 If you want access API directly, for example through the `curl` tool, then you need to provide your Github basic token with every request.
@@ -214,4 +214,4 @@ cookie `userid` which you can send instead of Github token.
     }));
   };
 ```
-If token was wrong, connection would be closed, otherwise it would start to transmit messages.
+If token was wrong, connection would be closed, otherwise it would start to receive messages.

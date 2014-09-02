@@ -194,14 +194,24 @@ If you don't have one then you can get it here https://github.com/settings/token
 `curl -u {put your Github token here, remove curly braces}:x-oauth-basic -H "Content-Type: application/json" -k -X POST -d '{"action":"dummy:my_sleep"}' https://api.pulsar.local:8001/example/production`
 
 ### Websocket
-WebSocket authentication goes in pair with Web authentication. When socket client gets connected it needs to send authentication token as its first message.
+When socket client gets connected it needs to send authentication information as its first message. There are two options available:
+
+#### Github token
 ```js
   sock.onopen = function() {
     sock.send(JSON.stringify({
-      token: 'tokeeeeen!'
+      token: 'put your Github token here'
+    }));
+  };
+```
+#### Cookie
+This option is available only if you are using websocket in pair with web interface. When web interface gets successful authentication it receives
+cookie `userid` which you can send instead of Github token.
+```js
+  sock.onopen = function() {
+    sock.send(JSON.stringify({
+      cookie: $.cookie('userid')
     }));
   };
 ```
 If token was wrong, connection would be closed, otherwise it would start to transmit messages.
-This token can only be received through web interface of API. When WebFlow authentication successfully finishes it sets this token in cookies under name `userid`.
-I'm not sure that this is the 100% right mechanism. Please correct me if I was wrong.

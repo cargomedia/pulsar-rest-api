@@ -55,7 +55,7 @@ var app = app || {};
 
   sock.onopen = function() {
     sock.send(JSON.stringify({
-      token: $.cookie('userid')
+      cookie: $.cookie('userid')
     }));
   };
 

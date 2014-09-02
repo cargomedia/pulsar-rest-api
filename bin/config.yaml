@@ -1,19 +1,5 @@
 port: 8001
-auth:
-  githubOauthId:
-  githubOauthSecret:
-  githubOrg:
-  baseUrl:
-  callbackUrl:
 mongodb:
   host: 'localhost'
   port: 27017
   db: 'pulsar'
-pulsar:
-  repo: ''
-  branch: ''
-ssl:
-  key: './bin/ssl/*.pulsar.local.key'
-  cert: './bin/ssl/*.pulsar.local.pem'
-  pfx:
-  passphrase:

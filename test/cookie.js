@@ -9,11 +9,11 @@ describe('tests of garbage collecting of outdated cookies', function() {
   };
 
   it('', function(done) {
-    var cookieAuth = new CookieAuth();
     //for the sake of the test
-    cookieAuth._collectorIntervalMs = 100;
-    cookieAuth._oudatedTimeMs = cookieAuth._collectorIntervalMs + 1;
+    CookieAuth._collectorIntervalMs = 100;
+    CookieAuth._oudatedTimeMs = CookieAuth._collectorIntervalMs + 1;
 
+    var cookieAuth = new CookieAuth();
     cookieAuth.setCookie(responseMock, 'token');
     var cookies = Object.keys(cookieAuth._cookies);
     assert(cookies.length == 1);
@@ -24,8 +24,8 @@ describe('tests of garbage collecting of outdated cookies', function() {
       setTimeout(function() {
         assert(!cookieAuth.hasCookie(cookie), 'Cookie should be deleted');
         done();
-      }, (cookieAuth._oudatedTimeMs + 2 * cookieAuth._collectorIntervalMs));
-    }, cookieAuth._collectorIntervalMs);
+      }, (CookieAuth._oudatedTimeMs + 2 * CookieAuth._collectorIntervalMs));
+    }, CookieAuth._collectorIntervalMs);
   });
 
 });

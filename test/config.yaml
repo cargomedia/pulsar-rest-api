@@ -1,13 +1,7 @@
+port: 8001
 mongodb:
   host: 'localhost'
   port: 27017
   db: 'pulsar_test'
 pulsar:
   repo: './test/data/pulsar-conf-dummy/'
-  branch: ''
-ssl:
-  key:
-  cert:
-  pfx:
-  passphrase:
-

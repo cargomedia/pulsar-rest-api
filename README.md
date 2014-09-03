@@ -179,3 +179,39 @@ Task was created
 ####
 Task was changed
 `{message: {event: 'task.change', task: {Object}}}`
+
+## Authentication
+To enable authentication of API you need to provide config options `auth` and `ssl`. All users of API should remember that besides that you need
+to authenticate yourself with Github, you also need to be a member of Github organization that was defined in `auth.githubOrg` of config.
+
+### Web client
+If you interact with API through the web interface then you will need to follow standard [Github Web Application Flow](https://developer.github.com/v3/oauth/#web-application-flow) procedure.
+If everything is ok then you will be able to interact with web interface of API.
+
+### Rest API
+If you want access API directly, for example through the `curl` tool, then you need to provide your Github basic token with every request.
+If you don't have one then you can get it here https://github.com/settings/tokens/new. After that you can use API like this:
+`curl -u {put your Github token here, remove curly braces}:x-oauth-basic -H "Content-Type: application/json" -k -X POST -d '{"action":"dummy:my_sleep"}' https://api.pulsar.local:8001/example/production`
+
+### Websocket
+When socket client gets connected it needs to send authentication information as its first message. There are two options available:
+
+#### Github token
+```js
+  sock.onopen = function() {
+    sock.send(JSON.stringify({
+      token: 'put your Github token here'
+    }));
+  };
+```
+#### Cookie
+This option is available only if you are using websocket in pair with web interface. When web interface gets successful authentication it receives
+cookie `userid` which you can send instead of Github token.
+```js
+  sock.onopen = function() {
+    sock.send(JSON.stringify({
+      cookie: $.cookie('userid')
+    }));
+  };
+```
+If token was wrong, connection would be closed, otherwise it would start to receive messages.

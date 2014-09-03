@@ -1,7 +1,10 @@
 port: 8001
 auth:
-  github-oauth-id:
-  github-oauth-secret:
+  githubOauthId:
+  githubOauthSecret:
+  githubOrg:
+  baseUrl:
+  callbackUrl:
 mongodb:
   host: 'localhost'
   port: 27017

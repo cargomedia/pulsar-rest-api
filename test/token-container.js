@@ -1,4 +1,4 @@
-var TokenContainer = require('../lib/auth/tokenContainer');
+var TokenContainer = require('../lib/auth/token-container');
 var assert = require('chai').assert;
 
 describe('tests of garbage collecting of outdated cookies', function() {

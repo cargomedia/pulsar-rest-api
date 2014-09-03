@@ -1,0 +1,10 @@
+port: 8001
+mongodb:
+  host: 'localhost'
+  port: 27017
+  db: 'pulsar_test'
+pulsar:
+  repo: './test/data/pulsar-conf-dummy/'
+ssl:
+  key: './test/ssl/*.pulsar.local.key'
+  cert: './test/ssl/*.pulsar.local.pem'

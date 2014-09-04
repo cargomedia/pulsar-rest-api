@@ -7,7 +7,7 @@ var jobId;
 //api = new Server();
 //request(api.getInstance())
 //	.post('/foo/bar')
-//	.send({ action: "deploy"})
+//	.send({ task: "deploy"})
 //	.expect(200, function(err, res) {
 //		if(err) {
 //			throw err;

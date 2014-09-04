@@ -31,29 +31,29 @@ describe('tests of pulsar API', function() {
   it('check if taskVariables are validated', function() {
     var app = jobArgs.app.example;
     var env = jobArgs.env.production;
-    var action = jobArgs.action.dummySleepy;
+    var task = jobArgs.task.dummySleepy;
 
     function callback(err, job) {
     }
 
     var self = this;
     assert.throw(function() {
-      self.pulsar.createJob(app, env, action, [], callback);
+      self.pulsar.createJob(app, env, task, [], callback);
     }, ValidationError);
     assert.throw(function() {
-      self.pulsar.createJob(app, env, action, {key: []}, callback);
+      self.pulsar.createJob(app, env, task, {key: []}, callback);
     }, ValidationError);
     assert.throw(function() {
-      self.pulsar.createJob(app, env, action, {key: {}}, callback);
+      self.pulsar.createJob(app, env, task, {key: {}}, callback);
     }, ValidationError);
     assert.throw(function() {
-      self.pulsar.createJob(app, env, action, {'key df': ''}, callback);
+      self.pulsar.createJob(app, env, task, {'key df': ''}, callback);
     }, ValidationError);
     assert.throw(function() {
-      self.pulsar.createJob(app, env, action, {'ke"ydf': ''}, callback);
+      self.pulsar.createJob(app, env, task, {'ke"ydf': ''}, callback);
     }, ValidationError);
     assert.throw(function() {
-      self.pulsar.createJob(app, env, action, {'keydf\'': ''}, callback);
+      self.pulsar.createJob(app, env, task, {'keydf\'': ''}, callback);
     }, ValidationError);
 
   });
@@ -62,7 +62,7 @@ describe('tests of pulsar API', function() {
     this.pulsar.createJob(
       jobArgs.app.example,
       jobArgs.env.production,
-      jobArgs.action.dummySleepy,
+      jobArgs.task.dummySleepy,
       function(err, job) {
         assert(!err && job.status == PulsarJob.STATUS.CREATED);
         done();
@@ -73,7 +73,7 @@ describe('tests of pulsar API', function() {
     this.pulsar.createJob(
       jobArgs.app.example,
       jobArgs.env.production,
-      jobArgs.action.dummySleepy,
+      jobArgs.task.dummySleepy,
       function(err, job) {
         assert(!err);
         this.pulsar.getJob(job.id, function(err, result) {
@@ -87,7 +87,7 @@ describe('tests of pulsar API', function() {
     this.pulsar.createJob(
       jobArgs.app.example,
       jobArgs.env.production,
-      jobArgs.action.dummySleepy,
+      jobArgs.task.dummySleepy,
       function(err, job) {
         assert(!err);
         var pulsar = new Pulsar(this.pulsarDb, testConfig.pulsar);
@@ -102,7 +102,7 @@ describe('tests of pulsar API', function() {
     this.pulsar.createJob(
       jobArgs.app.example,
       jobArgs.env.production,
-      jobArgs.action.dummySleepy,
+      jobArgs.task.dummySleepy,
       function(err, job) {
         assert(!err);
         this.pulsar.getJobList(function(err, jobList) {
@@ -117,7 +117,7 @@ describe('tests of pulsar API', function() {
     this.pulsar.createJob(
       jobArgs.app.example,
       jobArgs.env.production,
-      jobArgs.action.dummySleepy,
+      jobArgs.task.dummySleepy,
       function(err, job) {
         assert(!err);
         job.on('change', function(data) {
@@ -140,7 +140,7 @@ describe('tests of pulsar API', function() {
     this.pulsar.createJob(
       jobArgs.app.example,
       jobArgs.env.production,
-      jobArgs.action.dummySleepy,
+      jobArgs.task.dummySleepy,
       function(err, job) {
         assert(!err);
         job.execute();
@@ -162,7 +162,7 @@ describe('tests of pulsar API', function() {
     this.pulsar.createJob(
       jobArgs.app.example,
       jobArgs.env.production,
-      jobArgs.action.dummyUnKillable,
+      jobArgs.task.dummyUnKillable,
       function(err, job) {
         assert(!err);
         job.execute();

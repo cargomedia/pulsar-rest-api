@@ -5,7 +5,7 @@ module.exports = {
   app: {
     example: 'example'
   },
-  action: {
+  task: {
     'dummySleepy': 'dummy:my_sleep',
     'dummyUnKillable': 'dummy:my_sleep_unkillable'
   }

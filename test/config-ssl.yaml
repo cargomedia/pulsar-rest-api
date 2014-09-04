@@ -5,3 +5,6 @@ mongodb:
   db: 'pulsar_test'
 pulsar:
   repo: './test/data/pulsar-conf-dummy/'
+ssl:
+  key: './test/ssl/*.pulsar.local.key'
+  cert: './test/ssl/*.pulsar.local.pem'

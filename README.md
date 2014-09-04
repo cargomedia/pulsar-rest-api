@@ -17,30 +17,46 @@ npm install pulsar-rest-api [-g]
 ```
 
 ### Running
-The instance of pulsar-rest-api can be run with different parameters. All of the parameters can be specified in the config. To run the instance with
+####In short
+ * Prepare valid config.
+ * Verify that mongodb is up and running.
+ * Run the instance with command `pulsar-rest-api -c 'your_config.yaml'`
+
+####In detail
+#####Prepare valid config
+The instance of pulsar-rest-api can be run with different options. All of the options can be specified in the config. To run the instance with
 your own config you need to specify the filepath to it with the flag `-c`. For example `pulsar-rest-api -c '~/my_pulsar_config.yaml'`.
 
 The default config is [`config.yaml`](bin/config.yaml) and it can be found in `bin` directory of the pulsar-rest-api installation.
 
-The format of the config is:
+Please read carefully through the format of the config below. The options that are marked as required must be present in your config otherwise the
+instance won't start. There are no options that have default value. All values should be clearly defined.
 ```yaml
-port: # Port where server listen for requests.
-auth:
-  github-oauth-id: # Github oauth `id`.
-  github-oauth-secret: # Github oauth `secret`.
+port: # required. Port where server listens for requests.
 mongodb:# mongoDB connection parameters
-  host: # hostname
-  port: # port
-  db: # database name
+  host: # required. hostname
+  port: # required. port
+  db: # required. database name. Now there is only one collection 'tasks' will be used.
 pulsar:
-  repo: # Pulsar configuration repository.
-  branch: # Branch for pulsar configuration repository.
-ssl:
-  key: # Ssl private key file. Combine with `ssl-cert` option.
-  cert: # Ssl public certificate file. Combine with `ssl-key` option. Append CA-chain within this file.
-  pfx: #Ssl pfx file (key + cert). Overrides `ssl-key` and `ssl-cert` options.
-  passphrase: # File containing the ssl passphrase.
+  repo: # optional. Pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
+  branch: # optional. Branch for pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
+auth: # optional. Authentication. Only if presented it should have its required options to be filled, otherwise no need to fill `auth.githubOauthId` and etc.
+  githubOauthId: # required. Github OAuth Application ID. To get it go to https://github.com/settings/applications/new
+  githubOauthSecret: # required. Github OAuth Application Secret. To get it go to https://github.com/settings/applications/new
+  githubOrg: # required. Github organization. User needs to be member of that organization to get access to the interface of pulsar-rest-api.
+  baseUrl: # required. URL where the pulsar-rest-api instance would have its web interface.
+  callbackUrl: # required. OAuth callback Url. Must be relative to the baseUrl.
+ssl: # required if `auth` block is presented else it's optional. Only if presented it should have its required options to be filled, otherwise no need to fill `ssl.key` and etc.
+  key: # required if `pfx` isn't presented. Ssl private key file. Combine with `cert` option.
+  cert: # required if `pfx` isn't presented. Ssl public certificate file. Combine with `key` option. Append CA-chain within this file.
+  pfx: # required if `key` or `cert` options aren't presented. Ssl pfx file (key + cert). Overrides `key` and `cert` options.
+  passphrase: # optional. File containing the ssl passphrase.
 ```
+#####Verify that mongodb is up and running
+The mongodb instance that you defined in your config should be up and running before you start the pulsar.
+
+#####Run
+`pulsar-rest-api -c 'your_config.yaml'`. After that web interface should be browsable through url defined in `auth.baseUrl`.
 
 ### Test
 
@@ -49,18 +65,13 @@ To run these tests you need the running instance of mongodb. The required config
 When mongodb is running type in console `npm test`.
 
 #### Manual tests
-To see how the server is working you need to run its instance and open `https://localhost:8001/web` to see its web interface.
+To see how the server is working you need to run its instance and open `http://localhost:8001` to see its web interface.
 Do not forget that you may have another port in your config and hence you will need to adjust the port of page url.
 
-To create task type in console `curl -X POST -k https://localhost:8001/application/environment?task=<task>`. You can see the result in the web
-interface. Do not forget that you will need these `application`, `environment` and `task` to be present in your pulsar configuration.
-
-There are also the ssl keys that let you browse web interface without notifications of untrusted connection. If you want to do this then:
-
- * modify your `/etc/hosts` file by adding `127.0.0.1 api.pulsar.local`.
- * install ssl keys onto your OS.
-
-After that you can use `https://api.pulsar.local:8001/` instead of `https://localhost:8001/` without notifications of improper ssl.
+To create a task type in console:
+`curl -H "Content-Type: application/json" -X POST -d '{"action":"dummy:my_sleep"}' http://localhost:8001/example/production`
+You can see the result in the web interface. Do not forget that you will need these `application`, `environment` and `task` to be present in your
+pulsar configuration.
 
 ## API documentation
 
@@ -116,7 +127,7 @@ HTTP response code `200`
 ```json
 {
   "id": "123",
-  "url": "https://api.pulsar.local:8001/web/task/532c3240f8214f0000177376"
+  "url": "http://localhost:8001/web/task/532c3240f8214f0000177376"
 }
 ```
 
@@ -124,7 +135,7 @@ In case of a blocking execution the task's data will be returned:
 ```json
 {
   "id": 123,
-  "url": "https://api.pulsar.local:8001/web/task/532c3240f8214f0000177376",
+  "url": "http://localhost:8001/web/task/532c3240f8214f0000177376",
   "data": {
     "id": 123,
     "status": "failed",

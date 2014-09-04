@@ -7,7 +7,7 @@ button {
     margin: 10px;
 }
 
-.task {
+.job {
     padding: 20px;
 }
 
@@ -17,7 +17,6 @@ button {
     color: #CCCCCC;
     background: #000000;
     min-height: 20px;
-    padding: 19px;
     margin-bottom: 20px;
     font-size: 12px;
     padding: 10px;

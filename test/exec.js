@@ -1,6 +1,6 @@
 var PulsarExec = require('../lib/pulsar/exec');
 var assert = require('chai').assert;
-var taskArgs = require('./task-args');
+var jobArgs = require('./job-args');
 
 describe('Test constructor arguments of PulsarExec', function() {
 
@@ -24,33 +24,33 @@ describe('Test constructor arguments of PulsarExec', function() {
       new PulsarExec({env: ' '})
     }, ValidationError);
     assert.throw(function() {
-      new PulsarExec({app: taskArgs.app.example})
+      new PulsarExec({app: jobArgs.app.example})
     }, ValidationError);
     assert.throw(function() {
-      new PulsarExec({env: taskArgs.env.production})
+      new PulsarExec({env: jobArgs.env.production})
     }, ValidationError);
     assert.throw(function() {
       new PulsarExec({app: ' ', env: ' '})
     }, ValidationError);
     assert.throw(function() {
-      new PulsarExec({app: taskArgs.app.example, env: taskArgs.env.production, pulsarOptions: ['no-dash']})
+      new PulsarExec({app: jobArgs.app.example, env: jobArgs.env.production, pulsarOptions: ['no-dash']})
     }, ValidationError);
     assert.throw(function() {
-      new PulsarExec({app: taskArgs.app.example, env: taskArgs.env.production, pulsarOptions: ['-c some-repo', '-b some-branch', 'no-dash']})
+      new PulsarExec({app: jobArgs.app.example, env: jobArgs.env.production, pulsarOptions: ['-c some-repo', '-b some-branch', 'no-dash']})
     }, ValidationError);
   });
 
   it('create arguments that will run spawn correctly', function() {
     var exec;
 
-    exec = new PulsarExec({app: taskArgs.app.example, env: taskArgs.env.production, capistranoOptions: ['  -s hello', '-s "bye bye"']});
-    assert.deepEqual(exec.getCommandArgs(), [taskArgs.app.example, taskArgs.env.production, '-s', 'hello', '-s', 'bye bye']);
+    exec = new PulsarExec({app: jobArgs.app.example, env: jobArgs.env.production, capistranoOptions: ['  -s hello', '-s "bye bye"']});
+    assert.deepEqual(exec.getCommandArgs(), [jobArgs.app.example, jobArgs.env.production, '-s', 'hello', '-s', 'bye bye']);
 
-    exec = new PulsarExec({app: taskArgs.app.example, env: taskArgs.env.production, pulsarOptions: ['--b ', '  --b "hi hi"  ']});
-    assert.deepEqual(exec.getCommandArgs(), ['--b', '--b', 'hi hi', taskArgs.app.example, taskArgs.env.production]);
+    exec = new PulsarExec({app: jobArgs.app.example, env: jobArgs.env.production, pulsarOptions: ['--b ', '  --b "hi hi"  ']});
+    assert.deepEqual(exec.getCommandArgs(), ['--b', '--b', 'hi hi', jobArgs.app.example, jobArgs.env.production]);
 
-    exec = new PulsarExec({app: taskArgs.app.example, env: taskArgs.env.production, capistranoOptions: ['m bueno', 'none', 'm vista']});
-    assert.deepEqual(exec.getCommandArgs(), [taskArgs.app.example, taskArgs.env.production, 'm', 'bueno', 'none', 'm', 'vista']);
+    exec = new PulsarExec({app: jobArgs.app.example, env: jobArgs.env.production, capistranoOptions: ['m bueno', 'none', 'm vista']});
+    assert.deepEqual(exec.getCommandArgs(), [jobArgs.app.example, jobArgs.env.production, 'm', 'bueno', 'none', 'm', 'vista']);
   });
 
 });

@@ -3,33 +3,33 @@ var app = app || {};
 (function() {
   'use strict';
 
-  var taskList = new app.TaskList();
+  var jobList = new app.JobList();
 
   var PulsarRouter = Backbone.Router.extend({
     routes: {
-      'task/:id': 'loadTask',
-      '*index': 'loadTaskList'
+      'job/:id': 'loadJob',
+      '*index': 'loadJobList'
     },
 
-    loadTaskList: function() {
-      taskList.fetch({
+    loadJobList: function() {
+      jobList.fetch({
         success: function() {
-          var view = new app.TaskListView({el: $('#content'), collection: taskList});
+          var view = new app.JobListView({el: $('#content'), collection: jobList});
           view.render();
         }
       });
-      this.updateNav('taskList');
+      this.updateNav('jobList');
     },
 
-    loadTask: function(id) {
-      var task = taskList.get(id) || taskList.add({id: id});
-      task.fetch({
+    loadJob: function(id) {
+      var job = jobList.get(id) || jobList.add({id: id});
+      job.fetch({
         success: function() {
-          var view = new app.TaskView({el: $('#content'), model: task});
+          var view = new app.JobView({el: $('#content'), model: job});
           view.render();
         }
       });
-      this.updateNav('task');
+      this.updateNav('job');
     },
 
     updateNav: function(page) {
@@ -61,15 +61,15 @@ var app = app || {};
 
   sock.onmessage = function(e) {
     var message = JSON.parse(e.data);
-    var task;
+    var job;
     switch (message.event) {
-      case 'task.create':
-        task = new app.Task(message.task);
-        taskList.add(task);
+      case 'job.create':
+        job = new app.Job(message.job);
+        jobList.add(job);
         break;
-      case 'task.change':
-        task = taskList.get(message.task.id);
-        task.set(message.task);
+      case 'job.change':
+        job = jobList.get(message.job.id);
+        job.set(message.job);
         break;
     }
   };

@@ -49,7 +49,7 @@ var app = app || {};
   });
 
   app.PulsarRouter = new PulsarRouter();
-  Backbone.history.start({pushState: true, root: '/web'});
+  Backbone.history.start({pushState: true, root: '/'});
 
   var sock = new SockJS('/websocket');
 

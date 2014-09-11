@@ -31,6 +31,7 @@
     "express": "~4.9",
     "cookies": "~0.5",
     "body-parser": "~1.8",
+    "basic-auth": "~1.0",
     "github-oauth": "~0.1.0",
     "shellwords": "~0.1.0",
     "supertest": "0.9.0",

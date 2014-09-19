@@ -4,7 +4,9 @@ var assert = require('chai').assert;
 describe('tests of garbage collecting of outdated cookies', function() {
 
   var responseMock = {
-    setCookie: function() {
+    cookies: {
+      set: function() {
+      }
     }
   };
 

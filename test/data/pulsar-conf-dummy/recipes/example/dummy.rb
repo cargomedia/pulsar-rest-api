@@ -13,3 +13,13 @@ namespace :dummy do
   end
 
 end
+
+namespace :deploy do
+  task :default do
+    sleep 10
+  end
+
+  task :pending do
+    sleep 1
+  end
+end

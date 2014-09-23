@@ -3,9 +3,9 @@ var app = app || {};
 (function($) {
   'use strict';
 
-  app.TaskListView = Backbone.View.extend({
+  app.JobListView = Backbone.View.extend({
     initialize: function() {
-      this.$count = $('#task-count');
+      this.$count = $('#job-count');
 
       this.listenTo(this.collection, 'add', this.render);
     },
@@ -19,8 +19,8 @@ var app = app || {};
       }
 
       this.$el.html('');
-      this.collection.each(function(task) {
-        var view = new app.TaskView({ model: task });
+      this.collection.each(function(job) {
+        var view = new app.JobView({ model: job });
         view.render();
         this.$el.prepend(view.el);
       }, this);

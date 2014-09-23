@@ -6,7 +6,7 @@ pulsar-rest-api
 ===============
 
 ## About
-HTTP REST API for executing [pulsar](https://github.com/nebulab/pulsar) tasks.
+HTTP REST API for executing [pulsar](https://github.com/nebulab/pulsar) jobs.
 
 ## Server
 
@@ -36,7 +36,7 @@ port: # required. Port where server listens for requests.
 mongodb:# mongoDB connection parameters
   host: # required. hostname
   port: # required. port
-  db: # required. database name. Now there is only one collection 'tasks' will be used.
+  db: # required. database name. Now there is only one collection 'jobs' will be used.
 pulsar:
   repo: # optional. Pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
   branch: # optional. Branch for pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
@@ -68,8 +68,8 @@ When mongodb is running type in console `npm test`.
 To see how the server is working you need to run its instance and open `http://localhost:8001` to see its web interface.
 Do not forget that you may have another port in your config and hence you will need to adjust the port of page url.
 
-To create a task type in console:
-`curl -H "Content-Type: application/json" -X POST -d '{"action":"dummy:my_sleep"}' http://localhost:8001/example/production`
+To create a job type in console:
+`curl -H "Content-Type: application/json" -X POST -d '{"task":"dummy:my_sleep"}' http://localhost:8001/example/production`
 You can see the result in the web interface. Do not forget that you will need these `application`, `environment` and `task` to be present in your
 pulsar configuration.
 
@@ -79,29 +79,26 @@ pulsar configuration.
 
 `:env` - environment name (e.g. production)
 
-`:action` - pulsar action/task
+`:task` - pulsar task
 
-`:id` - task ID
+`:id` - job ID
 
-### Get tasks list
+### Get job list
 
 #### Request:
-`GET /tasks`
+`GET /jobs`
 
 #### Response on success:
 HTTP response code `200`
-```json
+```
 {
   "url": "http://api.pulsar.local:8001/pulsar/index.html",
-  "tasks": {
-    "task-id-1" : "{Object}",
-    "task-id-n" : "{Object}"
-  }
+  "jobs": [{Object}, {Object}, ...] //description of these Objects see in getJobData operation below.
 }
 ```
 
 #### Response on timeout:
-No new task created before the timeout
+No new job created before the timeout
 HTTP response code `200`
 ```json
 {
@@ -110,7 +107,7 @@ HTTP response code `200`
 ```
 
 
-### Create Task
+### Create Job
 
 #### Request:
 ```
@@ -119,7 +116,7 @@ POST /:app/:env?task=:task
 
 Optionally use the blocking behaviour:
 ```
-POST /:app/:env?action=:action&wait=true
+POST /:app/:env?task=:task&wait=true
 ```
 
 #### Response on success:
@@ -127,21 +124,21 @@ HTTP response code `200`
 ```json
 {
   "id": "123",
-  "url": "http://localhost:8001/web/task/532c3240f8214f0000177376"
+  "url": "http://localhost:8001/web/job/532c3240f8214f0000177376"
 }
 ```
 
-In case of a blocking execution the task's data will be returned:
+In case of a blocking execution the job's data will be returned:
 ```json
 {
   "id": 123,
-  "url": "http://localhost:8001/web/task/532c3240f8214f0000177376",
+  "url": "http://localhost:8001/web/job/532c3240f8214f0000177376",
   "data": {
     "id": 123,
     "status": "failed",
     "app": "fuboo",
     "env": "production",
-    "action": "shell",
+    "task": "shell",
     "exitCode": null,
     "output": "Here comes the output",
     "pid": 48691
@@ -149,12 +146,12 @@ In case of a blocking execution the task's data will be returned:
 }
 ```
 
-### Get task data
+### Get job data
 
-Immediately returns all task data including output to date.
+Immediately returns all job data including output to date.
 
 #### Request:
-`GET /task/:id`
+`GET /job/:id`
 
 #### Response on success:
 HTTP response code `200`
@@ -164,32 +161,32 @@ HTTP response code `200`
   "status": "failed",
   "app": "fuboo",
   "env": "production",
-  "action": "shell",
+  "task": "shell",
   "exitCode": null,
   "output": "Here comes the output",
   "pid": 48691
 }
 ```
 
-### Kill task
+### Kill job
 
 #### Request
-`GET /task/:id/kill`
+`GET /job/:id/kill`
 
 #### Response
 HTTP response code `200`
 
 ### WebSocket API
 Besides rest and web interface the instance of pulsar-rest-api also offers web socket interface. Interface is available on `{config.baseUrl}/websocket`.
-Currently the interface doesn't expect any incoming messages and only transmits events about tasks' lifecycle.
+Currently the interface doesn't expect any incoming messages and only transmits events about jobs' lifecycle.
 
 ####
-Task was created
-`{message: {event: 'task.create', task: {Object}}}`
+Job was created
+`{message: {event: 'job.create', job: {Object}}}`
 
 ####
-Task was changed
-`{message: {event: 'task.change', task: {Object}}}`
+Job was changed
+`{message: {event: 'job.change', job: {Object}}}`
 
 ## Authentication
 To enable authentication of API you need to provide config options `auth` and `ssl`. All users of API should remember that besides that you need
@@ -202,7 +199,7 @@ If everything is ok then you will be able to interact with web interface of API.
 ### Rest API
 If you want access API directly, for example through the `curl` tool, then you need to provide your Github basic token with every request.
 If you don't have one then you can get it here https://github.com/settings/tokens/new. After that you can use API like this:
-`curl -u {put your Github token here, remove curly braces}:x-oauth-basic -H "Content-Type: application/json" -k -X POST -d '{"action":"dummy:my_sleep"}' https://api.pulsar.local:8001/example/production`
+`curl -u {put your Github token here, remove curly braces}:x-oauth-basic -H "Content-Type: application/json" -k -X POST -d '{"task":"dummy:my_sleep"}' https://api.pulsar.local:8001/example/production`
 
 ### Websocket
 When socket client gets connected it needs to send authentication information as its first message. There are two options available:

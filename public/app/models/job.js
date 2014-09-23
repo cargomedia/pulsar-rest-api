@@ -3,7 +3,7 @@ var app = app || {};
 (function() {
   'use strict';
 
-  app.Task = Backbone.Model.extend({
+  app.Job = Backbone.Model.extend({
 
     defaults: {
       status: null,
@@ -11,7 +11,7 @@ var app = app || {};
       completed: false
     },
 
-    urlRoot: '/task'
+    urlRoot: '/job'
 
   });
 })();

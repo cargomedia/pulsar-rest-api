@@ -3,16 +3,16 @@ var app = app || {};
 (function($) {
   'use strict';
 
-  app.TaskView = Backbone.View.extend({
+  app.JobView = Backbone.View.extend({
 
     tagName: 'li',
 
     className: 'list-group-item',
 
-    template: _.template($('#task-template').html()),
+    template: _.template($('#job-template').html()),
 
     events: {
-      'click .task-kill': 'killTask'
+      'click .job-kill': 'killJob'
     },
 
     initialize: function() {
@@ -23,8 +23,8 @@ var app = app || {};
       this.$el.html(this.template(this.model.toJSON()));
     },
 
-    killTask: function() {
-      $.post('/task/' + this.model.id + '/kill');
+    killJob: function() {
+      $.post('/job/' + this.model.id + '/kill');
     }
   });
 

@@ -17,8 +17,8 @@
                         </div>
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
                             <ul class="nav navbar-nav">
-                                <li class="nav-page nav-page-taskList"><a href="/web/"><span class="badge" id="task-count">0</span> Tasks</a></li>
-                                <li class="nav-page nav-page-task"><a>Task</a></li>
+                                <li class="nav-page nav-page-jobList"><a href="/web/"><span class="badge" id="job-count">0</span> Jobs</a></li>
+                                <li class="nav-page nav-page-job"><a>Job</a></li>
                             </ul>
                         </div>
                     </div>
@@ -28,17 +28,17 @@
 			</section>
 			<footer id="footer"></footer>
 		</section>
-		<script type="text/template" id="task-template">
-			<div class="task" id="task-id-<%= id %>">
+		<script type="text/template" id="job-template">
+			<div class="job" id="job-id-<%= id %>">
                 <div class="btn-group">
-                    <a href="/web/task/<%= id %>" class="btn btn-default"><span class="taskId badge"><%= id %></span></a>
+                    <a href="/web/job/<%= id %>" class="btn btn-default"><span class="jobId badge"><%= id %></span></a>
                     <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             Actions
                             <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a href="#" class="task-kill">Kill task</a></li>
+                            <li><a href="#" class="job-kill">Kill job</a></li>
                             <li><a href="#">Restart</a></li>
                         </ul>
                     </div>
@@ -74,10 +74,10 @@
         <script src="/web/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="/web/assets/bower_components/sockjs/sockjs.min.js"></script>
 
-		<script src="/web/app/models/task.js"></script>
-		<script src="/web/app/collections/tasks.js"></script>
-		<script src="/web/app/views/task-view.js"></script>
-		<script src="/web/app/views/taskList.js"></script>
+		<script src="/web/app/models/job.js"></script>
+		<script src="/web/app/collections/jobs.js"></script>
+		<script src="/web/app/views/jobView.js"></script>
+		<script src="/web/app/views/jobList.js"></script>
 		<script src="/web/app/routers/router.js"></script>
 	</body>
 </html>

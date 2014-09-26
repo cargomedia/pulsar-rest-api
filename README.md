@@ -79,9 +79,9 @@ pulsar configuration.
 
 `:env` - environment name (e.g. production)
 
-`:task` - pulsar task
+`:task` - capistrano task
 
-`:id` - job ID
+`:id` - pulsar job ID
 
 ### Get job list
 
@@ -93,38 +93,36 @@ HTTP response code `200`
 ```
 {
   "url": "http://api.pulsar.local:8001/pulsar/index.html",
-  "jobs": [{Object}, {Object}, ...] //description of these Objects see in getJobData operation below.
+  "jobs": [{Object}, {Object}, ...]
 }
 ```
-
-#### Response on timeout:
-No new job created before the timeout
-HTTP response code `200`
-```json
-{
-  "changed": false
-}
-```
-
+See the description of `jobs` in [getJobData](#get-job-data) operation below.
 
 ### Create Job
 
 #### Request:
 ```
-POST /:app/:env?task=:task
-```
+POST /:app/:env
+data:
+{
+   "task": "<string>",
+   "wait": "<boolean>",
+   "taskVariables": {Object.<string, string>}
+}
 
-Optionally use the blocking behaviour:
 ```
-POST /:app/:env?task=:task&wait=true
-```
+`:wait` - does request wait for the job's end. Possible values: `true/false`. Default: `false`.
+
+`:taskVariables` - capistrano task options. Optional. These options will be used as `-s` options of capistrano. Possible values: `json object` where
+keys and values are strings or objects that are convertible to string.
+
 
 #### Response on success:
 HTTP response code `200`
 ```json
 {
   "id": "123",
-  "url": "http://localhost:8001/web/job/532c3240f8214f0000177376"
+  "url": "http://localhost:8001/web#job/532c3240f8214f0000177376"
 }
 ```
 
@@ -132,7 +130,7 @@ In case of a blocking execution the job's data will be returned:
 ```json
 {
   "id": 123,
-  "url": "http://localhost:8001/web/job/532c3240f8214f0000177376",
+  "url": "http://localhost:8001/web#job/532c3240f8214f0000177376",
   "data": {
     "id": 123,
     "status": "failed",

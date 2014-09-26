@@ -31,7 +31,7 @@
 		<script type="text/template" id="job-template">
 			<div class="job" id="job-id-<%= id %>">
                 <div class="btn-group">
-                    <a href="/web/job/<%= id %>" class="btn btn-default"><span class="jobId badge"><%= id %></span></a>
+                    <a href="/web#job/<%= id %>" class="btn btn-default"><span class="jobId badge"><%= id %></span></a>
                     <div class="btn-group">
                         <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
                             Actions
@@ -39,7 +39,6 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a href="#" class="job-kill">Kill job</a></li>
-                            <li><a href="#">Restart</a></li>
                         </ul>
                     </div>
                 </div>

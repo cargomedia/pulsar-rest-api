@@ -102,11 +102,19 @@ See the description of `jobs` in [getJobData](#get-job-data) operation below.
 
 #### Request:
 ```
-POST /:app/:env?task=:task&wait=:wait&taskVariables=:taskVariables
-```
-`:wait` - do you want to wait for the job's end. Possible values: `true/false`. Default: `false`.
+POST /:app/:env
+data:
+{
+   "task": "<string>",
+   "wait": "<boolean>",
+   "taskVariables": {Object.<string, string>}
+}
 
-`:taskVariables` - capistrano task options. Possible values: `json object`. Optional.
+```
+`:wait` - does request wait for the job's end. Possible values: `true/false`. Default: `false`.
+
+`:taskVariables` - capistrano task options. Optional. These options will be used as `-s` options of capistrano. Possible values: `json object` where
+keys and values are strings or objects that are convertible to string.
 
 
 #### Response on success:

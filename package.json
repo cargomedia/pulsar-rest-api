@@ -1,7 +1,7 @@
 {
   "name": "pulsar-rest-api",
   "description": "REST API for executing Pulsar tasks.",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "author": "Cargomedia",
   "license": "MIT",
   "main": "pulsar-rest-api.js",

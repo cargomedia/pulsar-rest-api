@@ -1,3 +1,5 @@
+var _ = require('underscore');
+var async = require('async');
 var Pulsar = require('../lib/pulsar');
 var PulsarJob = require('../lib/pulsar/job');
 var PulsarDb = require('../lib/pulsar/db');
@@ -23,6 +25,7 @@ describe('tests of pulsar API', function() {
       //remove all items from collection that might remain from previous tests.
       db.collection.remove(function(err) {
         self.pulsar = new Pulsar(db, testConfig.pulsar);
+        process.setMaxListeners(15);
         done(err);
       });
     });
@@ -181,6 +184,32 @@ describe('tests of pulsar API', function() {
           }
         });
       });
+  });
+
+  it('check if the current jobs are shutdowned when the api process is killed', function(done) {
+    var self = this;
+    async.each([null, null], function(dummy, callback) {
+      self.pulsar.createJob(
+        jobArgs.app.example,
+        jobArgs.env.production,
+        jobArgs.task.dummySleepy,
+        function(err, job) {
+          assert(!err);
+          job.execute();
+          job.once('change', function() {
+            assert(job.status == PulsarJob.STATUS.RUNNING, 'Job should be running');
+            callback(null, job);
+          });
+        });
+    }, function(err, jobs) {
+      process.on('exit', function() {
+        _.each(jobs, function(job) {
+          assert(job.status == PulsarJob.STATUS.KILLED, 'Job should be killed');
+        });
+        done();
+      });
+      self.pulsar._shutdown('SIGINT');
+    });
   });
 
 });

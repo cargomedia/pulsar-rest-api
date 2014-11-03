@@ -51,26 +51,57 @@ var app = app || {};
   app.PulsarRouter = new PulsarRouter();
   Backbone.history.start({pushState: true, root: '/web'});
 
-  var sock = new SockJS('/websocket');
+  function installSocket(url) {
+    var sock;
+    var reconnectInterval;
+    var feedback = $('#websocket-feedback');
 
-  sock.onopen = function() {
-    sock.send(JSON.stringify({
-      cookie: $.cookie('userid')
-    }));
-  };
-
-  sock.onmessage = function(e) {
-    var message = JSON.parse(e.data);
-    var job;
-    switch (message.event) {
-      case 'job.create':
-        job = new app.Job(message.job);
-        jobList.add(job);
-        break;
-      case 'job.change':
-        job = jobList.get(message.job.id);
-        job.set(message.job);
-        break;
+    function startReconnect(){
+      if (reconnectInterval) {
+        return;
+      }
+      reconnectInterval = setInterval(function() {
+        createSocket();
+        feedback.show();
+      }, 5000);
     }
-  };
+
+    function stopReconnect(){
+      clearInterval(reconnectInterval);
+      feedback.hide();
+    }
+
+    function createSocket() {
+      sock = new SockJS(url);
+      sock.onopen = function() {
+        stopReconnect();
+
+        sock.send(JSON.stringify({
+          cookie: $.cookie('userid')
+        }));
+      };
+
+      sock.onerror = sock.onclose = startReconnect;
+
+      sock.onmessage = function(e) {
+        var message = JSON.parse(e.data);
+        var job;
+        switch (message.event) {
+          case 'job.create':
+            job = new app.Job(message.job);
+            jobList.add(job);
+            break;
+          case 'job.change':
+            job = jobList.get(message.job.id);
+            job.set(message.job);
+            break;
+        }
+      };
+
+    }
+
+    createSocket();
+  }
+
+  installSocket('/websocket');
 })();

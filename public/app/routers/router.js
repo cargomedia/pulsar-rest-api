@@ -95,6 +95,12 @@ var app = app || {};
             job = jobList.get(message.job.id);
             job.set(message.job);
             break;
+          case 'job.close':
+            job = jobList.get(message.job.id);
+            job.set(message.job);
+            break;
+          default:
+            break;
         }
       };
 

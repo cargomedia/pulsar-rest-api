@@ -54,7 +54,7 @@ var app = app || {};
   function installSocket(url) {
     var sock;
     var reconnectInterval;
-    var feedback = $('#feedback');
+    var feedback = $('#websocket-feedback');
 
     function startReconnect(){
       if (reconnectInterval) {

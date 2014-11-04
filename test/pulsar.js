@@ -31,6 +31,10 @@ describe('tests of pulsar API', function() {
     });
   });
 
+  after(function(done) {
+    this.pulsarDb.collection.remove(done);
+  });
+
   it('check if taskVariables are validated', function() {
     var app = jobArgs.app.example;
     var env = jobArgs.env.production;
@@ -101,7 +105,7 @@ describe('tests of pulsar API', function() {
       }.bind(this));
   });
 
-  it('check if created job in the list of current jobs of pulsar', function() {
+  it('check if created job in the list of current jobs of pulsar', function(done) {
     this.pulsar.createJob(
       jobArgs.app.example,
       jobArgs.env.production,
@@ -112,6 +116,7 @@ describe('tests of pulsar API', function() {
           assert(jobList.length === 1);
           assert.deepEqual(job.getData(), jobList[0].getData());
           assert.deepEqual(job.getArgs(), jobList[0].getArgs());
+          done();
         });
       }.bind(this));
   });
@@ -188,7 +193,7 @@ describe('tests of pulsar API', function() {
 
   it('check if the current jobs are shutdowned when the api process is killed', function(done) {
     var self = this;
-    async.each([null, null], function(dummy, callback) {
+    async.map([null, null], function(dummy, callback) {
       self.pulsar.createJob(
         jobArgs.app.example,
         jobArgs.env.production,
@@ -202,11 +207,13 @@ describe('tests of pulsar API', function() {
           });
         });
     }, function(err, jobs) {
+      assert(jobs && jobs.length === 2);
       process.on('exit', function() {
         _.each(jobs, function(job) {
           assert(job.status == PulsarJob.STATUS.KILLED, 'Job should be killed');
         });
-        done();
+        //because `_shutdown` kills the process, we need to clean after the test manually.
+        self.pulsarDb.collection.remove(done);
       });
       self.pulsar._shutdown('SIGINT');
     });

@@ -76,6 +76,30 @@ describe('tests of pulsar API', function() {
       });
   });
 
+  it('tests a normal job\'s lifecycle', function(done) {
+    this.timeout(12000);
+    var self = this;
+    this.pulsar.createJob(
+      jobArgs.app.example,
+      jobArgs.env.production,
+      jobArgs.task.dummySleepy,
+      function(err, job) {
+        assert(!err && job.status == PulsarJob.STATUS.CREATED);
+        var hadRun = false;
+        job.on('change', function() {
+          hadRun = job.status == PulsarJob.STATUS.RUNNING;
+        });
+        job.on('close', function() {
+          assert(hadRun);
+          self.pulsar.getJob(job.id, function(err, job) {
+            assert(!err && job.status == PulsarJob.STATUS.FINISHED);
+            done();
+          });
+        });
+        job.execute();
+      });
+  });
+
   it('check if job can be got after it is created', function(done) {
     this.pulsar.createJob(
       jobArgs.app.example,
@@ -84,21 +108,6 @@ describe('tests of pulsar API', function() {
       function(err, job) {
         assert(!err);
         this.pulsar.getJob(job.id, function(err, result) {
-          assert.deepEqual(result.getData(), job.getData());
-          done();
-        });
-      }.bind(this));
-  });
-
-  it('saved job must be available after server restart', function(done) {
-    this.pulsar.createJob(
-      jobArgs.app.example,
-      jobArgs.env.production,
-      jobArgs.task.dummySleepy,
-      function(err, job) {
-        assert(!err);
-        var pulsar = new Pulsar(this.pulsarDb, testConfig.pulsar);
-        pulsar.getJob(job.id, function(err, result) {
           assert.deepEqual(result.getData(), job.getData());
           done();
         });
@@ -119,21 +128,6 @@ describe('tests of pulsar API', function() {
           done();
         });
       }.bind(this));
-  });
-
-  it('check if created job emits change event correctly', function(done) {
-    this.pulsar.createJob(
-      jobArgs.app.example,
-      jobArgs.env.production,
-      jobArgs.task.dummySleepy,
-      function(err, job) {
-        assert(!err);
-        job.on('change', function(data) {
-          assert(data.job.id === job.id);
-          done();
-        });
-        job.onUpdate();
-      });
   });
 
   it('check if created job returns available tasks', function(done) {

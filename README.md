@@ -138,8 +138,8 @@ In case of a blocking execution the job's data will be returned:
     "env": "production",
     "task": "shell",
     "exitCode": null,
-    "stdout": "Standard output of pulsar job",
-    "stderr": "Error output of pulsar job",
+    "stdout": "stdout of pulsar job's process",
+    "output": "stdout + stderr of pulsar job's process",
     "pid": 48691
   }
 }
@@ -162,8 +162,8 @@ HTTP response code `200`
   "env": "production",
   "task": "shell",
   "exitCode": null,
-    "stdout": "Standard output of pulsar job",
-    "stderr": "Error output of pulsar job",
+  "stdout": "stdout of pulsar job's process",
+  "output": "stdout + stderr of pulsar job's process",
   "pid": 48691
 }
 ```

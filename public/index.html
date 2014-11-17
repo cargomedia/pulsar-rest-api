@@ -57,11 +57,10 @@
                 <% } %>
               </div>
             </div>
-            <% if (command != '' || stdout != '') { %>
+            <% if (command && output) { %>
             <div class="console">
               $ <%= command %><br>
-              <%= stderr.replace(/ /g, '&nbsp;').replace(new RegExp('\r?\n', 'g'), '<br />') %>
-              <%= stdout.replace(/ /g, '&nbsp;').replace(new RegExp('\r?\n', 'g'), '<br />') %>
+              <%= output.replace(/ /g, '&nbsp;').replace(new RegExp('\r?\n', 'g'), '<br />') %>
             </div>
             <% } %>
           </div>

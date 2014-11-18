@@ -147,9 +147,7 @@ describe('tests of pulsar API', function() {
         assert(!err);
         job.execute();
         job.once('change', function() {
-          if (job.output) {
-            job.kill();
-          }
+          job.kill();
         });
         job.on('close', function() {
           assert(job.status == PulsarJob.STATUS.KILLED, 'The job kill (SIGTERM) does not work');
@@ -169,18 +167,16 @@ describe('tests of pulsar API', function() {
         assert(!err);
         job.execute();
         job.once('change', function() {
-          if (job.output) {
-            setTimeout(function() {
-              assert(job.status == PulsarJob.STATUS.RUNNING, 'Job should still be running');
-            }, PulsarJob._KILL_TIMEOUT - 1);
+          setTimeout(function() {
+            assert(job.status == PulsarJob.STATUS.RUNNING, 'Job should still be running');
+          }, PulsarJob._KILL_TIMEOUT - 1);
 
-            setTimeout(function() {
-              assert(job.status == PulsarJob.STATUS.KILLED, 'The job kill (SIGKILL) does not work');
-              done();
-            }, PulsarJob._KILL_TIMEOUT + 50);
+          setTimeout(function() {
+            assert(job.status == PulsarJob.STATUS.KILLED, 'The job kill (SIGKILL) does not work');
+            done();
+          }, PulsarJob._KILL_TIMEOUT + 50);
 
-            job.kill();
-          }
+          job.kill();
         });
       });
   });

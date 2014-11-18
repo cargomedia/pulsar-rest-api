@@ -57,7 +57,7 @@
                 <% } %>
               </div>
             </div>
-            <% if (command != '' || output != '') { %>
+            <% if (command && output) { %>
             <div class="console">
               $ <%= command %><br>
               <%= output.replace(/ /g, '&nbsp;').replace(new RegExp('\r?\n', 'g'), '<br />') %>

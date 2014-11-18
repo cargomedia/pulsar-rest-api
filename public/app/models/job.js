@@ -7,6 +7,7 @@ var app = app || {};
 
     defaults: {
       status: null,
+      stdout: null,
       output: null,
       completed: false
     },

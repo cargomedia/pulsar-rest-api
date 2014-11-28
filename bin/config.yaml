@@ -3,3 +3,4 @@ mongodb:
   host: 'localhost'
   port: 27017
   db: 'pulsar'
+logPath: 'pulsar-rest-api.log'

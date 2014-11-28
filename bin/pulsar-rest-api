@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 var Config = require('../lib/config');
-var pulsar = require('../pulsar-rest-api.js');
 var argv = require('minimist')(process.argv.slice(2));
-
 var configPath = argv.c || __dirname + '/config.yaml';
 var config = new Config(configPath);
+
+var pulsar = require('../pulsar-rest-api.js');
 pulsarServer = new pulsar.Server(config.asHash());

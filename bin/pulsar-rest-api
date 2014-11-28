@@ -4,5 +4,5 @@ var argv = require('minimist')(process.argv.slice(2));
 var configPath = argv.c || __dirname + '/config.yaml';
 var config = new Config(configPath);
 
-var pulsar = require('../pulsar-rest-api.js');
-pulsarServer = new pulsar.Server(config.asHash());
+var Server = require('../lib/server.js');
+pulsarServer = new Server(config);

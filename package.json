@@ -4,7 +4,7 @@
   "version": "0.1.3",
   "author": "Cargomedia",
   "license": "MIT",
-  "main": "pulsar-rest-api.js",
+  "main": "lib/server.js",
   "bin": {
     "pulsar-rest-api": "./bin/pulsar-rest-api"
   },

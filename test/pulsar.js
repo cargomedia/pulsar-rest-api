@@ -12,6 +12,7 @@ describe('tests of pulsar API', function() {
   this.timeout(2000);
 
   var testConfig = new Config('./test/config.yaml').asHash();
+  require('../lib/logger').configure(testConfig);
 
   beforeEach(function(done) {
     var self = this;

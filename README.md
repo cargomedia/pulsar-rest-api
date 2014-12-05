@@ -33,6 +33,7 @@ Please read carefully through the format of the config below. The options that a
 instance won't start. There are no options that have default value. All values should be clearly defined.
 ```yaml
 port: # required. Port where server listens for requests.
+logPath: # required. A file path where to write logs. Includes filename of the log. Can be absolute or relative.
 mongodb:# mongoDB connection parameters
   host: # required. hostname
   port: # required. port

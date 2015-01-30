@@ -66,7 +66,7 @@ describe('tests of pulsar API', function() {
 
     _.each(Pulsar.ILLEGAL_TASKS, function(task) {
       assert.throw(function() {
-        self.pulsar.createJob(app, env, task, {'keydf\'': ''}, callback);
+        self.pulsar.createJob(app, env, task, {'key': ''}, callback);
       }, ValidationError);
     });
     var hiddenIllegalTask = _.map(Pulsar.ILLEGAL_TASKS, function(task) {
@@ -79,7 +79,7 @@ describe('tests of pulsar API', function() {
 
     _.each(hiddenIllegalTask, function(task) {
       assert.throw(function() {
-        self.pulsar.createJob(app, env, task, {'keydf\'': ''}, callback);
+        self.pulsar.createJob(app, env, task, {'key': ''}, callback);
       }, ValidationError);
     });
 

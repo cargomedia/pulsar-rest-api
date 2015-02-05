@@ -69,19 +69,6 @@ describe('tests of pulsar API', function() {
         self.pulsar.createJob(app, env, task, {'key': ''}, callback);
       }, ValidationError);
     });
-    var hiddenIllegalTask = _.map(Pulsar.ILLEGAL_TASKS, function(task) {
-      var illegals = ['\n', '\r', '\\', '\t'];
-      var injection = _.sample(illegals, _.random(1, illegals.length - 1));
-      injection = [].concat(injection).join('');
-      var to = _.random(0, task.length - 1);
-      return task.substring(0, to) + injection + task.substring(to);
-    });
-
-    _.each(hiddenIllegalTask, function(task) {
-      assert.throw(function() {
-        self.pulsar.createJob(app, env, task, {'key': ''}, callback);
-      }, ValidationError);
-    });
 
   });
 

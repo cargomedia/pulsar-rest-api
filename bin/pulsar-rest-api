@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+process.chdir(__dirname + '/../');
 var Config = require('../lib/config');
 var minimist = require('minimist');
 var Server = require('../lib/server.js');

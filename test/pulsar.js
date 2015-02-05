@@ -64,6 +64,12 @@ describe('tests of pulsar API', function() {
       self.pulsar.createJob(app, env, task, {'keydf\'': ''}, callback);
     }, ValidationError);
 
+    _.each(Pulsar.ILLEGAL_TASKS, function(task) {
+      assert.throw(function() {
+        self.pulsar.createJob(app, env, task, {'key': ''}, callback);
+      }, ValidationError);
+    });
+
   });
 
   it('check if job is created', function(done) {

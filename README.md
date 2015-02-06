@@ -46,7 +46,6 @@ instance won't start. There are no options that have default value. All values s
   - `githubOauthSecret`. required. Github OAuth Application Secret.
   - `githubOrg`. required. Github organization. User needs to be member of that organization to get access to the interface of pulsar-rest-api.
   - `baseUrl`. required. URL where the pulsar-rest-api instance would have its web interface.
-  - `callbackUrl`. required. OAuth callback Url. Must be relative to the `baseUrl`.
 - `ssl`. required if `auth` block is presented else it's optional. Only if presented it should have its required options to be filled, otherwise no need to fill `ssl.key` and etc.
   - `key`. required if `pfx` isn't presented. Ssl private key file. Combine with `cert` option.
   - `cert`. required if `pfx` isn't presented. Ssl public certificate file. Combine with `key` option. Append CA-chain within this file.

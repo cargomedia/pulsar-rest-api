@@ -31,28 +31,36 @@ The default config is [`config.yaml`](bin/config.yaml) and it can be found in `b
 
 Please read carefully through the format of the config below. The options that are marked as required must be present in your config otherwise the
 instance won't start. There are no options that have default value. All values should be clearly defined.
-```yaml
-port: # required. Port where server listens for requests.
-logPath: # required. A file path where to write logs. Includes filename of the log. Can be absolute or relative.
-mongodb:# mongoDB connection parameters
-  host: # required. hostname
-  port: # required. port
-  db: # required. database name. Now there is only one collection 'jobs' will be used.
-pulsar:
-  repo: # optional. Pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
-  branch: # optional. Branch for pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
-auth: # optional. Authentication. Only if presented it should have its required options to be filled, otherwise no need to fill `auth.githubOauthId` and etc.
-  githubOauthId: # required. Github OAuth Application ID. To get it go to https://github.com/settings/applications/new
-  githubOauthSecret: # required. Github OAuth Application Secret. To get it go to https://github.com/settings/applications/new
-  githubOrg: # required. Github organization. User needs to be member of that organization to get access to the interface of pulsar-rest-api.
-  baseUrl: # required. URL where the pulsar-rest-api instance would have its web interface.
-  callbackUrl: # required. OAuth callback Url. Must be relative to the baseUrl.
-ssl: # required if `auth` block is presented else it's optional. Only if presented it should have its required options to be filled, otherwise no need to fill `ssl.key` and etc.
-  key: # required if `pfx` isn't presented. Ssl private key file. Combine with `cert` option.
-  cert: # required if `pfx` isn't presented. Ssl public certificate file. Combine with `key` option. Append CA-chain within this file.
-  pfx: # required if `key` or `cert` options aren't presented. Ssl pfx file (key + cert). Overrides `key` and `cert` options.
-  passphrase: # optional. File containing the ssl passphrase.
-```
+
+- `port`: required. Port where server listens for requests.
+- `logPath`: required. A file path where to write logs. Includes filename of the log. Can be absolute or relative.
+- `mongodb`: mongoDB connection parameters
+  - `host`: required. hostname
+  - `port`: required. port
+  - `db`: required. database name. Now there is only one collection 'jobs' will be used.
+- `pulsar`:
+  - `repo`: optional. Pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
+  - `branch`: optional. Branch for pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
+- `auth`: optional. Authentication. Only if presented it should have its required options to be filled, otherwise no need to fill `auth.githubOauthId` and etc.
+  - `githubOauthId`: required. Github OAuth Application ID.
+  - `githubOauthSecret`: required. Github OAuth Application Secret.
+  - `githubOrg`: required. Github organization. User needs to be member of that organization to get access to the interface of pulsar-rest-api.
+  - `baseUrl`: required. URL where the pulsar-rest-api instance would have its web interface.
+- `ssl`: required if `auth` block is presented else it's optional. Only if presented it should have its required options to be filled, otherwise no need to fill `ssl.key` and etc.
+  - `key`: required if `pfx` isn't presented. Ssl private key file. Combine with `cert` option.
+  - `cert`: required if `pfx` isn't presented. Ssl public certificate file. Combine with `key` option. Append CA-chain within this file.
+  - `pfx`: required if `key` or `cert` options aren't presented. Ssl pfx file (key + cert). Overrides `key` and `cert` options.
+  - `passphrase`: optional. File containing the ssl passphrase.
+
+##### Github OAuth App setup.
+  - Go to https://github.com/settings/applications/new.
+  - There are going to be the fields. Fill them up. For example here is the values that I've used on my local setup:
+    - `Application name` = pulsar-rest-api
+    - `Homepage URL` = https://api.pulsar.local:8001. That value should be the same as `baseUrl` from the config.
+    - `Application description`. It's optional. You can leave it empty.
+    - `Authorization callback URL`. It's optional. You can leave it empty and it will be the same as `Homepage URL`.
+  - Submit them and you will receive `Client ID` and `Client Secret`. They are `githubOauthId` and `githubOauthSecret` correspondingly. 
+
 #####Verify that mongodb is up and running
 The mongodb instance that you defined in your config should be up and running before you start the pulsar.
 
@@ -200,7 +208,7 @@ If everything is ok then you will be able to interact with web interface of API.
 ### Rest API
 If you want access API directly, for example through the `curl` tool, then you need to provide your Github basic token with every request.
 If you don't have one then you can get it here https://github.com/settings/tokens/new. After that you can use API like this:
-`curl -u {put your Github token here, remove curly braces}:x-oauth-basic -H "Content-Type: application/json" -k -X POST -d '{"task":"dummy:my_sleep"}' https://api.pulsar.local:8001/example/production`
+`curl -u {github-token}:x-oauth-basic -H "Content-Type: application/json" -X POST -d '{"task":"dummy:my_sleep"}' https://api.pulsar.local:8001/example/production`
 
 ### Websocket
 When socket client gets connected it needs to send authentication information as its first message. There are two options available:

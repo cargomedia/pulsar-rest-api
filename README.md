@@ -42,8 +42,8 @@ instance won't start. There are no options that have default value. All values s
   - `repo`. optional. Pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
   - `branch`. optional. Branch for pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
 - `auth`. optional. Authentication. Only if presented it should have its required options to be filled, otherwise no need to fill `auth.githubOauthId` and etc.
-  - `githubOauthId`. required. Github OAuth Application ID. To get it go to https://github.com/settings/applications/new
-  - `githubOauthSecret`. required. Github OAuth Application Secret. To get it go to https://github.com/settings/applications/new
+  - `githubOauthId`. required. Github OAuth Application ID.
+  - `githubOauthSecret`. required. Github OAuth Application Secret.
   - `githubOrg`. required. Github organization. User needs to be member of that organization to get access to the interface of pulsar-rest-api.
   - `baseUrl`. required. URL where the pulsar-rest-api instance would have its web interface.
   - `callbackUrl`. required. OAuth callback Url. Must be relative to the `baseUrl`.
@@ -52,6 +52,18 @@ instance won't start. There are no options that have default value. All values s
   - `cert`. required if `pfx` isn't presented. Ssl public certificate file. Combine with `key` option. Append CA-chain within this file.
   - `pfx`. required if `key` or `cert` options aren't presented. Ssl pfx file (key + cert). Overrides `key` and `cert` options.
   - `passphrase`. optional. File containing the ssl passphrase.
+
+##### Github OAuth App setup.
+  - Go to https://github.com/settings/applications/new.
+  - There are going to be the fields: `Application name`, `Homepage URL`, `Application description`, `Authorization callback URL`. Fill them up.
+    For example here is the values that I've used on my local setup:
+    - `Application name` = pulsar-rest-api
+    - `Homepage URL` = https://api.pulsar.local:8001. That value should be the same as `baseUrl` from the config.
+    - `Application description` = bla bla super cool
+    - `Authorization callback URL` = https://api.pulsar.local:8001
+  
+  The only important info here is that `Homepage URL` and `Authorization callback URL` should be the same. Don't forget it when you fill your app.
+  - Submit them and you will receive `Client ID` and `Client Secret`. They are `githubOauthId` and `githubOauthSecret` correspondingly. 
 
 #####Verify that mongodb is up and running
 The mongodb instance that you defined in your config should be up and running before you start the pulsar.

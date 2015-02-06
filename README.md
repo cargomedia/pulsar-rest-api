@@ -212,7 +212,7 @@ If everything is ok then you will be able to interact with web interface of API.
 ### Rest API
 If you want access API directly, for example through the `curl` tool, then you need to provide your Github basic token with every request.
 If you don't have one then you can get it here https://github.com/settings/tokens/new. After that you can use API like this:
-`curl -u {put your Github token here, remove curly braces}:x-oauth-basic -H "Content-Type: application/json" -k -X POST -d '{"task":"dummy:my_sleep"}' https://api.pulsar.local:8001/example/production`
+`curl -u {github-token}:x-oauth-basic -H "Content-Type: application/json" -X POST -d '{"task":"dummy:my_sleep"}' https://api.pulsar.local:8001/example/production`
 
 ### Websocket
 When socket client gets connected it needs to send authentication information as its first message. There are two options available:

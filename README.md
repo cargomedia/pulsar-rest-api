@@ -54,14 +54,11 @@ instance won't start. There are no options that have default value. All values s
 
 ##### Github OAuth App setup.
   - Go to https://github.com/settings/applications/new.
-  - There are going to be the fields: `Application name`, `Homepage URL`, `Application description`, `Authorization callback URL`. Fill them up.
-    For example here is the values that I've used on my local setup:
+  - There are going to be the fields. Fill them up. For example here is the values that I've used on my local setup:
     - `Application name` = pulsar-rest-api
     - `Homepage URL` = https://api.pulsar.local:8001. That value should be the same as `baseUrl` from the config.
-    - `Application description` = bla bla super cool
-    - `Authorization callback URL` = https://api.pulsar.local:8001
-  
-  The only important info here is that `Homepage URL` and `Authorization callback URL` should be the same. Don't forget it when you fill your app.
+    - `Application description`. It's optional. You can leave it empty.
+    - `Authorization callback URL`. It's optional. You can leave it empty and it will be the same as `Homepage URL`.
   - Submit them and you will receive `Client ID` and `Client Secret`. They are `githubOauthId` and `githubOauthSecret` correspondingly. 
 
 #####Verify that mongodb is up and running

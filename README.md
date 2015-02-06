@@ -17,13 +17,13 @@ npm install pulsar-rest-api [-g]
 ```
 
 ### Running
-####In short
+#### In short
  * Prepare valid config.
  * Verify that mongodb is up and running.
  * Run the instance with command `pulsar-rest-api -c 'your_config.yaml'`
 
-####In detail
-#####Prepare valid config
+#### In detail
+##### Prepare valid config
 The instance of pulsar-rest-api can be run with different options. All of the options can be specified in the config. To run the instance with
 your own config you need to specify the filepath to it with the flag `-c`. For example `pulsar-rest-api -c '~/my_pulsar_config.yaml'`.
 
@@ -61,10 +61,10 @@ instance won't start. There are no options that have default value. All values s
     - `Authorization callback URL`. It's optional. You can leave it empty and it will be the same as `Homepage URL`.
   - Submit them and you will receive `Client ID` and `Client Secret`. They are `githubOauthId` and `githubOauthSecret` correspondingly. 
 
-#####Verify that mongodb is up and running
+##### Verify that mongodb is up and running
 The mongodb instance that you defined in your config should be up and running before you start the pulsar.
 
-#####Run
+##### Run
 `pulsar-rest-api -c 'your_config.yaml'`. After that web interface should be browsable through url defined in `auth.baseUrl`.
 
 ### Test

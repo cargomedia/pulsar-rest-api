@@ -141,6 +141,9 @@ describe('tests of pulsar API', function() {
     this.pulsar.getAvailableTasks(jobArgs.app.example, jobArgs.env.production, function(err, tasks) {
       assert(!err);
       assert(tasks['shell'], 'Shell task must be always present in available tasks');
+      _.each(jobArgs.task, function(taskName) {
+        assert(taskName in tasks, 'Test tasks must be present in available tasks');
+      });
       done();
     });
   });

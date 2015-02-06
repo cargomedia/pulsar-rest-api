@@ -32,25 +32,25 @@ The default config is [`config.yaml`](bin/config.yaml) and it can be found in `b
 Please read carefully through the format of the config below. The options that are marked as required must be present in your config otherwise the
 instance won't start. There are no options that have default value. All values should be clearly defined.
 
-- `port`. required. Port where server listens for requests.
-- `logPath`. required. A file path where to write logs. Includes filename of the log. Can be absolute or relative.
-- `mongodb`. mongoDB connection parameters
-  - `host`. required. hostname
-  - `port`. required. port
-  - `db`. required. database name. Now there is only one collection 'jobs' will be used.
+- `port`: required. Port where server listens for requests.
+- `logPath`: required. A file path where to write logs. Includes filename of the log. Can be absolute or relative.
+- `mongodb`: mongoDB connection parameters
+  - `host`: required. hostname
+  - `port`: required. port
+  - `db`: required. database name. Now there is only one collection 'jobs' will be used.
 - `pulsar`:
-  - `repo`. optional. Pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
-  - `branch`. optional. Branch for pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
-- `auth`. optional. Authentication. Only if presented it should have its required options to be filled, otherwise no need to fill `auth.githubOauthId` and etc.
-  - `githubOauthId`. required. Github OAuth Application ID.
-  - `githubOauthSecret`. required. Github OAuth Application Secret.
-  - `githubOrg`. required. Github organization. User needs to be member of that organization to get access to the interface of pulsar-rest-api.
-  - `baseUrl`. required. URL where the pulsar-rest-api instance would have its web interface.
-- `ssl`. required if `auth` block is presented else it's optional. Only if presented it should have its required options to be filled, otherwise no need to fill `ssl.key` and etc.
-  - `key`. required if `pfx` isn't presented. Ssl private key file. Combine with `cert` option.
-  - `cert`. required if `pfx` isn't presented. Ssl public certificate file. Combine with `key` option. Append CA-chain within this file.
-  - `pfx`. required if `key` or `cert` options aren't presented. Ssl pfx file (key + cert). Overrides `key` and `cert` options.
-  - `passphrase`. optional. File containing the ssl passphrase.
+  - `repo`: optional. Pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
+  - `branch`: optional. Branch for pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
+- `auth`: optional. Authentication. Only if presented it should have its required options to be filled, otherwise no need to fill `auth.githubOauthId` and etc.
+  - `githubOauthId`: required. Github OAuth Application ID.
+  - `githubOauthSecret`: required. Github OAuth Application Secret.
+  - `githubOrg`: required. Github organization. User needs to be member of that organization to get access to the interface of pulsar-rest-api.
+  - `baseUrl`: required. URL where the pulsar-rest-api instance would have its web interface.
+- `ssl`: required if `auth` block is presented else it's optional. Only if presented it should have its required options to be filled, otherwise no need to fill `ssl.key` and etc.
+  - `key`: required if `pfx` isn't presented. Ssl private key file. Combine with `cert` option.
+  - `cert`: required if `pfx` isn't presented. Ssl public certificate file. Combine with `key` option. Append CA-chain within this file.
+  - `pfx`: required if `key` or `cert` options aren't presented. Ssl pfx file (key + cert). Overrides `key` and `cert` options.
+  - `passphrase`: optional. File containing the ssl passphrase.
 
 ##### Github OAuth App setup.
   - Go to https://github.com/settings/applications/new.

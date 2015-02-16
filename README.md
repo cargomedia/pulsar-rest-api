@@ -69,12 +69,16 @@ instance won't start. There are no options that have default value. All values s
   - Submit them and you will receive `Client ID` and `Client Secret`. They are `githubOauthId` and `githubOauthSecret` correspondingly. 
 
 ##### Authorization setup.
-The authorization model is separate from the logic. Because of that if you want to have a authorization for some url, you need to go to the file
-`lib/authentication/authorization/restrictions.js` and apply your rule there. For example, Pulsar-Rest-Api has a 'Create Job' url endpoint `/:app/:env`.
-If you want to restrict this action to the `write` role then you need to add this line to the `restrictions.js`:
+The authorization model is separate from the logic. Because of that if you want to have authorization for some url endpoint, you need to set an
+authorization rule separately from the url. Those rules can be set only as the parameter-function `restrictions` of `authentication.installHandlers`.
+For example, Pulsar-Rest-Api has a 'Create Job' url endpoint `/:app/:env`. If you want to restrict this action to the `write` role then you need to
+have the next call to `authentication.installHandlers`:
 ```js
-server.post('/:app/:env', authorization.restrictTo('write'));
+  authentication.installHandlers(app, function(authorization) {
+    router.post('/:app/:env', authorization.restrictTo('write'));
+  });
 ```
+The parameter-function `restrictions` has the instance of Authorization module as its the only argument.
 
 ##### Verify that mongodb is up and running
 The mongodb instance that you defined in your config should be up and running before you start the pulsar.

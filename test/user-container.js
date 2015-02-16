@@ -14,7 +14,7 @@ describe('tests of garbage collecting of outdated cookies', function() {
   it('', function(done) {
     //for the sake of the test
     UserContainer._collectorIntervalMs = 100;
-    UserContainer._oudatedTimeMs = UserContainer._collectorIntervalMs + 1;
+    UserContainer._oudatedTimeMs = UserContainer._collectorIntervalMs + 10;
 
     var userContainer = new UserContainer();
     userContainer.saveUser(responseMock, 'token');

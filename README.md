@@ -41,12 +41,19 @@ instance won't start. There are no options that have default value. All values s
 - `pulsar`:
   - `repo`: optional. Pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
   - `branch`: optional. Branch for pulsar configuration repository. If omitted then [pulsar rules](https://github.com/nebulab/pulsar#loading-the-repository) applied.
-- `auth`: optional. Authentication. Only if presented it should have its required options to be filled, otherwise no need to fill `auth.githubOauthId` and etc.
+- `authentication`: optional. Authentication. Only if presented it should have its required options to be filled, otherwise no need to fill `authentication.githubOauthId` and etc.
   - `githubOauthId`: required. Github OAuth Application ID.
   - `githubOauthSecret`: required. Github OAuth Application Secret.
   - `githubOrg`: required. Github organization. User needs to be member of that organization to get access to the interface of pulsar-rest-api.
   - `baseUrl`: required. URL where the pulsar-rest-api instance would have its web interface.
-- `ssl`: required if `auth` block is presented else it's optional. Only if presented it should have its required options to be filled, otherwise no need to fill `ssl.key` and etc.
+  - `authorization`: optional. Authorization. If you use an organization in this section, you should consider the restriction that only the
+    users with public access in the organization would have the corresponding role of the organization. To remove this restriction the Pulsar-Rest-Api
+    would require a `user` scope for the user's Github account which is too much. For more information read https://developer.github.com/v3/orgs/. Also
+    the current role model does not have any inheritance or any other relation in it. That means if user has the `write` role, he is still forbidden to
+    to the actions that require the `read` role. So, for solving this you need to mention user in the both roles descriptions.
+    - `read`: required. Github users or organizations that have the read role.
+    - `write`: required. Github users or organizations that have the write role.
+- `ssl`: required if `authentication` block is presented else it's optional. Only if presented it should have its required options to be filled, otherwise no need to fill `ssl.key` and etc.
   - `key`: required if `pfx` isn't presented. Ssl private key file. Combine with `cert` option.
   - `cert`: required if `pfx` isn't presented. Ssl public certificate file. Combine with `key` option. Append CA-chain within this file.
   - `pfx`: required if `key` or `cert` options aren't presented. Ssl pfx file (key + cert). Overrides `key` and `cert` options.
@@ -61,11 +68,23 @@ instance won't start. There are no options that have default value. All values s
     - `Authorization callback URL`. It's optional. You can leave it empty and it will be the same as `Homepage URL`.
   - Submit them and you will receive `Client ID` and `Client Secret`. They are `githubOauthId` and `githubOauthSecret` correspondingly. 
 
+##### Authorization setup.
+The authorization model is separate from the logic. Because of that if you want to have authorization for some url endpoint, you need to set an
+authorization rule separately from the url. Those rules can be set only as the parameter-function `restrictions` of `authentication.installHandlers`.
+For example, Pulsar-Rest-Api has a 'Create Job' url endpoint `/:app/:env`. If you want to restrict this action to the `write` role then you need to
+have the next call to `authentication.installHandlers`:
+```js
+  authentication.installHandlers(app, function(authorization) {
+    router.post('/:app/:env', authorization.restrictTo('write'));
+  });
+```
+The parameter-function `restrictions` has the instance of Authorization module as its the only argument.
+
 ##### Verify that mongodb is up and running
 The mongodb instance that you defined in your config should be up and running before you start the pulsar.
 
 ##### Run
-`pulsar-rest-api -c 'your_config.yaml'`. After that web interface should be browsable through url defined in `auth.baseUrl`.
+`pulsar-rest-api -c 'your_config.yaml'`. After that web interface should be browsable through url defined in `authentication.baseUrl`.
 
 ### Test
 
@@ -198,8 +217,8 @@ Job was changed
 `{message: {event: 'job.change', job: {Object}}}`
 
 ## Authentication
-To enable authentication of API you need to provide config options `auth` and `ssl`. All users of API should remember that besides that you need
-to authenticate yourself with Github, you also need to be a member of Github organization that was defined in `auth.githubOrg` of config.
+To enable authentication of API you need to provide config options `authentication` and `ssl`. All users of API should remember that besides that you need
+to authenticate yourself with Github, you also need to be a member of Github organization that was defined in `authentication.githubOrg` of config.
 
 ### Web client
 If you interact with API through the web interface then you will need to follow standard [Github Web Application Flow](https://developer.github.com/v3/oauth/#web-application-flow) procedure.

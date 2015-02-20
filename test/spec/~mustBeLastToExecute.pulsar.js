@@ -7,6 +7,9 @@ var assert = require('chai').assert;
 var jobArgs = require('../data/job-args');
 var Config = require('../../lib/config');
 
+/**
+ * This test suite must be the last to execute as it performs process.exit.
+ */
 describe('tests of pulsar API', function() {
 
   this.timeout(2000);

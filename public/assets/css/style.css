@@ -12,6 +12,7 @@ button {
 }
 
 .console {
+  overflow: auto;
   border-radius: 4px;
   font-family: Courier;
   color: #CCCCCC;

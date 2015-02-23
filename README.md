@@ -53,7 +53,7 @@ instance won't start. There are no options that have default value. All values s
     to the actions that require the `read` role. So, for solving this you need to mention user in the both roles descriptions.
     - `read`: required. Github users or organizations that have the read role.
     - `write`: required. Github users or organizations that have the write role.
-- `ssl`: required if `authentication` block is presented else it's optional. Only if presented it should have its required options to be filled, otherwise no need to fill `ssl.key` and etc.
+- `ssl`: optional. Only if presented it should have its required options to be filled, otherwise no need to fill `ssl.key` and etc.
   - `key`: required if `pfx` isn't presented. Ssl private key file. Combine with `cert` option.
   - `cert`: required if `pfx` isn't presented. Ssl public certificate file. Combine with `key` option. Append CA-chain within this file.
   - `pfx`: required if `key` or `cert` options aren't presented. Ssl pfx file (key + cert). Overrides `key` and `cert` options.
@@ -217,7 +217,7 @@ Job was changed
 `{message: {event: 'job.change', job: {Object}}}`
 
 ## Authentication
-To enable authentication of API you need to provide config options `authentication` and `ssl`. All users of API should remember that besides that you need
+To enable authentication of API you need to provide config options `authentication`. All users of API should remember that besides that you need
 to authenticate yourself with Github, you also need to be a member of Github organization that was defined in `authentication.githubOrg` of config.
 
 ### Web client

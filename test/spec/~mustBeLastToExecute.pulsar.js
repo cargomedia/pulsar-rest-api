@@ -1,3 +1,4 @@
+require('../../lib/errors');
 var _ = require('underscore');
 var async = require('async');
 var Pulsar = require('../../lib/pulsar/index');

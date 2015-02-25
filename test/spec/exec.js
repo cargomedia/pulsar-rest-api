@@ -1,6 +1,7 @@
-var PulsarExec = require('../lib/pulsar/exec');
+require('../../lib/errors');
+var PulsarExec = require('../../lib/pulsar/exec');
 var assert = require('chai').assert;
-var jobArgs = require('./job-args');
+var jobArgs = require('../data/job-args');
 
 describe('Test constructor arguments of PulsarExec', function() {
 

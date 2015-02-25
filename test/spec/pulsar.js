@@ -1,18 +1,22 @@
+require('../../lib/errors');
 var _ = require('underscore');
 var async = require('async');
-var Pulsar = require('../lib/pulsar');
-var PulsarJob = require('../lib/pulsar/job');
-var PulsarDb = require('../lib/pulsar/db');
+var Pulsar = require('../../lib/pulsar/index');
+var PulsarJob = require('../../lib/pulsar/job');
+var PulsarDb = require('../../lib/pulsar/db');
 var assert = require('chai').assert;
-var jobArgs = require('./job-args');
-var Config = require('../lib/config');
+var jobArgs = require('../data/job-args');
+var Config = require('../../lib/config');
 
+/**
+ * This test suite must be the last to execute as it performs process.exit.
+ */
 describe('tests of pulsar API', function() {
 
   this.timeout(2000);
 
-  var testConfig = new Config('./test/config.yaml').asHash();
-  require('../lib/logger').configure(testConfig);
+  var testConfig = new Config('./test/data/configs/config.yaml').asHash();
+  require('../../lib/logger').configure(testConfig);
 
   beforeEach(function(done) {
     var self = this;

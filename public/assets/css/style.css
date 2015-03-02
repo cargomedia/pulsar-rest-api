@@ -12,6 +12,8 @@ button {
 }
 
 .console {
+  white-space: nowrap;
+  overflow-x: auto;
   border-radius: 4px;
   font-family: Courier;
   color: #CCCCCC;

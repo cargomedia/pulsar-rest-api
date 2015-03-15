@@ -1,10 +1,6 @@
 #pulsarapp {
-  width: 800px;
   margin: auto;
-}
-
-button {
-  margin: 10px;
+  padding: 1vh;
 }
 
 .job {

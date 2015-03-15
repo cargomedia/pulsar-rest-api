@@ -14,7 +14,7 @@ var app = app || {};
     loadJobList: function() {
       jobList.fetch({
         success: function() {
-          var view = new app.JobListView({el: $('#content'), collection: jobList});
+          var view = new app.JobListView({el: $('#job-list'), collection: jobList});
           view.render();
         }
       });

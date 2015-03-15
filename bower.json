@@ -11,7 +11,8 @@
         "backbone.localStorage": "~1.1.0",
         "bootstrap": "~3.1.0",
         "requirejs": ">=2.1.10",
-        "footable": "~2.0",
+        "datatables": "~1.10",
+        "datatables-plugins": "https://github.com/DataTables/Plugins.git",
         "jquery-timeago": "1.4.0"
     }
 }

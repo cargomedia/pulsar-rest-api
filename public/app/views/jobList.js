@@ -24,7 +24,15 @@ var app = app || {};
         $body.prepend(view.el);
       }, this);
 
-      this.$el.footable();
+      this.$el.dataTable({
+        order: [[2, 'desc']],
+        columnDefs: [
+          {"orderable": false, "targets": [0, 1]}
+        ],
+        "aoColumnDefs": [
+          {"bSearchable": false, "aTargets": [2]}
+        ]
+      });
       $(".timeago").timeago();
     }
 

@@ -25,6 +25,7 @@ var app = app || {};
       }, this);
 
       this.$el.footable();
+      $(".timeago").timeago();
     }
 
   });

@@ -11,6 +11,7 @@
         "backbone.localStorage": "~1.1.0",
         "bootstrap": "~3.1.0",
         "requirejs": ">=2.1.10",
-        "footable": "~2.0"
+        "footable": "~2.0",
+        "jquery-timeago": "1.4.0"
     }
 }

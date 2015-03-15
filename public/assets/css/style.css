@@ -1,12 +1,3 @@
-#pulsarapp {
-  margin: auto;
-  padding: 1vh;
-}
-
-.job {
-  padding: 20px;
-}
-
 .console {
   white-space: nowrap;
   overflow-x: auto;

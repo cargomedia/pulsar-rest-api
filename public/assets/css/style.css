@@ -14,27 +14,3 @@
 #websocket-feedback {
   display: none;
 }
-
-.mt10 {
-  margin-top: 10px;
-}
-
-.mt20 {
-  margin-top: 20px;
-}
-
-.mt30 {
-  margin-top: 30px;
-}
-
-.mb10 {
-  margin-bottom: 10px !important;
-}
-
-.mb20 {
-  margin-bottom: 20px !important;
-}
-
-.mb30 {
-  margin-bottom: 30px !important;
-}

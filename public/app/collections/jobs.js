@@ -5,7 +5,10 @@ var app = app || {};
 
   app.JobList = Backbone.Collection.extend({
     model: app.Job,
-    url: '/jobs'
+    url: '/jobs',
+    comparator: function(job) {
+      return -job.get('timestamp');
+    }
   });
 
 })();

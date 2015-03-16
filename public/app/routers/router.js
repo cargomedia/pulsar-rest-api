@@ -7,34 +7,28 @@ var app = app || {};
 
   var PulsarRouter = Backbone.Router.extend({
     routes: {
-      'job/:id': 'loadJob',
-      '*index': 'loadJobList'
+      'job/:id': 'showJob',
+      '*index': 'showJobList'
     },
 
-    loadJobList: function() {
+    showJobList: function() {
+      this._show();
+    },
+
+    showJob: function(id) {
+      this._show(id);
+    },
+
+    _show: function(id) {
       jobList.fetch({
         success: function() {
           var view = new app.JobListView({el: $('#job-list'), collection: jobList});
           view.render();
+
+          var job = jobList.get(id) || jobList.at(0);
+          (new app.JobView({el: $('#job'), model: job})).render();
         }
       });
-      this.updateNav('jobList');
-    },
-
-    loadJob: function(id) {
-      var job = jobList.get(id) || jobList.add({id: id});
-      job.fetch({
-        success: function() {
-          var view = new app.JobView({el: $('#content'), model: job});
-          view.render();
-        }
-      });
-      this.updateNav('job');
-    },
-
-    updateNav: function(page) {
-      $('.nav-page').removeClass('active');
-      $('.nav-page-' + page).addClass('active');
     }
   });
 

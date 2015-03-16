@@ -35,8 +35,9 @@
       </table>
     </div>
 
-    <div id="job"></div>
-    <footer id="footer"></footer>
+    <div class="container-fluid">
+      <div id="job" class="row"></div>
+    </div>
 
     <script type="text/template" id="job-list-item-template">
       <%
@@ -66,8 +67,9 @@
       <td class="time timeago" data-order="<%= timestamp %>" title="<%= new Date(timestamp).toISOString() %>"></td>
       <td class="status"><div class="label label-<%= statusLabel %>"><%= status %></div></td>
     </script>
+
     <script type="text/template" id="job-template">
-      <div class="job" id="job-id-<%= id %>">
+      <div class="col-md-12" id="job-id-<%= id %>">
         <div class="btn-group">
           <a href="/web#job/<%= id %>" class="btn btn-default"><span class="jobId badge"><%= id %></span></a>
           <div class="btn-group">

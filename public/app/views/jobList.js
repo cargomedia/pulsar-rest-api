@@ -38,7 +38,7 @@ var app = app || {};
     _renderJob: function(job) {
       var view = new app.JobListItemView({model: job});
       view.render();
-      this.$body.prepend(view.el);
+      this.$body.append(view.el);
     }
 
   });

@@ -5,10 +5,6 @@ var app = app || {};
 
   app.JobView = Backbone.View.extend({
 
-    tagName: 'li',
-
-    className: 'list-group-item',
-
     template: _.template($('#job-template').html()),
 
     events: {
@@ -16,6 +12,7 @@ var app = app || {};
     },
 
     initialize: function() {
+      this.setElement(this.el);
       this.listenTo(this.model, 'change', this.render);
     },
 

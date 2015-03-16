@@ -27,9 +27,7 @@ var app = app || {};
       this.$el.dataTable({
         order: [[2, 'desc']],
         columnDefs: [
-          {"orderable": false, "targets": [0, 1]}
-        ],
-        "aoColumnDefs": [
+          {"orderable": false, "targets": [0, 1]},
           {"bSearchable": false, "aTargets": [2]}
         ]
       });

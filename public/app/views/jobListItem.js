@@ -5,6 +5,8 @@ var app = app || {};
 
   app.JobListItemView = Backbone.View.extend({
 
+    tagName: 'tr',
+
     template: _.template($('#job-list-item-template').html()),
 
     initialize: function() {
@@ -12,7 +14,7 @@ var app = app || {};
     },
 
     render: function() {
-      this.setElement(this.template(this.model.toJSON()));
+      this.$el.html(this.template(this.model.toJSON())).find('.timeago').timeago();
     }
 
   });

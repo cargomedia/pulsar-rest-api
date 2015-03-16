@@ -61,12 +61,10 @@
             break;
         }
       %>
-      <tr>
-        <td class="id"><small><%= id %></small></td>
-        <td class="command"><kbd><%= command %></kbd></td>
-        <td class="timeago" data-value="<%= timestamp %>" title="<%= new Date(timestamp).toISOString() %>"></td>
-        <td class="status"><div class="label label-<%= statusLabel %>"><%= status %></div></td>
-      </tr>
+      <td class="id"><small><%= id %></small></td>
+      <td class="command"><kbd><%= command %></kbd></td>
+      <td class="time timeago" data-order="<%= timestamp %>" title="<%= new Date(timestamp).toISOString() %>"></td>
+      <td class="status"><div class="label label-<%= statusLabel %>"><%= status %></div></td>
     </script>
     <script type="text/template" id="job-template">
       <div class="job" id="job-id-<%= id %>">

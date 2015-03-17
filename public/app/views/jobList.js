@@ -6,11 +6,9 @@ var app = app || {};
   app.JobListView = Backbone.View.extend({
 
     $count: null,
-    $body: null,
 
     initialize: function() {
       this.$count = $('#job-count');
-      this.$body = this.$el.find('tbody');
       this.listenTo(this.collection, 'add', this.addItem);
     },
 
@@ -20,27 +18,43 @@ var app = app || {};
 
     render: function() {
       this.$count.html(this.collection.length);
-      this.$body.html('');
+      this.$el.html('');
       this.collection.each(function(job) {
         this._renderJob(job);
       }, this);
 
-      this.$el.dataTable({
-        order: [[2, 'desc']],
-        columnDefs: [
-          {"orderable": false, "targets": [0, 1]},
-          {"bSearchable": false, "aTargets": [2]}
-        ]
-      });
       $(".timeago").timeago();
     },
 
     _renderJob: function(job) {
+      job.set('statusColor', this.getStatusColor(job.get('status')));
       var view = new app.JobListItemView({model: job});
       view.render();
-      this.$body.append(view.el);
-    }
+      this.$el.append(view.el);
+    },
 
+    getStatusColor: function(status) {
+      var statusLabel;
+      switch (status) {
+        case 'CREATED':
+          statusLabel = 'info';
+          break;
+        case 'FINISHED':
+          statusLabel = 'success';
+          break;
+        case 'RUNNING':
+          statusLabel = 'primary';
+          break;
+        case 'KILLED':
+        case 'FAILED':
+          statusLabel = 'danger';
+          break;
+        default:
+          statusLabel = 'warning';
+          break;
+      }
+      return statusLabel;
+    }
   });
 
 })(jQuery);

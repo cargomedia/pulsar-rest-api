@@ -22,11 +22,12 @@ var app = app || {};
     _show: function(id) {
       jobList.fetch({
         success: function() {
-          var view = new app.JobListView({el: $('#job-list'), collection: jobList});
-          view.render();
+          var jobListView = new app.JobListView({el: $('#job-list'), collection: jobList});
+          jobListView.render();
 
           var job = jobList.get(id) || jobList.at(0);
-          (new app.JobView({el: $('#job'), model: job})).render();
+          var jobView = new app.JobView({el: $('#job'), model: job});
+          jobView.render();
         }
       });
     }

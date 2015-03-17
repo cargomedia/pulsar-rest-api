@@ -14,3 +14,8 @@
 #websocket-feedback {
   display: none;
 }
+
+.sidebar {
+  position: fixed;
+  padding-top: 20px;
+}

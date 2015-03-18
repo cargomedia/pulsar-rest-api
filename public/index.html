@@ -38,7 +38,7 @@
     <script type="text/template" id="job-list-item-template">
       <div class="panel panel-<%= statusColor %>">
         <div class="panel-heading">
-          <h3 class="panel-title"><%= command %></h3>
+          <h3 class="panel-title"><%= args.app %> <%= args.env %> <%= args.task %></h3>
         </div>
         <div class="panel-body">
           <table class="table">
@@ -65,6 +65,10 @@
         <tr class="id">
           <td>id</td>
           <td><%= id %></td>
+        </tr>
+        <tr class="command">
+          <td>command</td>
+          <td><%= command %></td>
         </tr>
         <tr class="status">
           <td>status</td>

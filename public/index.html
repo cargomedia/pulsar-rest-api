@@ -38,7 +38,7 @@
     <script type="text/template" id="job-list-item-template">
       <div class="panel panel-<%= statusColor %>">
         <div class="panel-heading">
-          <h3 class="panel-title"><%= args.app %> <%= args.env %> <%= args.task %></h3>
+          <a href="/web/job/<%= id %>"><h3 class="panel-title"><%= args.app %> <%= args.env %> <%= args.task %></h3></a>
         </div>
         <div class="panel-body">
           <table class="table">

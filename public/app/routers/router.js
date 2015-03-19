@@ -7,15 +7,17 @@ var app = app || {};
 
   var PulsarRouter = Backbone.Router.extend({
     routes: {
-      'job/:id': 'showJob',
+      'job/:id(/)': 'showJob',
       '*index': 'showJobList'
     },
 
     showJobList: function() {
+      console.log('showJobList');
       this._show();
     },
 
     showJob: function(id) {
+      console.log('showJob');
       this._show(id);
     },
 

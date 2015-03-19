@@ -19,3 +19,8 @@
   position: fixed;
   padding-top: 20px;
 }
+
+.pre-scrollable {
+  overflow-x: scroll;
+  word-wrap: normal;
+}

@@ -15,9 +15,11 @@
   display: none;
 }
 
-.sidebar {
+#sidebar {
   position: fixed;
   padding-top: 20px;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .pre-scrollable {

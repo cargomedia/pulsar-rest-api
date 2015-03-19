@@ -23,7 +23,7 @@
     <div class="container-fluid">
       <div class="row">
         <div id="sidebar" class="col-sm-4 col-md-3 sidebar">
-          <ul id="job-list" class="nav nav-sidebar"></ul>
+          <div id="job-list" class="nav nav-sidebar"></div>
         </div>
         <div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3">
           <h3>Command details</h3>
@@ -36,26 +36,26 @@
     </div>
 
     <script type="text/template" id="job-list-item-template">
-      <div class="panel panel-<%= statusColor %>">
-        <div class="panel-heading">
-          <a href="/web/job/<%= id %>"><h3 class="panel-title"><%= args.app %> <%= args.env %> <%= args.task %></h3></a>
-        </div>
-        <div class="panel-body">
-          <table class="table">
-            <tr class="id">
-              <td>id</td>
-              <td><%= id %></td>
-            </tr>
-            <tr class="status">
-              <td>status</td>
-              <td><%= status %></td>
-            </tr>
-            <tr class="created">
-              <td>created</td>
-              <td class="timeago" title="<%= new Date(timestamp).toISOString() %>"></td>
-            </tr>
-          </table>
-        </div>
+      <div class="list-group">
+        <table class="table table-bordered">
+          <tr>
+            <th colspan="2" class="bg-<%= statusColor %>">
+              <a href="/web/job/<%= id %>"><%= args.app %> <%= args.env %> <%= args.task %></a>
+            </th>
+          </tr>
+          <tr class="id">
+            <td>id</td>
+            <td><%= id %></td>
+          </tr>
+          <tr class="status">
+            <td>status</td>
+            <td><%= status %></td>
+          </tr>
+          <tr class="created">
+            <td>created</td>
+            <td class="timeago" title="<%= new Date(timestamp).toISOString() %>"></td>
+          </tr>
+        </table>
       </div>
 
     </script>
@@ -85,14 +85,14 @@
           <%
           var runningClass = '';
           if('RUNNING' == status){
-            runningClass = 'progress-bar-striped active';
+          runningClass = 'progress-bar-striped active';
           }
           %>
           <div class="progress-bar progress-bar-<%= statusColor %> <%= runningClass %>" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
         </div>
       </div>
 
-      <pre class="pre-scrollable">$ <%= command %><br/><%= output %></pre>
+      <pre class="pre-scrollable">$ <%= command %><br /><%= output %></pre>
     </script>
 
     <script src="/web/assets/bower_components/jquery/jquery.js"></script>

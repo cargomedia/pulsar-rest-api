@@ -4,6 +4,7 @@ var app = app || {};
   'use strict';
 
   var jobList = new app.JobList();
+  var jobListView = new app.JobListView({el: $('#job-list'), collection: jobList});
 
   var PulsarRouter = Backbone.Router.extend({
     routes: {
@@ -12,24 +13,38 @@ var app = app || {};
     },
 
     showJobList: function() {
-      this._show();
+      var self = this;
+      jobList.fetch({
+        success: function() {
+          jobListView.render();
+          var job = jobList.at(0);
+          if (job) {
+            self._renderJob(job);
+          }
+        }
+      });
     },
 
     showJob: function(id) {
-      this._show(id);
+      var self = this;
+      var job = jobList.get(id);
+      if (job) {
+        this._renderJob(job);
+      } else {
+        job = new app.Job({id: id});
+        job.fetch({
+          success: function() {
+            jobList.add(job);
+            jobListView.render();
+            self._renderJob(job);
+          }
+        });
+      }
     },
 
-    _show: function(id) {
-      jobList.fetch({
-        success: function() {
-          var jobListView = new app.JobListView({el: $('#job-list'), collection: jobList});
-          jobListView.render();
-
-          var job = jobList.get(id) || jobList.at(0);
-          var jobView = new app.JobView({el: $('#job'), model: job});
-          jobView.render();
-        }
-      });
+    _renderJob: function(job) {
+      var jobView = new app.JobView({el: $('#job'), model: job});
+      jobView.render();
     }
   });
 
@@ -51,7 +66,7 @@ var app = app || {};
     var reconnectInterval;
     var feedback = $('#websocket-feedback');
 
-    function startReconnect(){
+    function startReconnect() {
       if (reconnectInterval) {
         return;
       }
@@ -61,7 +76,7 @@ var app = app || {};
       }, 5000);
     }
 
-    function stopReconnect(){
+    function stopReconnect() {
       clearInterval(reconnectInterval);
       feedback.hide();
     }

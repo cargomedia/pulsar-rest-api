@@ -114,8 +114,10 @@ pulsar configuration.
 ### Get job list
 
 #### Request:
-`GET /jobs`
+`GET /jobs?currentPage=:currentPage&pageSize=:pageSize`
 
+`:currentPage` - number of page of job list to fetch. Possible values: `Number`. Default: `0`.
+`:pageSize` - number of jobs per page. Possible values: `Number`. Default: `10`.
 #### Response on success:
 HTTP response code `200`
 ```

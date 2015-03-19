@@ -12,12 +12,10 @@ var app = app || {};
     },
 
     showJobList: function() {
-      console.log('showJobList');
       this._show();
     },
 
     showJob: function(id) {
-      console.log('showJob');
       this._show(id);
     },
 

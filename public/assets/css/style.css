@@ -26,3 +26,7 @@
   overflow-x: scroll;
   word-wrap: normal;
 }
+
+#job-list a {
+  color: inherit;
+}

@@ -7,7 +7,7 @@ var app = app || {};
     model: app.Job,
     url: '/jobs',
     comparator: function(job) {
-      return -job.get('timestamp');
+      return job.get('timestamp');
     }
   });
 

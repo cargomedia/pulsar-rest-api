@@ -17,7 +17,7 @@ var app = app || {};
       jobList.fetch({
         success: function() {
           jobListView.render();
-          var job = jobList.at(0);
+          var job = jobList.last();
           if (job) {
             self._renderJob(job);
           }

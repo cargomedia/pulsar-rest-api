@@ -30,7 +30,7 @@ var app = app || {};
       job.set('statusColor', this.getStatusColor(job.get('status')));
       var view = new app.JobListItemView({model: job});
       view.render();
-      this.$el.append(view.el);
+      this.$el.prepend(view.el);
     },
 
     getStatusColor: function(status) {

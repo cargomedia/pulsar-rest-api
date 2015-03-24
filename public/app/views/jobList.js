@@ -27,33 +27,9 @@ var app = app || {};
     },
 
     _renderJob: function(job) {
-      job.set('statusColor', this.getStatusColor(job.get('status')));
       var view = new app.JobListItemView({model: job});
       view.render();
       this.$el.prepend(view.el);
-    },
-
-    getStatusColor: function(status) {
-      var statusLabel;
-      switch (status) {
-        case 'CREATED':
-          statusLabel = 'info';
-          break;
-        case 'FINISHED':
-          statusLabel = 'success';
-          break;
-        case 'RUNNING':
-          statusLabel = 'primary';
-          break;
-        case 'KILLED':
-        case 'FAILED':
-          statusLabel = 'danger';
-          break;
-        default:
-          statusLabel = 'warning';
-          break;
-      }
-      return statusLabel;
     }
   });
 

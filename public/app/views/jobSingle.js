@@ -3,7 +3,7 @@ var app = app || {};
 (function($) {
   'use strict';
 
-  app.JobView = Backbone.View.extend({
+  app.JobSingleView = app.JobAbstractView.extend({
 
     template: _.template($('#job-template').html()),
 
@@ -17,7 +17,9 @@ var app = app || {};
     },
 
     render: function() {
-      this.$el.html(this.template(this.model.toJSON())).find('.timeago').timeago();
+      var job = this.model;
+      job.set('statusColor', this.getStatusColor(job.get('status')));
+      this.$el.html(this.template(job.toJSON())).find('.timeago').timeago();
     },
 
     killJob: function() {

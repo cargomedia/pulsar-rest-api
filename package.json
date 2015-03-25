@@ -22,7 +22,8 @@
     "url": "https://github.com/cargomedia/pulsar-rest-api/issues"
   },
   "scripts": {
-    "test": "node test/runner.js"
+    "test": "node test/runner.js",
+    "test-data-fixture": "node test/dataFixture.js"
   },
   "dependencies": {
     "async": "~0.9",

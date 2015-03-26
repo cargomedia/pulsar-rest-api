@@ -4,28 +4,38 @@ var app = app || {};
   'use strict';
 
   app.JobListView = Backbone.View.extend({
+
+    $count: null,
+
     initialize: function() {
       this.$count = $('#job-count');
+      this.listenTo(this.collection, 'add', this.addItem);
+    },
 
-      this.listenTo(this.collection, 'add', this.render);
+    addItem: function(job) {
+      this._renderJob(job);
     },
 
     render: function() {
-      if (this.collection.length) {
-        this.$count.html(this.collection.length);
-        this.$el.show();
-      } else {
-        this.$el.hide();
-      }
-
+      this.$count.html(this.collection.length);
       this.$el.html('');
       this.collection.each(function(job) {
-        var view = new app.JobView({ model: job });
-        view.render();
-        this.$el.prepend(view.el);
+        this._renderJob(job);
       }, this);
-    }
 
+      $(".timeago").timeago();
+    },
+
+    setActiveJob: function(job) {
+      this.$('.job-list-item.active').removeClass('active');
+      this.$('#' + job.id).addClass('active');
+    },
+
+    _renderJob: function(job) {
+      var view = new app.JobListItemView({model: job});
+      view.render();
+      this.$el.prepend(view.el);
+    }
   });
 
 })(jQuery);

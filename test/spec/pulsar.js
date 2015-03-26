@@ -5,7 +5,7 @@ var Pulsar = require('../../lib/pulsar/index');
 var PulsarJob = require('../../lib/pulsar/job');
 var PulsarDb = require('../../lib/pulsar/db');
 var assert = require('chai').assert;
-var jobArgs = require('../data/job-args');
+var jobArgs = require('../data/jobArgs');
 var Config = require('../../lib/config');
 
 /**

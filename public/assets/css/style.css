@@ -1,53 +1,49 @@
-#pulsarapp {
-  width: 800px;
-  margin: auto;
-}
-
-button {
-  margin: 10px;
-}
-
-.job {
-  padding: 20px;
-}
-
-.console {
-  white-space: nowrap;
-  overflow-x: auto;
-  border-radius: 4px;
-  font-family: Courier;
-  color: #CCCCCC;
-  background: #000000;
-  min-height: 20px;
-  margin-bottom: 20px;
-  font-size: 12px;
-  padding: 10px;
+body {
+  padding-top: 50px;
 }
 
 #websocket-feedback {
   display: none;
 }
 
-.mt10 {
-  margin-top: 10px;
+#sidebar {
+  padding-top: 20px;
+  height: 100%;
+  overflow-y: auto;
 }
 
-.mt20 {
-  margin-top: 20px;
+#job pre {
+  overflow-x: scroll;
+  word-wrap: normal;
 }
 
-.mt30 {
-  margin-top: 30px;
+#job-list a {
+  color: inherit;
 }
 
-.mb10 {
-  margin-bottom: 10px !important;
+.job-list-item.active table {
+  border: 2px solid #0000ff;
 }
 
-.mb20 {
-  margin-bottom: 20px !important;
+.glyphicon-refresh-animate {
+  -animation: spin .7s infinite linear;
+  -webkit-animation: spin2 .7s infinite linear;
 }
 
-.mb30 {
-  margin-bottom: 30px !important;
+@-webkit-keyframes spin2 {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    transform: scale(1) rotate(360deg);
+  }
 }

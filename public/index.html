@@ -4,66 +4,100 @@
   <head>
     <meta charset="utf-8">
     <title>Pulsar REST API client</title>
-    <link rel="stylesheet" href="/web/assets/css/style.css?v=1.0">
     <link rel="stylesheet" href="/web/assets/bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/web/assets/css/style.css?v=1.0">
   </head>
   <body>
-    <section id="pulsarapp">
-      <header id="header">
-        <nav class="navbar navbar-inverse" role="navigation">
-          <div class="container-fluid">
-            <div class="navbar-header">
-              <a class="navbar-brand" href="/web/">Pulsar dashboard</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-9">
-              <ul class="nav navbar-nav">
-                <li class="nav-page nav-page-jobList"><a href="/web/"><span class="badge" id="job-count">0</span> Jobs</a></li>
-                <li class="nav-page nav-page-job"><a>Job</a></li>
-              </ul>
-            </div>
-          </div>
-        </nav>
-      </header>
-      <div id="websocket-feedback" class="alert alert-danger" role="alert">Web Socket connection was lost. Reconnecting. Please wait.</div>
-      <section id="content"></section>
-      <footer id="footer"></footer>
-    </section>
+    <header class="navbar navbar-fixed-top navbar-inverse">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <span class="navbar-brand">Pulsar dashboard</span>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a href="/web/">Job list</a></li>
+        </ul>
+      </div>
+    </header>
 
-    <script type="text/template" id="job-template">
-      <div class="job" id="job-id-<%= id %>">
-        <div class="btn-group">
-          <a href="/web#job/<%= id %>" class="btn btn-default"><span class="jobId badge"><%= id %></span></a>
-          <div class="btn-group">
-            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-              Actions
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a href="#" class="job-kill">Kill job</a></li>
-            </ul>
+    <div class="container-fluid">
+      <div id="websocket-feedback" class="alert alert-danger row" role="alert">Web Socket connection was lost. Reconnecting. Please wait.</div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div id="sidebar" class="col-sm-4 col-md-3 sidebar">
+          <div id="job-list" class="nav nav-sidebar"></div>
+        </div>
+        <div class="col-sm-8 col-md-9">
+          <h3>Command details</h3>
+
+          <div class="row" id="job">
+
           </div>
         </div>
-        <div class="well mt20">
-          <span class="glyphicon glyphicon-cog"></span> <span class="status"><%= status %></span>
-          <% if (status == 'RUNNING') { %>
-          <div class="progress progress-striped active mt20 mb10">
-            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height:25px"></div>
-            <% } else if (status == 'FAILED') { %>
-            <div class="progress active mt20 mb10">
-              <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height:25px"></div>
-              <% } else { %>
-              <div class="progress mt20 mb10">
-                <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%; height:25px"></div>
+      </div>
+    </div>
+
+    <script type="text/template" id="job-list-item-template">
+      <div id="<%= id %>" class="list-group job-list-item">
+        <table class="table table-bordered">
+          <tr>
+            <th colspan="2" class="bg-<%= statusColor %>">
+              <a href="/web/job/<%= id %>"><%= args.app %> <%= args.env %> <%= args.task %></a>
+            </th>
+          </tr>
+          <tr class="id">
+            <td>id</td>
+            <td><%= id %></td>
+          </tr>
+          <tr class="status">
+            <td>status</td>
+            <td>
+              <span class="label label-<%= statusColor %>">
+                <%= status %>
+                <% if('RUNNING' == status){ %>
+                  <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
                 <% } %>
-              </div>
-            </div>
-            <% if (command && output) { %>
-            <div class="console">
-              $ <%= command %><br>
-              <%= output.replace(/ /g, '&nbsp;').replace(new RegExp('\r?\n', 'g'), '<br />') %>
-            </div>
-            <% } %>
-          </div>
+              </span>
+            </td>
+          </tr>
+          <tr class="created">
+            <td>created</td>
+            <td class="timeago" title="<%= new Date(timestamp).toISOString() %>"></td>
+          </tr>
+        </table>
+      </div>
+
+    </script>
+
+    <script type="text/template" id="job-template">
+      <table class="table table-bordered table-stripped">
+        <tr class="id">
+          <td>id</td>
+          <td><%= id %></td>
+        </tr>
+        <tr class="command">
+          <td>command</td>
+          <td><%= command %></td>
+        </tr>
+        <tr class="status">
+          <td>status</td>
+          <td>
+            <span class="label label-<%= statusColor %>">
+              <%= status %>
+              <% if('RUNNING' == status){ %>
+                <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span>
+              <% } %>
+            </span>
+          </td>
+        </tr>
+        <tr class="created">
+          <td>created</td>
+          <td class="timeago" title="<%= new Date(timestamp).toISOString() %>"></td>
+        </tr>
+      </table>
+
+      <pre>$ <%= command %><br /><%= output %></pre>
     </script>
 
     <script src="/web/assets/bower_components/jquery/jquery.js"></script>
@@ -73,11 +107,14 @@
     <script src="/web/assets/bower_components/backbone.localStorage/backbone.localStorage.js"></script>
     <script src="/web/assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="/web/assets/bower_components/sockjs/sockjs.min.js"></script>
+    <script src="/web/assets/bower_components/jquery-timeago/jquery.timeago.js"></script>
 
     <script src="/web/app/models/job.js"></script>
     <script src="/web/app/collections/jobs.js"></script>
-    <script src="/web/app/views/jobView.js"></script>
+    <script src="/web/app/views/jobAbstract.js"></script>
+    <script src="/web/app/views/jobSingle.js"></script>
     <script src="/web/app/views/jobList.js"></script>
+    <script src="/web/app/views/jobListItem.js"></script>
     <script src="/web/app/routers/router.js"></script>
   </body>
 </html>

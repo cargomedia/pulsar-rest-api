@@ -4,37 +4,48 @@ var app = app || {};
   'use strict';
 
   var jobList = new app.JobList();
+  var jobListView = new app.JobListView({el: $('#job-list'), collection: jobList});
 
   var PulsarRouter = Backbone.Router.extend({
     routes: {
-      'job/:id': 'loadJob',
-      '*index': 'loadJobList'
+      'job/:id(/)': 'showJob',
+      '*index': 'showJobList'
     },
 
-    loadJobList: function() {
+    showJobList: function() {
+      var self = this;
       jobList.fetch({
         success: function() {
-          var view = new app.JobListView({el: $('#content'), collection: jobList});
-          view.render();
+          jobListView.render();
+          var job = jobList.last();
+          if (job) {
+            self._renderJob(job);
+          }
         }
       });
-      this.updateNav('jobList');
     },
 
-    loadJob: function(id) {
-      var job = jobList.get(id) || jobList.add({id: id});
-      job.fetch({
-        success: function() {
-          var view = new app.JobView({el: $('#content'), model: job});
-          view.render();
-        }
-      });
-      this.updateNav('job');
+    showJob: function(id) {
+      var self = this;
+      var job = jobList.get(id);
+      if (job) {
+        this._renderJob(job);
+      } else {
+        job = new app.Job({id: id});
+        job.fetch({
+          success: function() {
+            jobList.add(job);
+            jobListView.render();
+            self._renderJob(job);
+          }
+        });
+      }
     },
 
-    updateNav: function(page) {
-      $('.nav-page').removeClass('active');
-      $('.nav-page-' + page).addClass('active');
+    _renderJob: function(job) {
+      var jobView = new app.JobSingleView({el: $('#job'), model: job});
+      jobView.render();
+      jobListView.setActiveJob(job);
     }
   });
 
@@ -56,7 +67,7 @@ var app = app || {};
     var reconnectInterval;
     var feedback = $('#websocket-feedback');
 
-    function startReconnect(){
+    function startReconnect() {
       if (reconnectInterval) {
         return;
       }
@@ -66,7 +77,7 @@ var app = app || {};
       }, 5000);
     }
 
-    function stopReconnect(){
+    function stopReconnect() {
       clearInterval(reconnectInterval);
       feedback.hide();
     }

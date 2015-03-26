@@ -9,7 +9,8 @@
         "jquery.cookie": "~1.4",
         "sockjs": "~0.3",
         "backbone.localStorage": "~1.1.0",
-        "bootstrap": "~3.1.0",
-        "requirejs": ">=2.1.10"
+        "bootstrap": "~3.3",
+        "requirejs": ">=2.1.10",
+        "jquery-timeago": "1.4.0"
     }
 }

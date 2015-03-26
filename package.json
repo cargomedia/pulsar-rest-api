@@ -1,7 +1,7 @@
 {
   "name": "pulsar-rest-api",
   "description": "REST API for executing Pulsar tasks.",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "author": "Cargomedia",
   "license": "MIT",
   "main": "lib/server.js",
@@ -22,7 +22,8 @@
     "url": "https://github.com/cargomedia/pulsar-rest-api/issues"
   },
   "scripts": {
-    "test": "node test/runner.js"
+    "test": "node test/runner.js",
+    "test-data-fixture": "node test/dataFixture.js"
   },
   "dependencies": {
     "async": "~0.9",

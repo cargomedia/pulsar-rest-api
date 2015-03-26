@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="/web/assets/css/style.css?v=1.0">
   </head>
   <body>
-    <header class="navbar navbar-static-top navbar-inverse">
+    <header class="navbar navbar-fixed-top navbar-inverse">
       <div class="container-fluid">
         <div class="navbar-header">
           <span class="navbar-brand">Pulsar dashboard</span>
@@ -28,7 +28,7 @@
         <div id="sidebar" class="col-sm-4 col-md-3 sidebar">
           <div id="job-list" class="nav nav-sidebar"></div>
         </div>
-        <div class="col-sm-8 col-sm-offset-4 col-md-9 col-md-offset-3">
+        <div class="col-sm-8 col-md-9">
           <h3>Command details</h3>
 
           <div class="row" id="job">
@@ -97,7 +97,7 @@
         </tr>
       </table>
 
-      <pre class="pre-scrollable">$ <%= command %><br /><%= output %></pre>
+      <pre>$ <%= command %><br /><%= output %></pre>
     </script>
 
     <script src="/web/assets/bower_components/jquery/jquery.js"></script>

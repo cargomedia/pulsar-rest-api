@@ -1,14 +1,5 @@
-.console {
-  white-space: nowrap;
-  overflow-x: auto;
-  border-radius: 4px;
-  font-family: Courier;
-  color: #CCCCCC;
-  background: #000000;
-  min-height: 20px;
-  margin-bottom: 20px;
-  font-size: 12px;
-  padding: 10px;
+body {
+  padding-top: 50px;
 }
 
 #websocket-feedback {
@@ -16,13 +7,12 @@
 }
 
 #sidebar {
-  position: fixed;
   padding-top: 20px;
   height: 100%;
   overflow-y: auto;
 }
 
-.pre-scrollable {
+#job pre {
   overflow-x: scroll;
   word-wrap: normal;
 }
@@ -31,7 +21,7 @@
   color: inherit;
 }
 
-.job-list-item.active table{
+.job-list-item.active table {
   border: 2px solid #0000ff;
 }
 
@@ -41,11 +31,19 @@
 }
 
 @-webkit-keyframes spin2 {
-  from { -webkit-transform: rotate(0deg);}
-  to { -webkit-transform: rotate(360deg);}
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-  from { transform: scale(1) rotate(0deg);}
-  to { transform: scale(1) rotate(360deg);}
+  from {
+    transform: scale(1) rotate(0deg);
+  }
+  to {
+    transform: scale(1) rotate(360deg);
+  }
 }

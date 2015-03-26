@@ -26,6 +26,11 @@ var app = app || {};
       $(".timeago").timeago();
     },
 
+    setActiveJob: function(job) {
+      this.$('.job-list-item.active').removeClass('active');
+      this.$('#' + job.id).addClass('active');
+    },
+
     _renderJob: function(job) {
       var view = new app.JobListItemView({model: job});
       view.render();

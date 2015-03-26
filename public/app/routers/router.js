@@ -45,6 +45,7 @@ var app = app || {};
     _renderJob: function(job) {
       var jobView = new app.JobSingleView({el: $('#job'), model: job});
       jobView.render();
+      jobListView.setActiveJob(job);
     }
   });
 

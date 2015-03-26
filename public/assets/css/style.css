@@ -30,3 +30,7 @@
 #job-list a {
   color: inherit;
 }
+
+.job-list-item.active table{
+  border: 2px solid #0000ff;
+}

@@ -10,6 +10,7 @@ body {
   padding-top: 20px;
   height: 100%;
   overflow-y: auto;
+  position: fixed;
 }
 
 #job pre {

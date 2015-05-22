@@ -4,17 +4,20 @@ var walk = require('walk');
 var mochaBin = join(__dirname, '..', 'node_modules', '.bin', 'mocha');
 var _ = require('underscore');
 
-var statusList = [];
+var exitCodes = [];
 var walker = walk.walk(__dirname + '/spec', {followLinks: false});
 walker.on('file', function(root, stat, next) {
   var filepath = root + '/' + stat.name;
   var result = cp.spawnSync(mochaBin, [filepath], {stdio: 'inherit'});
-  statusList.push(result.status);
+  exitCodes.push(result.status);
   next();
 });
+
 walker.on('end', function() {
-  console.log(statusList);
-  if (!_.every(statusList, 0)) {
+  var failures = _.filter(exitCodes, function(status) {
+    return status !== 0;
+  });
+  if (failures.length) {
     process.exit(1);
   }
 });

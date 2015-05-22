@@ -13,6 +13,7 @@ walker.on('file', function(root, stat, next) {
   next();
 });
 walker.on('end', function() {
+  console.log(statusList);
   if (!_.every(statusList, 0)) {
     process.exit(1);
   }

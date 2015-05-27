@@ -14,10 +14,10 @@ walker.on('file', function(root, stat, next) {
 });
 
 walker.on('end', function() {
-  var failures = _.filter(exitCodes, function(status) {
+  var hasFailures = _.some(exitCodes, function(status) {
     return status !== 0;
   });
-  if (failures.length) {
+  if (hasFailures) {
     process.exit(1);
   }
 });

@@ -12,6 +12,15 @@ namespace :dummy do
     sleep 10
   end
 
+  task :my_sleep_output do
+    10.times do
+      50.times do
+        puts Array.new(10){ [*'0'..'9',*'A'..'Z',*'a'..'z'].sample }.join
+      end
+      sleep 1
+    end
+  end
+
 end
 
 namespace :deploy do

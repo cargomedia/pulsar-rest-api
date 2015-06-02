@@ -10,6 +10,12 @@ body {
   padding-top: 20px;
   height: 100%;
   overflow-y: auto;
+  position: fixed;
+  min-width: 360px;
+}
+
+#job-details {
+  margin-left: 360px;
 }
 
 #job pre {

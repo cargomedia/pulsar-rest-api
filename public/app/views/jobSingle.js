@@ -13,14 +13,16 @@ var app = app || {};
 
     initialize: function() {
       this.setElement(this.el);
-      this.listenTo(this.model, 'change', this.render);
+      this.listenTo(this.model, 'change', function() {
+        this.render();
+        window.scrollTo(0, document.body.scrollHeight);
+      });
     },
 
     render: function() {
       var job = this.model;
       job.set('statusColor', this.getStatusColor(job.get('status')));
       this.$el.html(this.template(job.toJSON())).find('.timeago').timeago();
-      window.scrollTo(0, document.body.scrollHeight);
     },
 
     killJob: function() {

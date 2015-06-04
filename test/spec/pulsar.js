@@ -196,6 +196,7 @@ describe('tests of pulsar API', function() {
   });
 
   it('check if the current jobs are shutdowned when the api process is killed', function(done) {
+    this.timeout(12000);
     var self = this;
     async.map([null, null], function(dummy, callback) {
       self.pulsar.createJob(
@@ -214,7 +215,7 @@ describe('tests of pulsar API', function() {
       assert(jobs && jobs.length === 2);
       process.on('exit', function() {
         _.each(jobs, function(job) {
-          assert(job.status == PulsarJob.STATUS.KILLED, 'Job should be killed');
+          assert(job.status == PulsarJob.STATUS.FINISHED, 'Job should be finished');
         });
         //because `_shutdown` kills the process, we need to clean after the test manually.
         self.pulsarDb.collection.remove(done);

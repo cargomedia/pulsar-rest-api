@@ -13,7 +13,10 @@ var app = app || {};
 
     initialize: function() {
       this.setElement(this.el);
-      this.listenTo(this.model, 'change', this.render);
+      this.listenTo(this.model, 'change', function() {
+        this.render();
+        window.scrollTo(0, document.body.scrollHeight);
+      });
     },
 
     render: function() {

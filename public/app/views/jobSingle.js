@@ -8,7 +8,7 @@ var app = app || {};
     template: _.template($('#job-template').html()),
 
     events: {
-      'click .job-kill': 'killJob'
+      'click .kill': 'killJob'
     },
 
     initialize: function() {

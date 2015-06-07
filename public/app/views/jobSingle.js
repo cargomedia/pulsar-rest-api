@@ -12,11 +12,12 @@ var app = app || {};
     },
 
     initialize: function() {
-      this.setElement(this.el);
-      this.listenTo(this.model, 'change', function() {
-        this.render();
-        window.scrollTo(0, document.body.scrollHeight);
-      });
+      this.listenTo(this.model, 'change', this._modelChanged);
+    },
+
+    _modelChanged: function() {
+      this.render();
+      window.scrollTo(0, document.body.scrollHeight);
     },
 
     render: function() {
@@ -27,6 +28,12 @@ var app = app || {};
 
     killJob: function() {
       $.post('/job/' + this.model.id + '/kill');
+    },
+
+    close: function() {
+      this.unbind();
+      this.model.unbind("change", this._modelChanged);
+      this.remove();
     }
   });
 

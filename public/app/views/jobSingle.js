@@ -27,7 +27,9 @@ var app = app || {};
     },
 
     killJob: function() {
-      $.post('/job/' + this.model.id + '/kill');
+      if (window.confirm("Kill this job?")) {
+        $.post('/job/' + this.model.id + '/kill');
+      }
     },
 
     close: function() {

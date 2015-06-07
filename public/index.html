@@ -95,11 +95,16 @@
           <td>created</td>
           <td class="timeago" title="<%= new Date(timestamp).toISOString() %>"></td>
         </tr>
-        <% if('RUNNING' == status){ %>
         <tr class="actions">
-          <td colspan="2"><button type="button" class="btn btn-danger kill">Kill</button></td>
+          <td colspan="2">
+            <% if('RUNNING' == status){ %>
+              <button type="button" class="btn btn-danger kill">Kill</button>
+            <% } %>
+            <% if('KILLED' == status || 'FAILED' == status){ %>
+              <button type="button" class="btn btn-warning restart">Restart</button>
+            <% } %>
+          </td>
         </tr>
-        <% } %>
       </table>
 
       <pre>$ <%= command %><br /><%= output %></pre>

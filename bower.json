@@ -12,5 +12,8 @@
         "bootstrap": "~3.3",
         "requirejs": ">=2.1.10",
         "jquery-timeago": "1.4.0"
+    },
+    "resolutions": {
+      "jquery": "~2.0.0"
     }
 }

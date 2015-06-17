@@ -8,12 +8,11 @@ var app = app || {};
     template: _.template($('#job-template').html()),
 
     events: {
-      'click .job-kill': 'killJob'
+      'click .kill': 'killJob'
     },
 
     initialize: function() {
-      this.setElement(this.el);
-      this.listenTo(this.model, 'change', function() {
+      this.listenTo(this.model, 'change:status change:output', function() {
         this.render();
         window.scrollTo(0, document.body.scrollHeight);
       });
@@ -26,7 +25,15 @@ var app = app || {};
     },
 
     killJob: function() {
-      $.post('/job/' + this.model.id + '/kill');
+      if (window.confirm("Kill this job?")) {
+        $.post('/job/' + this.model.id + '/kill');
+      }
+    },
+
+    close: function() {
+      this.unbind();
+      this.model.unbind('change:status change:output');
+      this.remove();
     }
   });
 

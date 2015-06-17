@@ -182,7 +182,7 @@ describe('tests of pulsar API', function() {
         job.execute();
         job.once('change', function() {
           setTimeout(function() {
-            assert(job.status == PulsarJob.STATUS.RUNNING, 'Job should still be running');
+            assert(job.status == PulsarJob.STATUS.KILLING, 'Job status must be ' + PulsarJob.STATUS.KILLING);
           }, PulsarJob._KILL_TIMEOUT - 1);
 
           setTimeout(function() {

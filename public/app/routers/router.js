@@ -43,8 +43,12 @@ var app = app || {};
     },
 
     _renderJob: function(job) {
-      var jobView = new app.JobSingleView({el: $('#job'), model: job});
-      jobView.render();
+      if (this.jobView) {
+        this.jobView.close();
+      }
+      this.jobView = new app.JobSingleView({model: job});
+      this.jobView.render();
+      $('#job').append(this.jobView.$el);
       jobListView.setActiveJob(job);
     }
   });

@@ -12,12 +12,10 @@ var app = app || {};
     },
 
     initialize: function() {
-      this.listenTo(this.model, 'change', this._modelChanged);
-    },
-
-    _modelChanged: function() {
-      this.render();
-      window.scrollTo(0, document.body.scrollHeight);
+      this.listenTo(this.model, 'change:status change:output', function() {
+        this.render();
+        window.scrollTo(0, document.body.scrollHeight);
+      });
     },
 
     render: function() {
@@ -34,7 +32,7 @@ var app = app || {};
 
     close: function() {
       this.unbind();
-      this.model.unbind("change", this._modelChanged);
+      this.model.unbind('change:status change:output');
       this.remove();
     }
   });

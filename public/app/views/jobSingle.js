@@ -8,7 +8,8 @@ var app = app || {};
     template: _.template($('#job-template').html()),
 
     events: {
-      'click .kill': 'killJob'
+      'click .kill': 'killJob',
+      'click .restart': 'restartJob'
     },
 
     initialize: function() {
@@ -27,6 +28,12 @@ var app = app || {};
     killJob: function() {
       if (window.confirm("Kill this job?")) {
         $.post('/job/' + this.model.id + '/kill');
+      }
+    },
+
+    restartJob: function() {
+      if (window.confirm("Restart this job?")) {
+        $.post('/job/' + this.model.id + '/restart');
       }
     },
 

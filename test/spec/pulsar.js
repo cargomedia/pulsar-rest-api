@@ -195,6 +195,30 @@ describe('tests of pulsar API', function() {
       });
   });
 
+  it('check if created job can be restarted after it\'s killed', function(done) {
+    this.timeout(12000);
+    //only for the sake of the test
+    PulsarJob._KILL_TIMEOUT = 200;
+    var self = this;
+    this.pulsar.createJob(
+      jobArgs.app.example,
+      jobArgs.env.production,
+      jobArgs.task.dummySleepy,
+      function(err, job) {
+        job.execute();
+        job.once('close', function() {
+          self.pulsar.restartJob(job, function(err, job) {
+            assert(!err && PulsarJob.STATUS.RUNNING == job.status);
+            job.once('close', function() {
+              assert(PulsarJob.STATUS.FINISHED == job.status);
+              done();
+            });
+          });
+        });
+        job.kill();
+      });
+  });
+
   it('check if the current jobs are shutdowned when the api process is killed', function(done) {
     this.timeout(12000);
     var self = this;

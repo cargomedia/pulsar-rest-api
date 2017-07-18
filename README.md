@@ -74,14 +74,19 @@ The mongodb instance that you defined in your config should be up and running be
 ##### Run
 `pulsar-rest-api -c 'your_config.yaml'`. After that web interface should be browsable through 'localhost:`{config.port}`' or url defined in `authentication.baseUrl` if `authentication` is enabled.
 
+Run the pulsar-rest-api service with docker:
+```bash
+docker-compose up api
+```
+
 ### Test
 
 #### Auto tests
 To run these tests you need a running instance of mongodb. The required configuration of mongodb can be found in `test/config.yaml`, section `mongodb`. When mongodb is running, type in console `npm test`.
 
 Otherwise, you can use docker to create all required services and run tests:
-```
-docker-compose up pulsar
+```bash
+docker-compose -f docker-compose.test.yml up api # or ./docker-ci.sh
 ```
 
 #### Manual tests

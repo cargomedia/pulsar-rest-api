@@ -1,7 +1,21 @@
-language: node_js
-node_js:
-  - "0.11"
-before_script:
-  - bundle install
+sudo: required
+
 services:
-  - mongodb
+  - docker
+
+env:
+  DOCKER_COMPOSE_VERSION: 1.13.0
+
+cache:
+  directories:
+  - node_modules
+
+before_install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+  - docker-compose -f docker-compose.test.yml pull
+
+script:
+  - ./docker-ci.sh

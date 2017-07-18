@@ -1,6 +1,8 @@
 port: 8001
 mongodb:
-  host: 'localhost'
+  host: 'mongo'
   port: 27017
   db: 'pulsar'
 logPath: 'pulsar-rest-api.log'
+pulsar:
+  repo: ''

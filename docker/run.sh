@@ -24,5 +24,7 @@ function test_mongo {
   curl "http://mongo:27017" &>/dev/null
 }
 
+ACTION=${1:-start}
+
 app_wait_mongodb
-npm test
+npm "${ACTION}"

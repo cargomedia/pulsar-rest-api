@@ -1,2 +1,2 @@
 #!/bin/bash -e
-docker-compose up --abort-on-container-exit --exit-code-from pulsar pulsar
+docker-compose -f docker-compose.test.yml up --abort-on-container-exit --exit-code-from api api

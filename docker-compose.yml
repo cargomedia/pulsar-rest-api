@@ -1,0 +1,22 @@
+version: '3.3'
+services:
+  pulsar:
+    build: .
+    image: cargomedia/pulsar-rest-api:latest
+    volumes:
+      - .:/app:rw,cached
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:3.2
+    command: "--config /mongo/config/mongod.conf"
+    volumes:
+      - data-mongo:/data/db
+      - ./docker/config/mongo:/mongo/config
+    ports:
+      - "27017:27017"
+
+volumes:
+  data-mongo:
+

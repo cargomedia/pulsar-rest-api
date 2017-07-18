@@ -79,6 +79,11 @@ The mongodb instance that you defined in your config should be up and running be
 #### Auto tests
 To run these tests you need a running instance of mongodb. The required configuration of mongodb can be found in `test/config.yaml`, section `mongodb`. When mongodb is running, type in console `npm test`.
 
+Otherwise, you can use docker to create all required services and run tests:
+```
+docker-compose up pulsar
+```
+
 #### Manual tests
 To see how API is working you need to run its instance and open `http[s]://localhost:{port}` to see its web interface where `port` must be defined in your config and you may have an `https` prefix if you have `ssl` in the config. Further in examples below we will use a simple endpoint `http://localhost:8001`.
 

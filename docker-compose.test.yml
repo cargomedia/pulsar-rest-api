@@ -16,8 +16,6 @@ services:
     volumes:
       - data-mongo:/data/db
       - ./docker/config/mongo:/mongo/config
-    ports:
-      - "27017:27017"
 
 volumes:
   data-mongo:

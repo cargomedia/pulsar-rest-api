@@ -1,0 +1,9 @@
+ARG FROM_TAG=latest
+FROM cargomedia/pulsar-rest-api:${FROM_TAG}
+
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+RUN npm install -dev
+COPY test ./test
+
+CMD ["test"]

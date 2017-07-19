@@ -1,12 +1,12 @@
 version: '3.2'
 services:
-  api:
-    build: .
-    image: cargomedia/pulsar-rest-api:latest
-    command: test
-    volumes:
-      - ./lib:/app/lib:rw,cached
-      - ./test:/app/test:rw,cached
+  test-api:
+    build:
+      context: .
+      dockerfile: Dockerfile-test
+      args:
+        FROM_TAG: latest
+    image: test-pulsar-rest-api:latest
     depends_on:
       - mongo
 
@@ -14,9 +14,4 @@ services:
     image: mongo:3.2
     command: "--config /mongo/config/mongod.conf"
     volumes:
-      - data-mongo:/data/db
       - ./docker/config/mongo:/mongo/config
-
-volumes:
-  data-mongo:
-

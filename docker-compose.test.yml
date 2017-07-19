@@ -1,0 +1,17 @@
+version: '3.2'
+services:
+  test-api:
+    build:
+      context: .
+      dockerfile: Dockerfile-test
+      args:
+        FROM_TAG: latest
+    image: test-pulsar-rest-api:latest
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:3.2
+    command: "--config /mongo/config/mongod.conf"
+    volumes:
+      - ./docker/config/mongo:/mongo/config

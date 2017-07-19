@@ -1,0 +1,7 @@
+ARG FROM_TAG=latest
+FROM cargomedia/pulsar-rest-api:${FROM_TAG}
+
+RUN npm install -dev
+COPY test ./test
+
+CMD ["test"]

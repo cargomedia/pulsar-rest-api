@@ -1,0 +1,25 @@
+version: '3.2'
+services:
+  mongodb:
+    image: mongo:latest
+    environment:
+      - MONGO_DATA_DIR=/data/db
+      - MONGO_LOG_DIR=/dev/null
+    volumes:
+      - mongodb-data:/data/db
+    ports:
+        - 27017:27017
+    command: mongod --smallfiles
+
+
+  pulsar-rest-api:
+    build: .
+    image: cargomedia/pulsar-rest-api:latest
+    command: ./bin/pulsar-rest-api
+    ports:
+      - 8001:8001
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodb-data:

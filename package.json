@@ -49,6 +49,7 @@
   "devDependencies": {
     "chai": "~1.9.1",
     "mocha": "~1.21.4",
-    "walk": "~2.3.9"
+    "walk": "~2.3.9",
+    "wait-for-port": "~0.0.2"
   }
 }

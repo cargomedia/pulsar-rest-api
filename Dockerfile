@@ -13,5 +13,5 @@ RUN npm install --only=production
 
 COPY . ./
 
-EXPOSE 8081
+EXPOSE 8001
 CMD ["./bin/pulsar-rest-api"]

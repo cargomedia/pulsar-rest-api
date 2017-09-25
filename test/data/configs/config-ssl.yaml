@@ -1,7 +1,7 @@
 port: 8001
 logPath: 'pulsar-rest-api.log'
 mongodb:
-  host: 'localhost'
+  host: 'mongodb'
   port: 27017
   db: 'pulsar_test'
 pulsar:

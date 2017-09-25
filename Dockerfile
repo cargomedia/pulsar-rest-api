@@ -8,6 +8,10 @@ COPY Gemfile ./
 COPY Gemfile.lock ./
 RUN bundle install
 
+RUN npm install -g bower
+COPY bower.json .bowerrc ./
+RUN bower install --allow-root
+
 COPY package.json ./
 RUN npm install --only=production
 

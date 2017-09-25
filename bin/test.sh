@@ -1,4 +1,3 @@
 #!/bin/bash -e
-
 npm install
-npm test
+node test/runner.js "$@"

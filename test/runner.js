@@ -9,6 +9,7 @@ var mochaBin = rootDir + '/node_modules/.bin/mocha';
 
 var Config = require(rootDir + '/lib/config');
 var testConfig = new Config(rootDir + '/test/data/configs/config.yaml').asHash();
+var args = process.argv.slice(2);
 
 waitForPort(testConfig.mongodb.host, testConfig.mongodb.port, function(err) {
   if (err) {
@@ -19,7 +20,7 @@ waitForPort(testConfig.mongodb.host, testConfig.mongodb.port, function(err) {
   var walker = walk.walk(__dirname + '/spec', {followLinks: false});
   walker.on('file', function(root, stat, next) {
     var filepath = root + '/' + stat.name;
-    var result = cp.spawnSync(mochaBin, [filepath], {stdio: 'inherit'});
+    var result = cp.spawnSync(mochaBin, [filepath].concat(args), {stdio: 'inherit'});
     exitCodes.push(result.status);
     next();
   });

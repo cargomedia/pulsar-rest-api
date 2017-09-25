@@ -13,13 +13,7 @@ npm install pulsar-rest-api [-g]
 ```
 
 ### Run
-#### In short
- * Prepare valid config.
- * Verify that mongodb is up and running.
- * Run the instance with command `pulsar-rest-api -c 'your_config.yaml'`
-
-#### In detail
-##### Prepare valid config
+#### Prepare valid config
 The instance of pulsar-rest-api can be run with different options. All of the options can be specified in the config. To run the instance with your own config you need to specify the filepath to it with the flag `-c`. For example `pulsar-rest-api -c '~/my_pulsar_config.yaml'`.
 
 The default config is [`config.yaml`](bin/config.yaml) and it can be found in `bin` directory of the pulsar-rest-api installation.
@@ -49,7 +43,7 @@ Please read carefully through the format of the config below. The options that a
   - `pfx`: required if `key` or `cert` options aren't presented. Ssl pfx file (key + cert). Overrides `key` and `cert` options.
   - `passphrase`: optional. File containing the ssl passphrase.
 
-##### Github OAuth App setup.
+#### Github OAuth App setup.
   - Go to https://github.com/settings/applications/new.
   - There is going to be a form. Fill it up. For example here is the values that I've used on my local setup:
     - `Application name` = pulsar-rest-api
@@ -58,7 +52,7 @@ Please read carefully through the format of the config below. The options that a
     - `Authorization callback URL`. It's optional. You can leave it empty and it will be the same as `Homepage URL`.
   - Submit them and you will receive `Client ID` and `Client Secret` which are `githubOauthId` and `githubOauthSecret` correspondingly. 
 
-##### Authorization setup.
+#### Authorization setup.
 The authorization model is separate from the logic. Because of that if you want to have authorization for some url endpoint, you need to set an authorization rule separately from the url. Those rules can be set only as the parameter-function `restrictions` of `authentication.installHandlers`.
 For example, Pulsar-Rest-Api has a 'Create Job' url endpoint `/:app/:env`. If you want to restrict this action to the `write` role then you need to have the next call to `authentication.installHandlers`:
 ```js
@@ -68,16 +62,27 @@ For example, Pulsar-Rest-Api has a 'Create Job' url endpoint `/:app/:env`. If yo
 ```
 The parameter-function `restrictions` has the instance of Authorization module as its only argument.
 
-##### Verify that mongodb is up and running
-The mongodb instance that you defined in your config should be up and running before you start the pulsar.
-
-##### Run
+#### Run
 `pulsar-rest-api -c 'your_config.yaml'`. After that web interface should be browsable through 'localhost:`{config.port}`' or url defined in `authentication.baseUrl` if `authentication` is enabled.
 
-### Test
+#### with docker-compose
+```
+docker-compose up pulsar-rest-api
+```
+It spins up the mongodb and pulsar-rest-api containers.
+
+In development, you can mount the repository as a volume (remember to install npm dependencies locally before)
+```
+npm install
+docker-compose run --volume $(pwd):/opt/pulsar-rest-api pulsar-rest-api
+```
+
+### Tests
 
 #### Auto tests
-To run these tests you need a running instance of mongodb. The required configuration of mongodb can be found in `test/config.yaml`, section `mongodb`. When mongodb is running, type in console `npm test`.
+```
+docker-compose run --volume $(pwd):/opt/pulsar-rest-api pulsar-rest-api ./script/test.sh
+```
 
 #### Manual tests
 To see how API is working you need to run its instance and open `http[s]://localhost:{port}` to see its web interface where `port` must be defined in your config and you may have an `https` prefix if you have `ssl` in the config. Further in examples below we will use a simple endpoint `http://localhost:8001`.

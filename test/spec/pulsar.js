@@ -179,19 +179,18 @@ describe('tests of pulsar API', function() {
       jobArgs.task.dummyUnKillable,
       function(err, job) {
         assert(!err);
-        job.execute();
         job.once('change', function() {
-          setTimeout(function() {
-            assert(job.status == PulsarJob.STATUS.KILLING, 'Job status must be ' + PulsarJob.STATUS.KILLING);
-          }, PulsarJob._KILL_TIMEOUT - 1);
+          assert(job.status == PulsarJob.STATUS.RUNNING, 'Job status must be ' + PulsarJob.STATUS.RUNNING + ', current: ' + job.status);
 
           setTimeout(function() {
-            assert(job.status == PulsarJob.STATUS.KILLED, 'The job kill (SIGKILL) does not work');
+            assert(job.status == PulsarJob.STATUS.KILLED, 'The job kill (SIGKILL) does not work, current status: ' + job.status);
             done();
           }, PulsarJob._KILL_TIMEOUT + 50);
 
           job.kill();
+          assert(job.status == PulsarJob.STATUS.KILLING, 'Job status must be ' + PulsarJob.STATUS.KILLING + ', current: ' + job.status);
         });
+        job.execute();
       });
   });
 

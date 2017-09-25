@@ -1,8 +1,17 @@
+sudo: required
 language: node_js
 node_js:
-  - "6"
-  - "5"
-before_script:
-  - bundle install
+  - '6'
 services:
-  - mongodb
+  - docker
+
+env:
+  DOCKER_COMPOSE_VERSION: 1.13.0
+
+install:
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
+
+script: docker-compose run pulsar-rest-api ./bin/test.sh

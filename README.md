@@ -13,13 +13,7 @@ npm install pulsar-rest-api [-g]
 ```
 
 ### Run
-#### In short
- * Prepare valid config.
- * Verify that mongodb is up and running.
- * Run the instance with command `pulsar-rest-api -c 'your_config.yaml'`
-
-#### In detail
-##### Prepare valid config
+#### Prepare valid config.
 The instance of pulsar-rest-api can be run with different options. All of the options can be specified in the config. To run the instance with your own config you need to specify the filepath to it with the flag `-c`. For example `pulsar-rest-api -c '~/my_pulsar_config.yaml'`.
 
 The default config is [`config.yaml`](bin/config.yaml) and it can be found in `bin` directory of the pulsar-rest-api installation.
@@ -68,16 +62,27 @@ For example, Pulsar-Rest-Api has a 'Create Job' url endpoint `/:app/:env`. If yo
 ```
 The parameter-function `restrictions` has the instance of Authorization module as its only argument.
 
-##### Verify that mongodb is up and running
-The mongodb instance that you defined in your config should be up and running before you start the pulsar.
-
-##### Run
+#### Running as standalone service
 `pulsar-rest-api -c 'your_config.yaml'`. After that web interface should be browsable through 'localhost:`{config.port}`' or url defined in `authentication.baseUrl` if `authentication` is enabled.
 
-### Test
+#### with docker-compose
+```
+docker-compose up pulsar-rest-api
+```
+It spins up the mongodb and pulsar-rest-api containers.
+
+In development, you can mount the repository as a volume (remember to install npm dependencies locally before)
+```
+npm install
+docker-compose run --volume $(pwd):/opt/pulsar-rest-api pulsar-rest-api
+```
+
+### Tests
 
 #### Auto tests
-To run these tests you need a running instance of mongodb. The required configuration of mongodb can be found in `test/config.yaml`, section `mongodb`. When mongodb is running, type in console `npm test`.
+```
+docker-compose run --volume $(pwd):/opt/pulsar-rest-api pulsar-rest-api ./bin/test.sh [mocha-options...]
+```
 
 #### Manual tests
 To see how API is working you need to run its instance and open `http[s]://localhost:{port}` to see its web interface where `port` must be defined in your config and you may have an `https` prefix if you have `ssl` in the config. Further in examples below we will use a simple endpoint `http://localhost:8001`.

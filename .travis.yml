@@ -23,4 +23,4 @@ deploy:
     secure: V8ixsD5GJeqXcZ8YjSOgE+HWHjz1D7G4FRXhNIcYaBRzyx87kz3L7/bQcE2TFGJH4o37OPkxqCq/3HQz24pnArQ52dVFCwZuWijHD3TDy77mscvejFoXSLpKQ95dAFF2CcIdg/z24wqn+Z6q0ZTQt9YLNGMj0S4w+sFbeY2cqFU=
   on:
     tags: true
-    repo: cargomedia/janus-gateway-js
+    repo: cargomedia/pulsar-rest-api

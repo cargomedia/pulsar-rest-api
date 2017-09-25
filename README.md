@@ -81,7 +81,7 @@ docker-compose run --volume $(pwd):/opt/pulsar-rest-api pulsar-rest-api
 
 #### Auto tests
 ```
-docker-compose --volume $(pwd):/opt/pulsar-rest-api run pulsar-rest-api ./bin/test.sh [mocha-options...]
+docker-compose run --volume $(pwd):/opt/pulsar-rest-api pulsar-rest-api ./bin/test.sh [mocha-options...]
 ```
 
 #### Manual tests

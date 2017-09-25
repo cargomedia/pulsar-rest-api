@@ -230,3 +230,15 @@ To enable authentication of API you need to provide config option `authenticatio
       };
     ```
    If token was wrong, connection will be closed, otherwise it will start to receive messages.
+
+
+## Release
+   
+1. update package.json with a new version
+2. release a new git tag with the updated package.json
+
+After that the npm release should be done automatically by [Travis](https://travis-ci.org/cargomedia/pulsar-rest-api). 
+Alternatively, you can publish it manually:
+```
+npm publish
+```   
